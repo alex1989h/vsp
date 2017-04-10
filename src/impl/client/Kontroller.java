@@ -1,4 +1,4 @@
-package client;
+package impl.client;
 
 public class Kontroller {
 

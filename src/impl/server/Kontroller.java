@@ -1,4 +1,4 @@
-package server;
+package impl.server;
 
 public class Kontroller {
 
