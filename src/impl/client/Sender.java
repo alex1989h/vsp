@@ -1,21 +1,19 @@
 package impl.client;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 public class Sender extends Thread{
 	private FiFo<Packet> fifo;
@@ -33,31 +31,25 @@ public class Sender extends Thread{
 	
 	@Override
 	public void run() {
-		Packet lockPack;
 		Scanner sc = new Scanner(System.in);
 	    String eingabe = "";
         try {
-            OutputStream output = new FileOutputStream( "nosferatu.xml" );
-            InputStream input = new FileInputStream( "nosferatu.xml" );
-            //ObjectOutputStream out = new ObjectOutputStream(output);
+            OutputStream output = socket.getOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(output);
+            StringWriter sw = new StringWriter();
+            
             JAXBContext context = JAXBContext.newInstance( Packet.class );
             Marshaller m = context.createMarshaller();
             m.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE );
-            Unmarshaller um = context.createUnmarshaller();
+            
             while(!eingabe.equals("stop")){
             	packet = fifo.dequeue();
             	if(packet!=null){
-            		//JAXB.marshal( packet, output );
-            		System.out.println("1");
-            		m.marshal( packet, output );
-            		System.out.println("2");
-            		sleep(1000);
-            		System.out.println("3");
-            		lockPack = (Packet) um.unmarshal(input);
-            		input.close();
-            		System.out.println("4");
-            		//out.writeObject(packet);
-            		System.out.println("In: "+lockPack);
+            		
+            		m.marshal(packet, sw);
+            		System.out.println(sw.toString());
+            		out.writeObject(sw.toString());
+            		sw.getBuffer().setLength(0);
             	}
             }
         } catch (IOException e) {
@@ -66,7 +58,7 @@ public class Sender extends Thread{
         } catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
@@ -81,7 +73,7 @@ public class Sender extends Thread{
                 }
             
         }
-    } 
+    }
 }
 
 

@@ -14,7 +14,7 @@ public class Packet {
 	private Befehl befehl;
 	@XmlElement( name = "ID" )
 	private int id;
-	@XmlElement( name = "PERCENT" )
+	
 	private int percent;
 	
 	public Packet(){
@@ -25,6 +25,15 @@ public class Packet {
 		this.befehl = befehl;
 		this.id = id;
 		this.percent = percent;
+	}
+	@XmlElement( name = "PERCENT" )
+	public int getPercent(){
+		return percent;
+	}
+	
+	//@XmlElement( name = "PERCENTT" )
+	public int test(int i){
+		return i;
 	}
 	
 	@Override
