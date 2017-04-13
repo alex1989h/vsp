@@ -1,10 +1,21 @@
 package impl.server;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+
+import javax.swing.plaf.synth.SynthSeparatorUI;
+import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import impl.client.Packet;
 
@@ -14,17 +25,18 @@ public class Receiver extends Thread{
         server = new ServerSocket(port);
     }
 
-    private void receive(Socket socket) throws IOException, InterruptedException, ClassNotFoundException {
+    private void receive(Socket socket) throws IOException, InterruptedException, ClassNotFoundException, JAXBException {
         Packet packet = null;
-    	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        InputStream input = socket.getInputStream();
+    	//ObjectInputStream in = new ObjectInputStream(input);
+        DataInputStream dos = new DataInputStream(socket.getInputStream());
+        JAXBContext context = JAXBContext.newInstance( Packet.class );
+        Unmarshaller m = context.createUnmarshaller();
         while(true) {
-        	try {
-				packet = (Packet) in.readObject();
-	            System.out.println("Received:\n"+packet);
-			} catch (SocketException e) {
-				break;
-			}
-	            
+        	//packet = JAXB.unmarshal( input, Packet.class );
+//        	System.out.println(input);
+        	//packet = (Packet) in.readObject();
+			//System.out.println("Received:\n"+packet);
         }
     }
 
@@ -38,6 +50,9 @@ public class Receiver extends Thread{
         catch (IOException | InterruptedException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
