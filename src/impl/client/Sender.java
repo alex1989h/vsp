@@ -29,7 +29,6 @@ public class Sender extends Thread{
         try {
             OutputStream raus = socket.getOutputStream();
             ObjectOutputStream out = new ObjectOutputStream(raus);
-            //PrintStream ps = new PrintStream(raus, true);
             while(!eingabe.equals("stop")){
             	packet = fifo.dequeue();
             	if(packet!=null){
