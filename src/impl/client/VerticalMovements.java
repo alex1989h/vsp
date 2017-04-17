@@ -1,5 +1,6 @@
 package impl.client;
 
+import impl.factories.FiFoFactory;
 import impl.interfaces.IVerticalMovements;
 
 public class VerticalMovements implements IVerticalMovements {

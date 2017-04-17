@@ -1,9 +1,7 @@
 package impl.server;
 
-import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
 
-import javax.xml.crypto.dsig.XMLObject;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -12,20 +10,17 @@ import org.cads.ev3.middleware.CaDSEV3RobotType;
 import org.cads.ev3.middleware.hal.ICaDSEV3RobotFeedBackListener;
 import org.cads.ev3.middleware.hal.ICaDSEV3RobotStatusListener;
 import org.json.simple.JSONObject;
-import org.omg.CORBA.ARG_OUT;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import impl.client.FiFo;
-import impl.client.FiFoFactory;
+import impl.factories.FiFoFactory;
 
 public class LegoUpDown extends Thread implements ICaDSEV3RobotStatusListener, ICaDSEV3RobotFeedBackListener  {
 	private static CaDSEV3RobotStudentImplementation caller = null;
 	private FiFo fifo;
 	private long percent = 0,oldPercent = 0;
-	private long id = 0;
+	private long oldId = Long.MIN_VALUE;
 	@Override
 	public void giveFeedbackByJSonTo(JSONObject arg0) {
 		// TODO Auto-generated method stub
@@ -68,8 +63,9 @@ public class LegoUpDown extends Thread implements ICaDSEV3RobotStatusListener, I
 			NodeList param;
 			if (document.getElementsByTagName("name").item(0).getTextContent().equals("moveVerticalToPercent")) {
 				param = document.getElementsByTagName("param");
-				id = Long.parseLong(param.item(0).getChildNodes().item(1).getTextContent());
-				percent = Long.parseLong(param.item(1).getChildNodes().item(1).getTextContent());
+				if (oldId < Long.parseLong(param.item(0).getChildNodes().item(1).getTextContent())) {
+					oldId = Long.parseLong(param.item(0).getChildNodes().item(1).getTextContent());
+					percent = Long.parseLong(param.item(1).getChildNodes().item(1).getTextContent());
 					if (percent < oldPercent) {
 						caller.stop_v();
 						caller.moveDown();
@@ -77,6 +73,7 @@ public class LegoUpDown extends Thread implements ICaDSEV3RobotStatusListener, I
 						caller.stop_v();
 						caller.moveUp();
 					}
+				}
 			}
 		}
 	}

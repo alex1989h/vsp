@@ -7,6 +7,8 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import impl.factories.FiFoFactory;
+
 public class Sender extends Thread{
 	private FiFo fifo;
 	private DatagramSocket socket = null;

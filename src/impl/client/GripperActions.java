@@ -1,5 +1,6 @@
 package impl.client;
 
+import impl.factories.FiFoFactory;
 import impl.interfaces.IGripperActions;
 
 public class GripperActions implements IGripperActions {

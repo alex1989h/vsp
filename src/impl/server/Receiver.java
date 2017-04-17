@@ -9,7 +9,7 @@ import java.util.Arrays;
 import javax.xml.bind.JAXBException;
 
 import impl.client.FiFo;
-import impl.client.FiFoFactory;
+import impl.factories.FiFoFactory;
 
 public class Receiver extends Thread{
     private final DatagramSocket server;
