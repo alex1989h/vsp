@@ -6,7 +6,7 @@ public class HorizontalMovements implements IHorizontalMovements {
 	private FiFo fifo = null;
 
 	public HorizontalMovements() {
-		fifo = FiFoFactory.createInstance("sender");
+		fifo = FiFoFactory.getFiFo("sender");
 	}
 
 	@Override

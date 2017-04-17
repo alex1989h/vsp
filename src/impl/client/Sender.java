@@ -13,8 +13,8 @@ public class Sender extends Thread{
 	private int port;
 	private InetAddress ia;
 	
-	public Sender(String ip, int port) throws UnknownHostException, SocketException{
-		this.fifo = FiFoFactory.createInstance("sender");
+	public Sender(String ip, int port, FiFo fifo) throws UnknownHostException, SocketException{
+		this.fifo = fifo;
 		this.port = port;
 		this.ia = InetAddress.getByName(ip);
 		this.socket = new DatagramSocket();

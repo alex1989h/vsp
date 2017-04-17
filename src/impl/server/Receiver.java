@@ -16,7 +16,7 @@ public class Receiver extends Thread{
     private FiFo fifo = null;
     public Receiver(int port) throws IOException {
         server = new DatagramSocket(port);
-        fifo = FiFoFactory.createInstance("receiver");
+        fifo = FiFoFactory.getFiFo("receiver");
     }
 
     private void receive(Socket socket) throws Exception {

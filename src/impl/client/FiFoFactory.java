@@ -9,7 +9,7 @@ public class FiFoFactory {
 		
 	}
 	
-	public static FiFo createInstance(String key){
+	public synchronized static FiFo getFiFo(String key){
 		FiFo fifo = hashMap.get(key);
 		if (fifo == null) {
 			fifo = new FiFo();
