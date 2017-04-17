@@ -54,7 +54,7 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 	private Sender sender = null;
 	
 	public ClientKontroller(String ip, int port) throws UnknownHostException, IOException{
-		sender = new Sender(ip, port, FiFoFactory.getFiFo("sender"));
+		sender = new Sender(ip, port, "transmitterVertical");
 		vertical = new VerticalMovements();
 		horizontal = new HorizontalMovements();
 		gripper = new GripperActions();

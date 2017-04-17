@@ -6,7 +6,7 @@ public class VerticalMovements implements IVerticalMovements {
 	private FiFo fifo = null;
 	
 	public VerticalMovements() {
-		fifo = FiFoFactory.getFiFo("sender");
+		fifo = FiFoFactory.getFiFo("transmitterVertical");
 	}
 	
 	@Override

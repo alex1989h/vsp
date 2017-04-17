@@ -51,7 +51,7 @@ public class LegoUpDown extends Thread implements ICaDSEV3RobotStatusListener, I
 	public void run() {
 		byte[] b;
 		caller = CaDSEV3RobotStudentImplementation.createInstance(CaDSEV3RobotType.SIMULATION, this, this);
-		fifo = FiFoFactory.getFiFo("receiver");
+		fifo = FiFoFactory.getFiFo("receiverVertical");
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder;
@@ -70,7 +70,6 @@ public class LegoUpDown extends Thread implements ICaDSEV3RobotStatusListener, I
 				param = document.getElementsByTagName("param");
 				id = Long.parseLong(param.item(0).getChildNodes().item(1).getTextContent());
 				percent = Long.parseLong(param.item(1).getChildNodes().item(1).getTextContent());
-				System.out.println(param);
 					if (percent < oldPercent) {
 						caller.stop_v();
 						caller.moveDown();

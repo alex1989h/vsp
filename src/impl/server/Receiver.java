@@ -14,9 +14,9 @@ import impl.client.FiFoFactory;
 public class Receiver extends Thread{
     private final DatagramSocket server;
     private FiFo fifo = null;
-    public Receiver(int port) throws IOException {
+    public Receiver(int port,String fifoName) throws IOException {
         server = new DatagramSocket(port);
-        fifo = FiFoFactory.getFiFo("receiver");
+        fifo = FiFoFactory.getFiFo(fifoName);
     }
 
     private void receive(Socket socket) throws Exception {

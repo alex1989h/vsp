@@ -10,13 +10,13 @@ public class ServerKontroller {
 		Receiver receiver = null;
 		LegoUpDown upDown = new LegoUpDown();
 		if(args.length == 1){
-			receiver = new Receiver(Integer.parseInt(args[0]));
+			receiver = new Receiver(Integer.parseInt(args[0]),"upDown");
 			receiver.start();
 			upDown.start();
 			receiver.join();
 			upDown.join();
 		}else if(args.length == 0){
-			receiver = new Receiver(defaultPort);
+			receiver = new Receiver(defaultPort,"receiverVertical");
 			receiver.start();
 			upDown.start();
 			receiver.join();

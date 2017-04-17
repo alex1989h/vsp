@@ -6,7 +6,7 @@ public class GripperActions implements IGripperActions {
 	private FiFo fifo = null;
 	
 	public GripperActions() {
-		fifo = FiFoFactory.getFiFo("sender");
+		fifo = FiFoFactory.getFiFo("transmitterGripper");
 	}
 	
 	@Override
