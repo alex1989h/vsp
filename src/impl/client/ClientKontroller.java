@@ -55,9 +55,9 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 	
 	public ClientKontroller(String ip, int port) throws UnknownHostException, IOException{
 		sender = new Sender(ip, port);
-		vertical = new VerticalMovements(sender);
-		horizontal = new HorizontalMovements(sender);
-		gripper = new GripperActions(sender);
+		vertical = new VerticalMovements();
+		horizontal = new HorizontalMovements();
+		gripper = new GripperActions();
 		sender.start();
 	}
 	public int startGUI(){

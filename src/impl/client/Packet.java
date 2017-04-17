@@ -2,19 +2,28 @@ package impl.client;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlAccessOrder;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorOrder;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlValue;
 
 enum Befehl {
 	MOVE_HORIZONTAL, MOVE_VERTICAL, CLOSE, OPEN, STOP
 }
-@XmlRootElement( name = "PACKET" )
+
+@XmlRootElement
 public class Packet {
-	@XmlElement( name = "BEFEHL" )
+	@XmlElement
 	private Befehl befehl;
-	@XmlElement( name = "ID" )
+	@XmlElement
 	private int id;
-	
+	@XmlElement
 	private int percent;
 	
 	public Packet(){
@@ -26,12 +35,7 @@ public class Packet {
 		this.id = id;
 		this.percent = percent;
 	}
-	@XmlElement( name = "PERCENT" )
-	public int getPercent(){
-		return percent;
-	}
 	
-	//@XmlElement( name = "PERCENTT" )
 	public int test(int i){
 		return i;
 	}

@@ -3,16 +3,29 @@ package impl.client;
 import impl.interfaces.IHorizontalMovements;
 
 public class HorizontalMovements implements IHorizontalMovements {
-	private FiFo<Packet> fifo = null;
+	private FiFo fifo = null;
 
-	public HorizontalMovements(Sender sender) {
-		fifo = sender.getFiFo();
+	public HorizontalMovements() {
+		fifo = FiFoFactory.createInstance("sender");
 	}
 
 	@Override
 	public int moveHorizontalToPercent(int transactionID, int percent) {
 		System.out.println("Call to move horizontal -  TID: " + transactionID + " degree " + percent);
-		fifo.enqueue(new Packet(Befehl.MOVE_HORIZONTAL, transactionID, percent));
+		String str = "<method>"
+				+ "<name>moveHorizontalToPercent</name>"
+        		+ "<returnType>int</returnType>"
+        		+ "<parameterCount>2</parameterCount>"
+        		+ "<param>"
+        		+ "<type>int</type>"
+        		+ "<value>"+transactionID+"</value>"
+        		+ "</param>"
+        		+ "<param>"
+        		+ "<type>int</type>"
+        		+ "<value>"+percent+"</value>"
+        		+ "</param>"
+        		+ "</method>";
+		fifo.enqueue(str.getBytes());
 		return 0;
 	}
 

@@ -1,19 +1,27 @@
 package impl.client;
 
+import java.util.LinkedList;
 import java.util.Queue;
 
-public class FiFo<T>{
-	private Queue<T> queue;
-	
-	public FiFo(Queue<T> _queue){
-		queue = _queue;
+public class FiFo{
+	private Queue<byte[]> queue;
+	public FiFo(){
+		queue = new LinkedList<byte[]>();
 	}
 	
-	synchronized T dequeue(){
+	public synchronized byte[] dequeue(){
+		while(queue.isEmpty())
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		notifyAll();
 		return queue.poll();
 	}
 	
-	synchronized boolean enqueue(T t){
-		return queue.add(t);
+	public synchronized boolean enqueue(byte[] b){
+		notifyAll();
+		return queue.add(b);
 	}
 }
