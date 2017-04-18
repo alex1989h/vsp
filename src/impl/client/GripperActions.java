@@ -1,7 +1,10 @@
 package impl.client;
 
+import java.lang.reflect.Method;
+
 import impl.factories.FiFoFactory;
 import impl.interfaces.IGripperActions;
+import impl.xml.MyXML;
 
 public class GripperActions implements IGripperActions {
 	private FiFo fifo = null;
@@ -13,15 +16,8 @@ public class GripperActions implements IGripperActions {
 	@Override
 	public int openGripper(int transactionID) {
 		System.out.println("open.... TID: " + transactionID);
-		String str = "<method>"
-				+ "<name>openGripper</name>"
-        		+ "<returnType>int</returnType>"
-        		+ "<parameterCount>1</parameterCount>"
-        		+ "<param>"
-        		+ "<type>int</type>"
-        		+ "<value>"+transactionID+"</value>"
-        		+ "</param>"
-        		+ "</method>";
+		Method method = new Object(){}.getClass().getEnclosingMethod();
+		String str = MyXML.parse(method, transactionID);
 		fifo.enqueue(str.getBytes());
 		return 0;
 	}
@@ -29,15 +25,8 @@ public class GripperActions implements IGripperActions {
 	@Override
 	public int closeGripper(int transactionID) {
 		System.out.println("Close.... TID: " + transactionID);
-		String str = "<method>"
-				+ "<name>closeGripper</name>"
-        		+ "<returnType>int</returnType>"
-        		+ "<parameterCount>1</parameterCount>"
-        		+ "<param>"
-        		+ "<type>int</type>"
-        		+ "<value>"+transactionID+"</value>"
-        		+ "</param>"
-        		+ "</method>";
+		Method method = new Object(){}.getClass().getEnclosingMethod();
+		String str = MyXML.parse(method, transactionID);
 		fifo.enqueue(str.getBytes());
 		return 0;
 	}

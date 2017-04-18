@@ -1,7 +1,9 @@
 package impl.client;
 
+import java.lang.reflect.Method;
 import impl.factories.FiFoFactory;
 import impl.interfaces.IVerticalMovements;
+import impl.xml.MyXML;
 
 public class VerticalMovements implements IVerticalMovements {
 	private FiFo fifo = null;
@@ -13,21 +15,9 @@ public class VerticalMovements implements IVerticalMovements {
 	@Override
 	public int moveVerticalToPercent(int transactionID,int percent) {
 		System.out.println("Call to move vertical -  TID: " + transactionID + " degree " + percent);
-		String str = "<method>"
-				+ "<name>moveVerticalToPercent</name>"
-        		+ "<returnType>int</returnType>"
-        		+ "<parameterCount>2</parameterCount>"
-        		+ "<param>"
-        		+ "<type>int</type>"
-        		+ "<value>"+transactionID+"</value>"
-        		+ "</param>"
-        		+ "<param>"
-        		+ "<type>int</type>"
-        		+ "<value>"+percent+"</value>"
-        		+ "</param>"
-        		+ "</method>";
+		Method method = new Object(){}.getClass().getEnclosingMethod();
+		String str = MyXML.parse(method, transactionID, percent);
 		fifo.enqueue(str.getBytes());
 		return 0;
 	}
-
 }
