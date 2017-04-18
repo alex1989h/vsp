@@ -17,7 +17,7 @@ public class HorizontalMovements implements IHorizontalMovements {
 	public int moveHorizontalToPercent(int transactionID, int percent) {
 		System.out.println("Call to move horizontal -  TID: " + transactionID + " degree " + percent);
 		Method method = new Object(){}.getClass().getEnclosingMethod();
-		String str = MyXML.parse(method, transactionID, percent);
+		String str = MyXML.createXMLString(method, transactionID, percent);
 		fifo.enqueue(str.getBytes());
 		return 0;
 	}

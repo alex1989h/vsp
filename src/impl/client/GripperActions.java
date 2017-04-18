@@ -17,7 +17,7 @@ public class GripperActions implements IGripperActions {
 	public int openGripper(int transactionID) {
 		System.out.println("open.... TID: " + transactionID);
 		Method method = new Object(){}.getClass().getEnclosingMethod();
-		String str = MyXML.parse(method, transactionID);
+		String str = MyXML.createXMLString(method, transactionID);
 		fifo.enqueue(str.getBytes());
 		return 0;
 	}
@@ -26,7 +26,7 @@ public class GripperActions implements IGripperActions {
 	public int closeGripper(int transactionID) {
 		System.out.println("Close.... TID: " + transactionID);
 		Method method = new Object(){}.getClass().getEnclosingMethod();
-		String str = MyXML.parse(method, transactionID);
+		String str = MyXML.createXMLString(method, transactionID);
 		fifo.enqueue(str.getBytes());
 		return 0;
 	}

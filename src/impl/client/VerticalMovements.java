@@ -16,7 +16,7 @@ public class VerticalMovements implements IVerticalMovements {
 	public int moveVerticalToPercent(int transactionID,int percent) {
 		System.out.println("Call to move vertical -  TID: " + transactionID + " degree " + percent);
 		Method method = new Object(){}.getClass().getEnclosingMethod();
-		String str = MyXML.parse(method, transactionID, percent);
+		String str = MyXML.createXMLString(method, transactionID, percent);
 		fifo.enqueue(str.getBytes());
 		return 0;
 	}

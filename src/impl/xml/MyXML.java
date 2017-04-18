@@ -10,7 +10,7 @@ import javax.xml.bind.Marshaller;
 
 public class MyXML {
 	
-	public static String parse(Method method, Object... obj){
+	public static String createXMLString(Method method, Object... obj){
 		Parameter[] p = method.getParameters();
 		MySignatur sig = new MySignatur();
 		MyParameter[] param = new MyParameter[obj.length];
