@@ -40,11 +40,21 @@ public class SkeletonVerticalMovements extends Thread {
 				e.printStackTrace();
 			}
 			NodeList param;
+			String transactionID;
+			String percent;
 			if (document.getElementsByTagName("name").item(0).getTextContent().equals("moveVerticalToPercent")) {
-				param = document.getElementsByTagName("param");
-				String transactionID = param.item(0).getChildNodes().item(1).getTextContent();
-				String percent = param.item(1).getChildNodes().item(1).getTextContent();
-				moveVerticalToPercent(Integer.parseInt(transactionID), Integer.parseInt(percent));
+				if (document.getElementsByTagName("returnType").item(0).getTextContent().equals("int")) {
+					if (document.getElementsByTagName("param").getLength() == 2) {
+						param = document.getElementsByTagName("param");
+						if (param.item(0).getChildNodes().item(0).getTextContent().equals("int")) {
+							if (param.item(1).getChildNodes().item(0).getTextContent().equals("int")) {
+								transactionID = param.item(0).getChildNodes().item(1).getTextContent();
+								percent = param.item(1).getChildNodes().item(1).getTextContent();
+								moveVerticalToPercent(Integer.parseInt(transactionID), Integer.parseInt(percent));
+							}
+						}
+					}
+				}
 			}
 		}
 	}
