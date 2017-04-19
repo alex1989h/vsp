@@ -46,7 +46,7 @@ public class LegoUpDown extends Thread implements ICaDSEV3RobotStatusListener, I
 	@Override
 	public void run() {
 		byte[] b;
-		caller = CaDSEV3RobotStudentImplementation.createInstance(CaDSEV3RobotType.SIMULATION, this, this);
+		caller = CaDSEV3RobotStudentImplementation.createInstance(CaDSEV3RobotType.REAL, this, this);
 		fifo = FiFoFactory.getFiFo("receiverVertical");
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
