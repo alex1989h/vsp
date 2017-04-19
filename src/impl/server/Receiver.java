@@ -25,6 +25,7 @@ public class Receiver extends Thread{
         while(true) {
         	Arrays.fill(test, (byte)0);
         	server.receive(p);
+        	System.out.println("Message received");
         	fifo.enqueue(new String(p.getData()).trim().getBytes());
         }
     }
