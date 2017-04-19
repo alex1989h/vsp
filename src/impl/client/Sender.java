@@ -1,59 +1,50 @@
 package impl.client;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.net.Socket;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.LinkedList;
-import java.util.Scanner;
+
+import impl.factories.FiFoFactory;
 
 public class Sender extends Thread{
-	private FiFo<Packet> fifo;
-	private Packet packet = null;
-	private Socket socket = null;
+	private FiFo fifo;
+	private DatagramSocket socket = null;
+	private int port;
+	private InetAddress ia;
 	
-	public Sender(String ip, int port) throws UnknownHostException, IOException{
-		fifo = new FiFo<Packet>(new LinkedList<Packet>());
-		socket = new Socket(ip,port);
-	}
-
-	public FiFo<Packet> getFiFo() {
-		return fifo;
+	public Sender(String ip, int port, String fifoName) throws UnknownHostException, SocketException{
+		this.fifo = FiFoFactory.getFiFo(fifoName);
+		this.port = port;
+		this.ia = InetAddress.getByName(ip);
+		this.socket = new DatagramSocket();
 	}
 	
 	@Override
 	public void run() {
-		Scanner sc = new Scanner(System.in);
-	    String eingabe = "";
+		byte[] send = null;
+		DatagramPacket p = null;
         try {
-            OutputStream raus = socket.getOutputStream();
-            ObjectOutputStream out = new ObjectOutputStream(raus);
-            while(!eingabe.equals("stop")){
-            	packet = fifo.dequeue();
-            	if(packet!=null){
-            		out.writeObject(packet);
+            while(true){
+            	send = fifo.dequeue();
+            	if(send != null){
+            		System.out.println(new String(send));
+            		p = new DatagramPacket(send,send.length,ia,port);
+            		socket.send(p);
+            		send = null;
             	}
             }
-        } catch (UnknownHostException e) {
-            System.out.println("Unknown Host...");
-            e.printStackTrace();
         } catch (IOException e) {
             System.out.println("IOProbleme...");
             e.printStackTrace();
         } finally {
-            if (socket != null)
-                try {
-                	sc.close();
-                    socket.close();
-                    System.out.println("Socket geschlossen...");
-                } catch (IOException e) {
-                    System.out.println("Socket nicht zu schliessen...");
-                    e.printStackTrace();
-                }
+            if (socket != null) {
+            socket.close();
+            System.out.println("Socket geschlossen...");
+			}
             
         }
-    } 
+    }
 }
-
-

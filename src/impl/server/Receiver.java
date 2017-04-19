@@ -1,30 +1,31 @@
 package impl.server;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.net.ServerSocket;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.Socket;
-import java.net.SocketException;
+import java.util.Arrays;
 
-import impl.client.Packet;
+import javax.xml.bind.JAXBException;
+
+import impl.client.FiFo;
+import impl.factories.FiFoFactory;
 
 public class Receiver extends Thread{
-    private final ServerSocket server;
-    public Receiver(int port) throws IOException {
-        server = new ServerSocket(port);
+    private final DatagramSocket server;
+    private FiFo fifo = null;
+    public Receiver(int port,String fifoName) throws IOException {
+        server = new DatagramSocket(port);
+        fifo = FiFoFactory.getFiFo(fifoName);
     }
 
-    private void receive(Socket socket) throws IOException, InterruptedException, ClassNotFoundException {
-        Packet packet = null;
-    	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+    private void receive(Socket socket) throws Exception {
+    	byte[] test = new byte[2000];
+    	DatagramPacket p = new DatagramPacket(test,test.length);
         while(true) {
-        	try {
-				packet = (Packet) in.readObject();
-	            System.out.println("Received:\n"+packet);
-			} catch (SocketException e) {
-				break;
-			}
-	            
+        	Arrays.fill(test, (byte)0);
+        	server.receive(p);
+        	fifo.enqueue(new String(p.getData()).trim().getBytes());
         }
     }
 
@@ -32,12 +33,17 @@ public class Receiver extends Thread{
 	public void run() {
 		Socket socket = null;
         try {
-            socket = server.accept();
             receive(socket);
         }
         catch (IOException | InterruptedException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
@@ -50,5 +56,4 @@ public class Receiver extends Thread{
                 }
         }
 	}
-
 } 

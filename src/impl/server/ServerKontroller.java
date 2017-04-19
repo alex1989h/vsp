@@ -8,14 +8,19 @@ public class ServerKontroller {
 		System.out.println("Server gestartet");
 		int defaultPort = 9012;
 		Receiver receiver = null;
+		LegoUpDown upDown = new LegoUpDown();
 		if(args.length == 1){
-			receiver = new Receiver(Integer.parseInt(args[0]));
+			receiver = new Receiver(Integer.parseInt(args[0]),"upDown");
 			receiver.start();
+			upDown.start();
 			receiver.join();
+			upDown.join();
 		}else if(args.length == 0){
-			receiver = new Receiver(defaultPort);
+			receiver = new Receiver(defaultPort,"receiverVertical");
 			receiver.start();
+			upDown.start();
 			receiver.join();
+			upDown.join();
 		}else{
 			System.out.println("Falsche Parameter Anzahl");
 		}
