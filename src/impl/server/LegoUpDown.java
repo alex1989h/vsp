@@ -15,8 +15,9 @@ import org.w3c.dom.NodeList;
 
 import impl.client.FiFo;
 import impl.factories.FiFoFactory;
+import impl.interfaces.IVerticalMovements;
 
-public class LegoUpDown extends Thread implements ICaDSEV3RobotStatusListener, ICaDSEV3RobotFeedBackListener  {
+public class LegoUpDown extends Thread implements ICaDSEV3RobotStatusListener, ICaDSEV3RobotFeedBackListener,IVerticalMovements  {
 	private static CaDSEV3RobotStudentImplementation caller = null;
 	private FiFo fifo;
 	private long percent = 0,oldPercent = 0;
@@ -63,19 +64,27 @@ public class LegoUpDown extends Thread implements ICaDSEV3RobotStatusListener, I
 			NodeList param;
 			if (document.getElementsByTagName("name").item(0).getTextContent().equals("moveVerticalToPercent")) {
 				param = document.getElementsByTagName("param");
-				if (oldId < Long.parseLong(param.item(0).getChildNodes().item(1).getTextContent())) {
-					oldId = Long.parseLong(param.item(0).getChildNodes().item(1).getTextContent());
-					percent = Long.parseLong(param.item(1).getChildNodes().item(1).getTextContent());
-					if (percent < oldPercent) {
-						caller.stop_v();
-						caller.moveDown();
-					} else if (percent > oldPercent) {
-						caller.stop_v();
-						caller.moveUp();
-					}
-				}
+				String transactionID = param.item(0).getChildNodes().item(1).getTextContent();
+				String percent = param.item(1).getChildNodes().item(1).getTextContent();
+				moveVerticalToPercent(Integer.parseInt(transactionID), Integer.parseInt(percent));
 			}
 		}
+	}
+
+	@Override
+	public int moveVerticalToPercent(int transactionID, int percent) {
+		if (this.oldId < transactionID) {
+			this.oldId = transactionID;
+			this.percent = percent;
+			if (this.percent < this.oldPercent) {
+				caller.stop_v();
+				caller.moveDown();
+			} else if (this.percent > this.oldPercent) {
+				caller.stop_v();
+				caller.moveUp();
+			}
+		}
+		return 0;
 	}
 
 }
