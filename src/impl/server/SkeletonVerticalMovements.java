@@ -59,7 +59,7 @@ public class SkeletonVerticalMovements extends Thread {
 		}
 	}
 	
-	public int moveVerticalToPercent(int transactionID, int percent) {
+	private int moveVerticalToPercent(int transactionID, int percent) {
 		if (this.oldId < transactionID) {
 			this.oldId = transactionID;
 			vertical.moveVerticalToPercent(transactionID, percent);
