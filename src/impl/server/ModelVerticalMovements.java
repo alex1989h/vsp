@@ -14,7 +14,7 @@ public class ModelVerticalMovements implements IVerticalMovements, ICaDSEV3Robot
 	private long percent = 0,oldPercent = 0;
 	
 	public ModelVerticalMovements() {
-		caller = CaDSEV3RobotStudentImplementation.createInstance(CaDSEV3RobotType.REAL, this, this);
+		caller = CaDSEV3RobotStudentImplementation.createInstance(CaDSEV3RobotType.SIMULATION, this, this);
 	}
 	
 	@Override

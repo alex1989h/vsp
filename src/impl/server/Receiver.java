@@ -3,6 +3,7 @@ package impl.server;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Arrays;
 
@@ -15,8 +16,10 @@ public class Receiver extends Thread{
     private final DatagramSocket server;
     private FiFo fifo = null;
     public Receiver(int port,String fifoName) throws IOException {
-        server = new DatagramSocket(port);
+        server = new DatagramSocket();
         fifo = FiFoFactory.getFiFo(fifoName);
+        String str = "<packet><type>add</type><name>vertical</name></packet>";
+        server.send(new DatagramPacket(str.getBytes(), str.length(),InetAddress.getByName("localhost"),8888));
     }
 
     private void receive(Socket socket) throws Exception {
