@@ -18,18 +18,19 @@ public class Receiver extends Thread{
     public Receiver(int port,String fifoName) throws IOException {
         server = new DatagramSocket();
         fifo = FiFoFactory.getFiFo(fifoName);
-        String str = "<packet><type>add</type><name>vertical</name></packet>";
+        String str = "<addService><methodName>moveVerticalToPercent</methodName></addService>";
         server.send(new DatagramPacket(str.getBytes(), str.length(),InetAddress.getByName("localhost"),8888));
     }
 
     private void receive(Socket socket) throws Exception {
-    	byte[] test = new byte[2000];
+    	byte[] test = new byte[1000];
     	DatagramPacket p = new DatagramPacket(test,test.length);
         while(true) {
         	Arrays.fill(test, (byte)0);
         	server.receive(p);
         	System.out.println("Message received");
         	fifo.enqueue(new String(p.getData()).trim().getBytes());
+        	server.send(new DatagramPacket("ACK".getBytes(),3,p.getAddress(),p.getPort()));
         }
     }
 

@@ -19,13 +19,18 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import impl.xml.MyXML;
+import impl.xml.MyXMLObject;
+
 public class NameServer extends Thread{
 	private HashMap<String,AddressAndPort> hashMap = null;
 	private DatagramSocket server = null;
+	private DatagramSocket transfer = null;
 	
 	public NameServer(int port) throws SocketException {
 		hashMap = new HashMap<String,AddressAndPort>();
 		server = new DatagramSocket(port);
+		transfer = new DatagramSocket();
 	}
 	
 	@Override
@@ -41,10 +46,7 @@ public class NameServer extends Thread{
 				System.out.println(p.getAddress().getHostAddress());
 				System.out.println(p.getPort());
 				aAP = process(p);
-				if(aAP != null){
-					str = aAP.getAddress().getHostAddress()+"S"+aAP.getPort();
-					server.send(new DatagramPacket(str.getBytes(), str.length(), p.getAddress(), p.getPort()));
-				}
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (ParserConfigurationException e) {
@@ -59,17 +61,22 @@ public class NameServer extends Thread{
 	}
 	
 	private AddressAndPort process(DatagramPacket message) throws ParserConfigurationException, SAXException, IOException{
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder;
-		Document document = null;
-		builder = factory.newDocumentBuilder();
-		document = (Document) builder.parse(new InputSource(new StringReader(new String(message.getData()).trim())));
-		switch (document.getElementsByTagName("type").item(0).getTextContent()) {
-		case "get":
-			return hashMap.get(document.getElementsByTagName("name").item(0).getTextContent());
-		case "add":
-			hashMap.put(document.getElementsByTagName("name").item(0).getTextContent(),new AddressAndPort(message.getAddress(),message.getPort()));
-			
+		byte[] test = new byte[1000];
+    	DatagramPacket p = new DatagramPacket(test,test.length);
+    	
+		MyXMLObject xml = MyXML.createXML(new String(message.getData()).trim().getBytes());
+		switch (xml.getXMLTyp()) {
+		case "getService":
+			return hashMap.get(xml.getMethodName());
+		case "addService":
+			hashMap.put(xml.getMethodName(),new AddressAndPort(message.getAddress(),message.getPort()));
+			break;
+		case "methodCall":
+			AddressAndPort aAP = hashMap.get(xml.getMethodName());
+			transfer.send(new DatagramPacket(message.getData(),message.getLength(),aAP.getAddress(),aAP.getPort()));
+			transfer.setSoTimeout(500);
+			transfer.receive(p);
+			transfer.send(new DatagramPacket(p.getData(),p.getLength(),message.getAddress(),message.getPort()));
 			break;
 		default:
 			break;
@@ -77,12 +84,25 @@ public class NameServer extends Thread{
 		return null;
 	}
 	
+	public void send(DatagramPacket packet){
+		
+	}
+	
 	public static void main(String[] args) {
 		System.out.println("Name Server started");
+		int defaulPort = 8888;
 		try {
-			NameServer n = new NameServer(8888);
-			n.start();
-			n.join();
+			if(args.length == 0){
+				NameServer n = new NameServer(defaulPort);
+				n.start();
+				n.join();
+			} else if(args.length == 1){
+				NameServer n = new NameServer(Integer.parseInt(args[0]));
+				n.start();
+				n.join();
+			} else {
+				System.out.println("Falsche Parameteranzahl");
+			}
 		} catch (SocketException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {

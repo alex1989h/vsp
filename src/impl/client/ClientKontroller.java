@@ -75,7 +75,7 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
 		System.out.println("Client gestartet");
 		String defaultIp = "localhost";
-		int defaultPort = 9012;
+		int defaultPort = 8888;
 		ClientKontroller kontroller = null;
 		if(args.length == 2){
 			kontroller = new ClientKontroller(args[0],Integer.parseInt(args[1]));
