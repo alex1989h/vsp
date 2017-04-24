@@ -1,15 +1,10 @@
 package impl.server;
 
-import java.io.ByteArrayInputStream;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-
 import impl.client.FiFo;
 import impl.factories.FiFoFactory;
 import impl.interfaces.IVerticalMovements;
+import impl.xml.MyXML;
+import impl.xml.MyXMLObject;
 
 public class SkeletonVerticalMovements extends Thread {
 	private IVerticalMovements vertical;
@@ -24,35 +19,16 @@ public class SkeletonVerticalMovements extends Thread {
 	public void run() {
 		byte[] b;
 		fifo = FiFoFactory.getFiFo("receiverVertical");
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder;
-		Document document = null;
-
 		while (true) {
 			System.out.println("Wait for Queue");
 			b = fifo.dequeue();
 			System.out.println("Dequeued");
 			System.out.println(new String(b));
-			try {
-				builder = factory.newDocumentBuilder();
-				document = (Document) builder.parse(new ByteArrayInputStream(b));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			NodeList param;
-			String transactionID;
-			String percent;
-			if (document.getElementsByTagName("name").item(0).getTextContent().equals("moveVerticalToPercent")) {
-				if (document.getElementsByTagName("returnType").item(0).getTextContent().equals("int")) {
-					if (document.getElementsByTagName("param").getLength() == 2) {
-						param = document.getElementsByTagName("param");
-						if (param.item(0).getChildNodes().item(0).getTextContent().equals("int")) {
-							if (param.item(1).getChildNodes().item(0).getTextContent().equals("int")) {
-								transactionID = param.item(0).getChildNodes().item(1).getTextContent();
-								percent = param.item(1).getChildNodes().item(1).getTextContent();
-								moveVerticalToPercent(Integer.parseInt(transactionID), Integer.parseInt(percent));
-							}
-						}
+			MyXMLObject xml = MyXML.createXML(b);
+			if(xml.getMethodName().equals("moveVerticalToPercent")){
+				if(xml.getParamValues().length == 2){
+					if(xml.getParamTypes()[0].equals(Integer.TYPE) && xml.getParamTypes()[1].equals(Integer.TYPE)){
+						moveVerticalToPercent((int)xml.getParamValues()[0], (int)xml.getParamValues()[1]);
 					}
 				}
 			}
