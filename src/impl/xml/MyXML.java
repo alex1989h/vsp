@@ -1,5 +1,6 @@
 package impl.xml;
 
+import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -7,33 +8,46 @@ import java.lang.reflect.Parameter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
 
 public class MyXML {
 	
 	public static String createXMLString(Method method, Object... obj){
-		Parameter[] p = method.getParameters();
-		MySignatur sig = new MySignatur();
-		MyParameter[] param = new MyParameter[obj.length];
+		String xml = "";
 		for (int i = 0; i < obj.length; i++) {
-			param[i] = new MyParameter();
-			param[i].type = p[i].getType().getName();
-			param[i].value = obj[i].toString();
-
+			xml+="<param><value>"+getType(obj[i])+"</value></param>";
 		}
-		sig.methodName = method.getName();
-		sig.returnType = method.getReturnType().getName();
-		sig.parameterCount = ""+obj.length;
-		sig.parameter = param;
-
-		StringWriter writer = new StringWriter();
+		xml = "<params>"+xml+"</params>";
+		xml = "<methodName>"+method.getName()+"</methodName>"+xml;
+		xml = "<methodCall>"+xml+"</methodCall>";
+		xml = "<?xml version=\"1.0\"?>"+xml;
+		return xml;
+	}
+	
+	public static MyXMLObject createXML(byte[] input) {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = null;
+		Document document = null;
 		try {
-			JAXBContext context = JAXBContext.newInstance(MySignatur.class);
-			Marshaller marsh = context.createMarshaller();
-			marsh.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, false);
-			marsh.marshal(sig, writer);
-		} catch (JAXBException e) {
+			builder = factory.newDocumentBuilder();
+			document = (Document) builder.parse(new ByteArrayInputStream(input));
+			return new MyXMLObject(document);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return writer.toString();
+		return null;
+	}
+	
+	private static String getType(Object obj){
+		if(obj instanceof Integer){
+			return "<int>"+obj+"</int>";
+		}
+		if(obj instanceof String){
+			return "<string>"+obj+"</string>";
+		}
+		return null;
 	}
 }
