@@ -21,6 +21,7 @@ public class MyXMLTest {
 		String str = MyXML.createXMLString(method, str2, zahl);
 		MyXMLObject xml = MyXML.createXML(str.getBytes());
 		System.out.println(str);
+		System.out.println(xml.getXMLTyp());
 		System.out.println(xml.getMethodName());
 		for (int i = 0; i < xml.getParamValues().length; i++) {
 			System.out.println(xml.getParamTypes()[i]);

@@ -9,7 +9,9 @@ public class MyXMLObject {
 	public MyXMLObject(Document document) {
 		this.document = document;
 	}
-	
+	public String getXMLTyp(){
+		return document.getDocumentElement().getNodeName();
+	}
 	public String getMethodName(){
 		return document.getElementsByTagName("methodName").item(0).getTextContent();
 	}
