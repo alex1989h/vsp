@@ -39,6 +39,10 @@ public class MyXML {
 		return null;
 	}
 	
+	public static MyXMLObject createXML(String input) {
+		return createXML(input.getBytes());
+	}
+	
 	private static String getType(Object obj){
 		if(obj instanceof Integer){
 			return "<int>"+obj+"</int>";

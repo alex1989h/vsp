@@ -5,13 +5,11 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
-import javax.swing.plaf.synth.SynthSeparatorUI;
-
 import impl.factories.FiFoFactory;
+import impl.xml.MyXML;
 
 public class Sender extends Thread{
 	private FiFo fifo;
@@ -37,7 +35,7 @@ public class Sender extends Thread{
 				socket.setSoTimeout(100);
 				Arrays.fill(buffer, (byte)0);
 				socket.receive(p);
-				System.out.println(new String(p.getData()).trim());
+				System.out.println(MyXML.createXML(new String(p.getData()).trim()).getXMLTyp());
 				received = true;
 			} catch (IOException e) {
 				//e.printStackTrace();
@@ -52,8 +50,6 @@ public class Sender extends Thread{
 	@Override
 	public void run() {
 		byte[] send = null;
-		byte[] rec = new byte[1000];
-		DatagramPacket p = new DatagramPacket(rec,rec.length,ia,port);;
         try {
             while(!isInterrupted()){
             	send = fifo.dequeue();

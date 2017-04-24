@@ -11,6 +11,7 @@ import javax.xml.bind.JAXBException;
 
 import impl.client.FiFo;
 import impl.factories.FiFoFactory;
+import impl.xml.MyXML;
 
 public class Receiver extends Thread{
     private final DatagramSocket server;
@@ -29,8 +30,10 @@ public class Receiver extends Thread{
         	Arrays.fill(test, (byte)0);
         	server.receive(p);
         	System.out.println("Message received");
-        	fifo.enqueue(new String(p.getData()).trim().getBytes());
-        	server.send(new DatagramPacket("ACK".getBytes(),3,p.getAddress(),p.getPort()));
+        	String send = new String(p.getData()).trim();
+        	fifo.enqueue(send.getBytes());
+        	send = "<?xml version=\"1.0\"?><ACK><params><param><value><int>"+MyXML.createXML(send).getParamValues()[0]+"</int></value></param></params></ACK>";
+        	server.send(new DatagramPacket(send.getBytes(),send.length(),p.getAddress(),p.getPort()));
         }
     }
 
