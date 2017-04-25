@@ -5,7 +5,6 @@ import impl.robot.Robot;
 import impl.xml.MyXML;
 import impl.xml.MyXMLObject;
 import impl.interfaces.IHorizontalMovements;
-import impl.factories.FiFoFactory;
 import impl.interfaces.IGripperActions;
 
 import java.io.IOException;
