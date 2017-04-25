@@ -6,6 +6,8 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import impl.xml.MyXML;
 import impl.xml.MyXMLObject;
@@ -13,11 +15,14 @@ import impl.xml.MyXMLObject;
 public class NameServer extends Thread{
 	private HashMap<String,AddressAndPort> hashMap = null;
 	private HashMap<Integer,AddressAndPort> reply = null;
+	private List<String> services = null;
+	
 	private DatagramSocket server = null;
 	
 	public NameServer(int port) throws SocketException{
 		hashMap = new HashMap<String,AddressAndPort>();
 		reply = new HashMap<Integer,AddressAndPort>();
+		services = new LinkedList<String>();
 		server = new DatagramSocket(port);
 	}
 	
@@ -45,10 +50,12 @@ public class NameServer extends Thread{
 		MyXMLObject xml = MyXML.createXML(new String(message.getData()).trim().getBytes());
 		switch (xml.getXMLTyp()) {
 		case "getService":
-			hashMap.get(xml.getMethodName());
+			byte[] send = getServices();
+			server.send(new DatagramPacket(send,send.length,message.getAddress(),message.getPort()));
 			break;
 		case "addService":
 			hashMap.put(xml.getMethodName(),new AddressAndPort(message.getAddress(),message.getPort()));
+			services.add(xml.getMethodName().split("\\.")[0]);
 			break;
 		case "methodCall":
 			aAP = hashMap.get(xml.getMethodName());
@@ -68,7 +75,16 @@ public class NameServer extends Thread{
 			break;
 		}
 	}
-	
+	private byte[] getServices(){
+		String ret = "";
+		for (int i = 0; i < services.size(); i++) {
+			ret = ret+"<param><value><string>"+services.get(i)+"</string></value></param>";
+		}
+		ret = "<params>"+ret+"</params>";
+		ret = "<getService>"+ret+"</getService>";
+		ret = "<?xml version=\"1.0\"?>"+ret;
+		return ret.getBytes();
+	}
 	public void send(DatagramPacket packet){
 		
 	}

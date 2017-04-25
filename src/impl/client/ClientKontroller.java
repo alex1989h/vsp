@@ -1,7 +1,11 @@
 package impl.client;
 
 import impl.interfaces.IVerticalMovements;
+import impl.robot.Robot;
+import impl.xml.MyXML;
+import impl.xml.MyXMLObject;
 import impl.interfaces.IHorizontalMovements;
+import impl.factories.FiFoFactory;
 import impl.interfaces.IGripperActions;
 
 import java.io.IOException;
@@ -40,8 +44,7 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
         public void run() {
             try {
                 CaDSRobotGUISwing gui = new CaDSRobotGUISwing(c, c, c, c, c);
-                gui.addService("TestService1");
-                gui.addService("TestService2");
+                lookup(gui,"Services");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -53,6 +56,21 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 	private IGripperActions gripper = null;
 	private Sender sender = null;
 	
+	void lookup(CaDSRobotGUISwing gui, String str){
+		String send = "<?xml version=\"1.0\"?><getService></getService>";
+		byte[] recei = sender.send(send.getBytes());
+		if (recei != null) {
+			MyXMLObject xml = MyXML.createXML(recei);
+			for (int i = 0; i < xml.getParamValues().length; i++) {
+				gui.addService((String) xml.getParamValues()[i]);
+				if (i == 0) {
+					gui.setChoosenService((String) xml.getParamValues()[i]);
+					Robot.setName((String) xml.getParamValues()[i]);
+				}
+
+			}
+		}
+	}
 	public ClientKontroller(String ip, int port) throws UnknownHostException, IOException{
 		sender = new Sender(ip, port, "transmitterVertical");
 		vertical = new VerticalMovements();
@@ -90,16 +108,13 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 
 	@Override
 	public void register(ICaDSRobotGUIUpdater observer) {
-		System.out.println("New Observer");
-        observer.addService("Service 1");
-        observer.addService("Service 2");
-        observer.setChoosenService("Service 2", -1, -1, false);
-		
+		//TODO: Neue Roboter dazuaddieren
 	}
 
 	@Override
 	public void update(String comboBoxText) {
 		System.out.println("Combo Box updated " + comboBoxText);
+		Robot.setName(comboBoxText);
 	}
 
 	@Override

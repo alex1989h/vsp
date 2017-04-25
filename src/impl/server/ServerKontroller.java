@@ -8,16 +8,18 @@ public class ServerKontroller {
 		System.out.println("Server gestartet");
 		int defaultPort = 9012;
 		Receiver receiver = null;
-		SkeletonVerticalMovements upDown = new SkeletonVerticalMovements(new ModelVerticalMovements());
+		SkeletonVerticalMovements upDown = null;
 		String queue = "receiverVertical";
-		if(args.length == 1){
-			receiver = new Receiver(Integer.parseInt(args[0]),queue);
+		if(args.length == 2){
+			upDown = new SkeletonVerticalMovements(new ModelVerticalMovements(),args[0]);
+			receiver = new Receiver(Integer.parseInt(args[1]),queue,args[0]);
 			receiver.start();
 			upDown.start();
 			receiver.join();
 			upDown.join();
 		}else if(args.length == 0){
-			receiver = new Receiver(defaultPort,queue);
+			upDown = new SkeletonVerticalMovements(new ModelVerticalMovements(),"Robot1");
+			receiver = new Receiver(defaultPort,queue,"Robot1");
 			receiver.start();
 			upDown.start();
 			receiver.join();

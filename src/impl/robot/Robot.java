@@ -1,21 +1,13 @@
 package impl.robot;
 
-import java.util.HashMap;
-
-import impl.nameserver.AddressAndPort;
-
 public class Robot {
-	private HashMap<String,AddressAndPort> hashMap = null;
+	static String name = "";
 	
-	public Robot() {
-		hashMap = new HashMap<String,AddressAndPort>();
+	public static String getName() {
+		return name;
 	}
-	
-	public AddressAndPort getService(String key){
-		return hashMap.get(key);
-	}
-	
-	public void setService(String key, AddressAndPort aAP){
-		hashMap.put(key, aAP);
+
+	public static void setName(String name) {
+		Robot.name = name;
 	}
 }

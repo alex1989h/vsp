@@ -8,11 +8,13 @@ import impl.xml.MyXMLObject;
 
 public class SkeletonVerticalMovements extends Thread {
 	private IVerticalMovements vertical;
+	private String service;
 	private FiFo fifo;
 	private long oldId = Long.MIN_VALUE;
 	
-	public SkeletonVerticalMovements(IVerticalMovements vertical) {
+	public SkeletonVerticalMovements(IVerticalMovements vertical,String service) {
 		this.vertical = vertical;
+		this.service = service;
 	}
 	
 	@Override
@@ -25,7 +27,7 @@ public class SkeletonVerticalMovements extends Thread {
 			System.out.println("Dequeued");
 			System.out.println(new String(b));
 			MyXMLObject xml = MyXML.createXML(b);
-			if(xml.getMethodName().equals("moveVerticalToPercent")){
+			if(xml.getMethodName().equals(service+".moveVerticalToPercent")){
 				if(xml.getParamValues().length == 2){
 					if(xml.getParamTypes()[0].equals(Integer.TYPE) && xml.getParamTypes()[1].equals(Integer.TYPE)){
 						moveVerticalToPercent((int)xml.getParamValues()[0], (int)xml.getParamValues()[1]);

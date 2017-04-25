@@ -46,7 +46,31 @@ public class Sender extends Thread{
 			System.out.println("Service antwortet nicht");
 		}
 	}
-
+	
+	public byte[] send(byte[] send){
+		byte[] buffer = new byte[1000];
+		DatagramPacket p = new DatagramPacket(buffer,buffer.length);
+		boolean received = false;
+		int counter = 1;
+		while (!received &&  counter <= 5) {
+			try {
+				socket.send(new DatagramPacket(send, send.length,ia,port));
+				socket.setSoTimeout(100);
+				Arrays.fill(buffer, (byte)0);
+				socket.receive(p);
+				received = true;
+				return new String(p.getData()).trim().getBytes();
+			} catch (IOException e) {
+				//e.printStackTrace();
+				System.out.println(counter++);
+			}
+		}
+		if(!received){
+			System.out.println("Service antwortet nicht");
+		}
+		return null;
+	}
+	
 	@Override
 	public void run() {
 		byte[] send = null;

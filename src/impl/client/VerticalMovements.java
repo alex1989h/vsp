@@ -3,6 +3,7 @@ package impl.client;
 import java.lang.reflect.Method;
 import impl.factories.FiFoFactory;
 import impl.interfaces.IVerticalMovements;
+import impl.robot.Robot;
 import impl.xml.MyXML;
 
 public class VerticalMovements implements IVerticalMovements {
@@ -16,7 +17,7 @@ public class VerticalMovements implements IVerticalMovements {
 	public int moveVerticalToPercent(int transactionID,int percent) {
 		System.out.println("Call to move vertical -  TID: " + transactionID + " degree " + percent);
 		Method method = new Object(){}.getClass().getEnclosingMethod();
-		String str = MyXML.createXMLString(method, transactionID, percent);
+		String str = MyXML.createXMLString(Robot.getName()+".moveVerticalToPercent", transactionID, percent);
 		fifo.enqueue(str.getBytes());
 		return 0;
 	}
