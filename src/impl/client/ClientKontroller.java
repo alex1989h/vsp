@@ -1,5 +1,4 @@
 package impl.client;
-import impl.stubs.*;
 import impl.interfaces.IVerticalMovements;
 import impl.robot.Robot;
 import impl.xml.MyXML;
