@@ -19,7 +19,7 @@ public class Generator {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = null;
 		Document document = null;
-		File xmlFile = new File("/home/students/abx970/VS/src/git/vsp/gen/xml/Stub.xml");
+		File xmlFile = new File("gen/xml/Stub.xml");
 		try {
 			builder = factory.newDocumentBuilder();
 			document = (Document) builder.parse(xmlFile);
@@ -41,7 +41,7 @@ public class Generator {
 		String plain = document.getElementsByTagName("plain").item(0).getTextContent();
 		
 
-		String fileName = "/home/students/abx970/VS/src/git/vsp/gen/plain/Stub.txt";
+		String fileName = "gen/plain/Stub.txt";
 		BufferedReader reader = new BufferedReader(new FileReader(new File(fileName)));
 
 		String line = "";
@@ -61,7 +61,7 @@ public class Generator {
 		
 		System.out.println(classString);
 
-		fileName = "/home/students/abx970/VS/src/git/vsp/gen/" + stubName + ".java";
+		fileName = "gen/generated/"+stubName+".java";
 		PrintWriter writer = new PrintWriter(new FileWriter(new File(fileName)));
 
 		writer.print(classString);
