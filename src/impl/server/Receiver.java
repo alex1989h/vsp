@@ -16,11 +16,11 @@ import impl.xml.MyXML;
 public class Receiver extends Thread{
     private final DatagramSocket server;
     private FiFo fifo = null;
-    public Receiver(int port,String fifoName,String service) throws IOException {
+    public Receiver(String adresse, int port,String fifoName,String service) throws IOException {
         server = new DatagramSocket();
         fifo = FiFoFactory.getFiFo(fifoName);
         String str = "<addService><methodName>"+service+".moveVerticalToPercent</methodName></addService>";
-        server.send(new DatagramPacket(str.getBytes(), str.length(),InetAddress.getByName("localhost"),8888));
+        server.send(new DatagramPacket(str.getBytes(), str.length(),InetAddress.getByName(adresse),8888));
     }
 
     private void receive(Socket socket) throws Exception {
