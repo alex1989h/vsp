@@ -1,7 +1,8 @@
-package impl.client;
+package %s;
 
+import impl.client.FiFo;
 import impl.factories.FiFoFactory;
-import %s;
+import impl.interfaces.%s;
 import impl.robot.Robot;
 import impl.xml.MyXML;
 
@@ -11,12 +12,6 @@ public class %s implements %s {
 	public %s() {
 		fifo = FiFoFactory.getFiFo("%s");
 	}
-	
-	@Override
-	public int %s(%s) {
-		System.out.println(%s);
-		String str = MyXML.createXMLString(Robot.getName()+".%s", %s);
-		fifo.enqueue(str.getBytes());
-		return 0;
-	}
+		
+%s
 }

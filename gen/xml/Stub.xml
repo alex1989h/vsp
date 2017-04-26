@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <stubs>
 	<stub>
-		<imports>
-			<import>impl.interfaces.IVerticalMovements</import>
-		</imports>
-		<stubName>VerticalMovements</stubName>
-		<interfaces>
-			<interface>IVerticalMovements</interface>
-		</interfaces>
+		<package>impl.stubs</package>
+		<interface>IVerticalMovements</interface>
+		<fifo>vertical</fifo>
 		<methods>
 			<method>
 				<methodName>moveVerticalToPercent</methodName>
@@ -21,7 +17,55 @@
 						<paramName>percent</paramName>
 					</param>
 				</params>
-				<plain>"Call to move vertical -  TID: " + transactionID + " degree " + percent</plain>
+				<plain>"Move vertical.. ID:%s percent:%s",</plain>
+			</method>
+		</methods>
+	</stub>
+	<stub>
+		<package>impl.stubs</package>
+		<interface>IHorizontalMovements</interface>
+		<fifo>horizontal</fifo>
+		<methods>
+			<method>
+				<methodName>moveHorizontalToPercent</methodName>
+				<params>
+					<param>
+						<type>int</type>
+						<paramName>transactionID</paramName>
+					</param>
+					<param>
+						<type>int</type>
+						<paramName>percent</paramName>
+					</param>
+				</params>
+				<plain>"Move horizontal.. ID:%s percent:%s",</plain>
+			</method>
+		</methods>
+	</stub>
+	<stub>
+		<package>impl.stubs</package>
+		<interface>IGripperActions</interface>
+		<fifo>gripper</fifo>
+		<methods>
+			<method>
+				<methodName>openGripper</methodName>
+				<params>
+					<param>
+						<type>int</type>
+						<paramName>transactionID</paramName>
+					</param>
+				</params>
+				<plain>"Open.. ID:%s",</plain>
+			</method>
+			<method>
+				<methodName>closeGripper</methodName>
+				<params>
+					<param>
+						<type>int</type>
+						<paramName>transactionID</paramName>
+					</param>
+				</params>
+				<plain>"Close.. ID:%s",</plain>
 			</method>
 		</methods>
 	</stub>

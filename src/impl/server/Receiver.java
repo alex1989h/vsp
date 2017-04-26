@@ -20,7 +20,7 @@ public class Receiver extends Thread{
         server = new DatagramSocket();
         fifo = FiFoFactory.getFiFo(fifoName);
         String str = "<addService><methodName>"+service+".moveVerticalToPercent</methodName></addService>";
-        server.send(new DatagramPacket(str.getBytes(), str.length(),InetAddress.getByName(adresse),8888));
+        server.send(new DatagramPacket(str.getBytes(), str.length(),InetAddress.getByName(adresse),port));
     }
 
     private void receive(Socket socket) throws Exception {

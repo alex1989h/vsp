@@ -1,5 +1,6 @@
 package impl.interfaces;
 
-public interface IVerticalMovements {
-	public int moveVerticalToPercent(int transactionID,int percent);
+public interface IVerticalMovements{
+	public int moveVerticalToPercent(int transactionID, int percent);
+
 }

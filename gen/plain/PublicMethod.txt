@@ -1,0 +1,8 @@
+	@Override
+	public int %s(%s) {
+		System.out.format(%s);
+		String str = MyXML.createXMLString(Robot.getName()+".%s", %s);
+		fifo.enqueue(str.getBytes());
+		return 0;
+	}
+	

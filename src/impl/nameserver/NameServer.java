@@ -34,8 +34,6 @@ public class NameServer extends Thread{
     		try {
     			Arrays.fill(test, (byte)0);
 				server.receive(p);
-				System.out.println(p.getAddress().getHostAddress());
-				System.out.println(p.getPort());
 				process(p);
 				
 			} catch (IOException e) {
@@ -48,6 +46,7 @@ public class NameServer extends Thread{
 	private void process(DatagramPacket message) throws IOException{
     	AddressAndPort aAP = null;
 		MyXMLObject xml = MyXML.createXML(new String(message.getData()).trim().getBytes());
+		System.out.println(xml.getXMLTyp()+" "+message.getAddress().getHostAddress()+" "+message.getPort());
 		switch (xml.getXMLTyp()) {
 		case "getService":
 			byte[] send = getServices();

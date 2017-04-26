@@ -1,10 +1,11 @@
 package impl.client;
-
+import impl.stubs.*;
 import impl.interfaces.IVerticalMovements;
 import impl.robot.Robot;
 import impl.xml.MyXML;
 import impl.xml.MyXMLObject;
 import impl.interfaces.IHorizontalMovements;
+import impl.factories.StubFactory;
 import impl.interfaces.IGripperActions;
 
 import java.io.IOException;
@@ -43,7 +44,7 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
         public void run() {
             try {
                 CaDSRobotGUISwing gui = new CaDSRobotGUISwing(c, c, c, c, c);
-                lookup(gui,"Services");
+                lookup(gui);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -55,7 +56,7 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 	private IGripperActions gripper = null;
 	private Sender sender = null;
 	
-	void lookup(CaDSRobotGUISwing gui, String str){
+	void lookup(CaDSRobotGUISwing gui){
 		String send = "<?xml version=\"1.0\"?><getService></getService>";
 		byte[] recei = sender.send(send.getBytes());
 		if (recei != null) {
@@ -71,11 +72,13 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 		}
 	}
 	public ClientKontroller(String ip, int port) throws UnknownHostException, IOException{
-		sender = new Sender(ip, port, "transmitterVertical");
-		vertical = new VerticalMovements();
-		horizontal = new HorizontalMovements();
-		gripper = new GripperActions();
-		sender.start();
+		sender = new Sender(ip, port, "all");
+		new Sender(ip, port, "vertical").start();
+		new Sender(ip, port, "horizontal").start();
+		new Sender(ip, port, "gripper").start();
+		vertical = StubFactory.getVerticalMovements();
+		horizontal = StubFactory.getHorizontalMovements();
+		gripper = StubFactory.getGripperActions();
 	}
 	public int startGUI(){
 		SwingUtilities.invokeLater(new GUI(this));
