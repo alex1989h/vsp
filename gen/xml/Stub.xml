@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stubs>
+	<stub>
+		<imports>
+			<import>impl.interfaces.IVerticalMovements</import>
+		</imports>
+		<stubName>VerticalMovements</stubName>
+		<interfaces>
+			<interface>IVerticalMovements</interface>
+		</interfaces>
+		<methods>
+			<method>
+				<methodName>moveVerticalToPercent</methodName>
+				<params>
+					<param>
+						<type>int</type>
+						<paramName>transactionID</paramName>
+					</param>
+					<param>
+						<type>int</type>
+						<paramName>percent</paramName>
+					</param>
+				</params>
+				<plain>"Call to move vertical -  TID: " + transactionID + " degree " + percent</plain>
+			</method>
+		</methods>
+	</stub>
+</stubs>

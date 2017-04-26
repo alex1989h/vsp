@@ -1,0 +1,22 @@
+package impl.client;
+
+import impl.factories.FiFoFactory;
+import %s;
+import impl.robot.Robot;
+import impl.xml.MyXML;
+
+public class %s implements %s {
+	private FiFo fifo = null;
+	
+	public %s() {
+		fifo = FiFoFactory.getFiFo("%s");
+	}
+	
+	@Override
+	public int %s(%s) {
+		System.out.println(%s);
+		String str = MyXML.createXMLString(Robot.getName()+".%s", %s);
+		fifo.enqueue(str.getBytes());
+		return 0;
+	}
+}
