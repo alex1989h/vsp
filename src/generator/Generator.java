@@ -26,38 +26,34 @@ public class Generator {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		String parameterliste = ""; 
-		String parameterlisteOneTyp = ""; 		
+		
 		NodeList stubList = document.getElementsByTagName("stub");
-		Element stubElement;
-		String iFace;
-		String stub;
 		for (int i = 0; i < stubList.getLength(); i++) {
-			stubElement = (Element)stubList.item(i);
-			iFace = stubElement.getElementsByTagName("interface").item(0).getTextContent();
-			String packageStubs = stubElement.getElementsByTagName("package").item(0).getTextContent();
-			String fifo = stubElement.getElementsByTagName("fifo").item(0).getTextContent();;
-			stub = "Stub"+iFace;
-			NodeList methodList = stubElement.getElementsByTagName("method");
-			Element methodElement;
-			String methodName;
+			Element stubElement = (Element)stubList.item(i);
+			String interfaceName = stubElement.getElementsByTagName("interfaceName").item(0).getTextContent();
+			String stubPackage = stubElement.getElementsByTagName("stubPackage").item(0).getTextContent();
+			String interfacePackage = stubElement.getElementsByTagName("interfacePackage").item(0).getTextContent();
+			String fifo = stubElement.getElementsByTagName("fifo").item(0).getTextContent();
+			String stubName = stubElement.getElementsByTagName("stubName").item(0).getTextContent();
+			
+			
 			String methodString = "";
 			String methodStringInterface = "";
-			String plain;
+			
+			NodeList methodList = stubElement.getElementsByTagName("method");
 			for (int j = 0; j < methodList.getLength(); j++) {
-				methodElement = (Element)methodList.item(j);
-				methodName = methodElement.getElementsByTagName("methodName").item(0).getTextContent();
-				plain = methodElement.getElementsByTagName("plain").item(0).getTextContent();
+				Element methodElement = (Element)methodList.item(j);
+				String methodName = methodElement.getElementsByTagName("methodName").item(0).getTextContent();
+				String plain = methodElement.getElementsByTagName("plain").item(0).getTextContent();
+				
+				String parameterliste = ""; 
+				String parameterlisteOneTyp = "";
+				
 				NodeList paramList = methodElement.getElementsByTagName("param");
-				Element paramElement;
-				String type;
-				String paramName;
-				parameterliste = ""; 
-				parameterlisteOneTyp = ""; 
 				for (int k = 0; k < paramList.getLength(); k++) {
-					paramElement = (Element)paramList.item(k);
-					type = paramElement.getElementsByTagName("type").item(0).getTextContent();
-					paramName = paramElement.getElementsByTagName("paramName").item(0).getTextContent();
+					Element paramElement = (Element)paramList.item(k);
+					String type = paramElement.getElementsByTagName("type").item(0).getTextContent();
+					String paramName = paramElement.getElementsByTagName("paramName").item(0).getTextContent();
 					if(k > 0){
 						parameterliste+=", ";
 						parameterlisteOneTyp+=", ";
@@ -70,25 +66,17 @@ public class Generator {
 				plainText = readPlainText("gen/plain/InterfaceMethod.txt");
 				methodStringInterface+= String.format(plainText,methodName,parameterliste);
 			}
+			
 			String plainText = readPlainText("gen/plain/Stub.txt");
-			String classString = String.format(plainText,packageStubs,iFace,stub,iFace,stub,fifo,methodString);
+			String classString = String.format(plainText,stubPackage,interfaceName,stubName,interfaceName,stubName,fifo,methodString);
+			
 			plainText = readPlainText("gen/plain/Interface.txt");
-			String interfaceString = String.format(plainText,iFace,methodStringInterface);
+			String interfaceString = String.format(plainText,interfacePackage,interfaceName,methodStringInterface);
 			
 			System.out.println(classString);
 			System.out.println(interfaceString);
-			String className = "src/"+packageStubs.replaceAll("\\.", "/")+"/"+stub+".java";
-			new File("src/"+packageStubs.replaceAll("\\.", "/")).mkdirs();
-			PrintWriter writer = new PrintWriter(new FileWriter(new File(className)));
-			writer.print(classString);
-			writer.flush();
-			writer.close();
-			new File("src/impl/interfaces").mkdirs();
-			className = "src/impl/interfaces/"+iFace+".java";
-			writer = new PrintWriter(new FileWriter(new File(className)));
-			writer.print(interfaceString);
-			writer.flush();
-			writer.close();
+			createFile("src/"+stubPackage.replaceAll("\\.", "/"),stubName,classString);
+			createFile("src/impl/interfaces",interfaceName,interfaceString);
 		}
 		
 	}
@@ -106,5 +94,14 @@ public class Generator {
 		}
 		reader.close();
 		return buffer.toString();
+	}
+	
+	private static void createFile(String path,String name, String input) throws IOException{
+		String className = path+"/"+name+".java";
+		new File(path).mkdirs();
+		PrintWriter writer = new PrintWriter(new FileWriter(new File(className)));
+		writer.print(input);
+		writer.flush();
+		writer.close();
 	}
 }

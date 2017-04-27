@@ -6,10 +6,10 @@ import impl.interfaces.IHorizontalMovements;
 import impl.robot.Robot;
 import impl.xml.MyXML;
 
-public class StubIHorizontalMovements implements IHorizontalMovements {
+public class StubHorizontalMovements implements IHorizontalMovements {
 	private FiFo fifo = null;
 	
-	public StubIHorizontalMovements() {
+	public StubHorizontalMovements() {
 		fifo = FiFoFactory.getFiFo("horizontal");
 	}
 		

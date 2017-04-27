@@ -11,17 +11,17 @@ public class StubFactory {
 	static IGripperActions gripper;
 	
 	public static IVerticalMovements getVerticalMovements(){
-		vertical = new StubIVerticalMovements();
+		vertical = new StubVerticalMovements();
 		return vertical;
 	}
 	
 	public static IHorizontalMovements getHorizontalMovements(){
-		horizontal = new StubIHorizontalMovements();
+		horizontal = new StubHorizontalMovements();
 		return horizontal;
 	}
 	
 	public static IGripperActions getGripperActions(){
-		gripper = new StubIGripperActions();
+		gripper = new StubGripperActions();
 		return gripper;
 	}
 }

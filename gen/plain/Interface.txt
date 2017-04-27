@@ -1,4 +1,4 @@
-package impl.interfaces;
+package %s;
 
 public interface %s{
 %s

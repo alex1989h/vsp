@@ -6,10 +6,10 @@ import impl.interfaces.IGripperActions;
 import impl.robot.Robot;
 import impl.xml.MyXML;
 
-public class StubIGripperActions implements IGripperActions {
+public class StubGripperActions implements IGripperActions {
 	private FiFo fifo = null;
 	
-	public StubIGripperActions() {
+	public StubGripperActions() {
 		fifo = FiFoFactory.getFiFo("gripper");
 	}
 		
