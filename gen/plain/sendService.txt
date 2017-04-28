@@ -1,0 +1,2 @@
+		str = "<addService><methodName>"+namespace+".%s</methodName></addService>";
+		receiver.send(str.getBytes());

@@ -1,0 +1,36 @@
+package %s;
+
+import impl.client.FiFo;
+import impl.factories.FiFoFactory;
+import impl.interfaces.%s;
+import impl.xml.MyXML;
+import impl.xml.MyXMLObject;
+import impl.server.Receiver;
+
+public class %s extends Thread {
+	private %s model;
+	private String namespace;
+	private FiFo fifo;
+	private long oldId = Long.MIN_VALUE;
+	
+	public %s(%s model,String namespace,Receiver receiver) throws Exception {
+		this.model = model;
+		this.namespace = namespace;
+		String str;
+%s
+	}
+	
+	@Override
+	public void run() {
+		byte[] b;
+		fifo = FiFoFactory.getFiFo("%s");
+		while (true) {
+			System.out.println("Wait for Queue");
+			b = fifo.dequeue();
+			System.out.println("Dequeued");
+			System.out.println(new String(b));
+			MyXMLObject xml = MyXML.createXML(b);
+%s
+		}
+	}
+}

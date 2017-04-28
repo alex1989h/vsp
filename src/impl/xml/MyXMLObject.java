@@ -16,26 +16,26 @@ public class MyXMLObject {
 		return document.getElementsByTagName("methodName").item(0).getTextContent();
 	}
 	
-	public Class<?>[] getParamTypes(){
-		Class<?>[] cl;
+	public String[] getParamTypes(){
+		String[] cl;
 		NodeList nL = document.getElementsByTagName("param");
-		cl = new Class[nL.getLength()];
+		cl = new String[nL.getLength()];
 		for (int i = 0; i < nL.getLength(); i++) {
 			cl[i] = getParamType(nL.item(i));
 		}
 		return cl;
 	}
 	
-	private Class<?> getParamType(Node node){
+	private String getParamType(Node node){
 		switch (node.getFirstChild().getFirstChild().getNodeName()) {
 		case "int":
-			return Integer.TYPE;
+			return "int";
 		case "string":
-			return String.class;
+			return "String";
 		default:
 			break;
 		}
-		return null;
+		return "";
 	}
 	
 	public Object[] getParamValues(){

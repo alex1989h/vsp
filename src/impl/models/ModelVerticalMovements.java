@@ -1,4 +1,4 @@
-package impl.server;
+package impl.models;
 
 import org.cads.ev3.middleware.CaDSEV3RobotStudentImplementation;
 import org.cads.ev3.middleware.CaDSEV3RobotType;
@@ -8,13 +8,13 @@ import org.json.simple.JSONObject;
 
 import impl.interfaces.IVerticalMovements;
 
-public class ModelVerticalMovements implements IVerticalMovements, ICaDSEV3RobotStatusListener,ICaDSEV3RobotFeedBackListener {
+public class ModelVerticalMovements implements IVerticalMovements, IStatusMessage {
 	private static CaDSEV3RobotStudentImplementation caller = null;
 	
 	private long percent = 0,oldPercent = 0;
 	
 	public ModelVerticalMovements() {
-		caller = CaDSEV3RobotStudentImplementation.createInstance(CaDSEV3RobotType.SIMULATION, this, this);
+		caller = CaDSEV3RobotStudentImplementation.createInstance(CaDSEV3RobotType.SIMULATION, null, null);
 	}
 	
 	@Override
@@ -44,11 +44,4 @@ public class ModelVerticalMovements implements IVerticalMovements, ICaDSEV3Robot
 		}
 		return 0;
 	}
-
-	@Override
-	public void giveFeedbackByJSonTo(JSONObject arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

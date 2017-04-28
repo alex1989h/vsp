@@ -1,0 +1,6 @@
+			if(MyXML.testSignatur(xml, namespace+".%s", %s)){
+				if (this.oldId < (int)xml.getParamValues()[0]) {
+					this.oldId = (int)xml.getParamValues()[0];
+					model.%s(%s);
+				}
+			}

@@ -52,4 +52,13 @@ public class MyXML {
 		}
 		return null;
 	}
+	
+	public static boolean testSignatur(MyXMLObject xml,String methodName,String... params){
+		if(!xml.getMethodName().equals(methodName)) return false;
+		if(xml.getParamValues().length != params.length) return false;
+		for (int i = 0; i < params.length; i++) {
+			if(!xml.getParamTypes()[i].equals(params[i]))return false;
+		}
+		return true;
+	}
 }

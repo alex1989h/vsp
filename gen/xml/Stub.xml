@@ -2,9 +2,11 @@
 <stubs>
 	<stub>
 		<stubPackage>impl.stubs</stubPackage>
+		<skeletonPackage>impl.skeletons</skeletonPackage>
 		<interfacePackage>impl.interfaces</interfacePackage>
 		<interfaceName>IVerticalMovements</interfaceName>
 		<stubName>StubVerticalMovements</stubName>
+		<skeletonName>SkeletonVerticalMovements</skeletonName>
 		<fifo>vertical</fifo>
 		<methods>
 			<method>
@@ -25,9 +27,11 @@
 	</stub>
 	<stub>
 		<stubPackage>impl.stubs</stubPackage>
+		<skeletonPackage>impl.skeletons</skeletonPackage>
 		<interfacePackage>impl.interfaces</interfacePackage>
 		<interfaceName>IHorizontalMovements</interfaceName>
 		<stubName>StubHorizontalMovements</stubName>
+		<skeletonName>SkeletonHorizontalMovements</skeletonName>
 		<fifo>horizontal</fifo>
 		<methods>
 			<method>
@@ -48,9 +52,11 @@
 	</stub>
 	<stub>
 		<stubPackage>impl.stubs</stubPackage>
+		<skeletonPackage>impl.skeletons</skeletonPackage>
 		<interfacePackage>impl.interfaces</interfacePackage>
 		<interfaceName>IGripperActions</interfaceName>
 		<stubName>StubGripperActions</stubName>
+		<skeletonName>SkeletonGripperActions</skeletonName>
 		<fifo>gripper</fifo>
 		<methods>
 			<method>

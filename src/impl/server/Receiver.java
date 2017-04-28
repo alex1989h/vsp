@@ -16,14 +16,17 @@ import impl.xml.MyXML;
 public class Receiver extends Thread{
     private final DatagramSocket server;
     private FiFo fifo = null;
-    public Receiver(String adresse, int port,String fifoName,String service) throws IOException {
+    private InetAddress address;
+    private int port;
+    
+    public Receiver(String address, int port,String fifoName,String service) throws IOException {
+    	this.address = InetAddress.getByName(address);
+    	this.port = port;
         server = new DatagramSocket();
         fifo = FiFoFactory.getFiFo(fifoName);
-        String str = "<addService><methodName>"+service+".moveVerticalToPercent</methodName></addService>";
-        server.send(new DatagramPacket(str.getBytes(), str.length(),InetAddress.getByName(adresse),port));
     }
 
-    private void receive(Socket socket) throws Exception {
+    private void receive() throws Exception {
     	byte[] test = new byte[1000];
     	DatagramPacket p = new DatagramPacket(test,test.length);
         while(true) {
@@ -36,12 +39,15 @@ public class Receiver extends Thread{
         	server.send(new DatagramPacket(send.getBytes(),send.length(),p.getAddress(),p.getPort()));
         }
     }
+    
+    public void send(byte[] message) throws Exception {
+    	server.send(new DatagramPacket(message, message.length,address,port));
+    }
 
 	@Override
 	public void run() {
-		Socket socket = null;
         try {
-            receive(socket);
+            receive();
         }
         catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -55,13 +61,10 @@ public class Receiver extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-            if (socket != null)
-                try {
-                    socket.close();
-                    System.out.println("Close Socket");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            if (server != null) {
+				server.close();
+				System.out.println("Close Socket");
+			}
         }
 	}
 } 

@@ -53,8 +53,11 @@ public class NameServer extends Thread{
 			server.send(new DatagramPacket(send,send.length,message.getAddress(),message.getPort()));
 			break;
 		case "addService":
+			System.out.println("New method: "+ xml.getMethodName());
 			hashMap.put(xml.getMethodName(),new AddressAndPort(message.getAddress(),message.getPort()));
-			services.add(xml.getMethodName().split("\\.")[0]);
+			if(!services.contains(xml.getMethodName().split("\\.")[0])){
+				services.add(xml.getMethodName().split("\\.")[0]);
+			}
 			break;
 		case "methodCall":
 			aAP = hashMap.get(xml.getMethodName());
