@@ -2,8 +2,6 @@ package impl.models;
 
 import org.cads.ev3.middleware.CaDSEV3RobotStudentImplementation;
 import org.cads.ev3.middleware.CaDSEV3RobotType;
-import org.cads.ev3.middleware.hal.ICaDSEV3RobotFeedBackListener;
-import org.cads.ev3.middleware.hal.ICaDSEV3RobotStatusListener;
 import org.json.simple.JSONObject;
 
 import impl.interfaces.IHorizontalMovements;
