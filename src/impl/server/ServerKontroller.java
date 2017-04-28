@@ -1,9 +1,14 @@
 package impl.server;
+import org.cads.ev3.gui.swing.CaDSRobotGUISwing;
 import org.cads.ev3.middleware.CaDSEV3RobotStudentImplementation;
 import org.cads.ev3.middleware.CaDSEV3RobotType;
 
+import impl.client.Sender;
 import impl.models.*;
+import impl.robot.Robot;
 import impl.skeletons.*;
+import impl.xml.MyXML;
+import impl.xml.MyXMLObject;
 
 public class ServerKontroller {
 
@@ -14,11 +19,11 @@ public class ServerKontroller {
 		String address = "localhost";
 		int port = 9012;
 		
-		String[] queue = {"vertical","horizontal","gripper"};
+		String[] queue = {"vertical","horizontal","gripper","statusRequest"};
 		
-		Receiver[] receiver = new Receiver[3];
+		Receiver[] receiver = new Receiver[4];
 		
-		Thread thread[] = new Thread[3];
+		Thread thread[] = new Thread[4];
 		
 		if(args.length == 3){
 			namespace = args[0];
@@ -45,9 +50,20 @@ public class ServerKontroller {
 		ModelGripperActions gripper = new ModelGripperActions();
 		thread[2] = new SkeletonGripperActions(gripper, namespace, receiver[2]);
 		
+		receiver[3] = new Receiver(address, port, queue[3], namespace);
+		ModelStatusRequests statusRequest = new ModelStatusRequests();
+		thread[3] = new SkeletonStatusRequests(statusRequest, namespace, receiver[3]);
+		
 		status.addObserver(vertical);
 		status.addObserver(horizontal);
 		status.addObserver(gripper);
+		status.addObserver(statusRequest);
+		
+		Sender sender = new Sender(address, port, "statusResponse");
+		Robot.setName("Client");
+		sender.start();
+		
+		
 		
 		for (int i = 0; i < thread.length; i++) {
 			receiver[i].start();
@@ -58,7 +74,6 @@ public class ServerKontroller {
 			receiver[i].join();
 			thread[i].join();
 		}
-		
+		sender.join();
 	}
-
 }

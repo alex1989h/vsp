@@ -50,6 +50,9 @@ public class MyXML {
 		if(obj instanceof String){
 			return "<string>"+obj+"</string>";
 		}
+		if(obj instanceof Long){
+			return "<long>"+obj+"</long>";
+		}
 		return null;
 	}
 	

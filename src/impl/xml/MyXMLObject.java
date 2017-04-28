@@ -32,6 +32,8 @@ public class MyXMLObject {
 			return "int";
 		case "string":
 			return "String";
+		case "long":
+			return "long";
 		default:
 			break;
 		}
@@ -52,6 +54,8 @@ public class MyXMLObject {
 		switch (node.getFirstChild().getFirstChild().getNodeName()) {
 		case "int":
 			return Integer.parseInt(node.getFirstChild().getFirstChild().getFirstChild().getTextContent());
+		case "long":
+			return Long.parseLong(node.getFirstChild().getFirstChild().getFirstChild().getTextContent());
 		case "string":
 			return node.getFirstChild().getFirstChild().getFirstChild().getTextContent();
 		default:

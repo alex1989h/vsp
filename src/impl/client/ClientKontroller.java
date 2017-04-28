@@ -6,12 +6,6 @@ import impl.xml.MyXMLObject;
 import impl.interfaces.IHorizontalMovements;
 import impl.factories.StubFactory;
 import impl.interfaces.IGripperActions;
-
-import java.io.IOException;
-import java.net.UnknownHostException;
-
-import javax.swing.SwingUtilities;
-
 import org.cads.ev3.gui.ICaDSRobotGUIUpdater;
 import org.cads.ev3.gui.swing.CaDSRobotGUISwing;
 import org.cads.ev3.rmi.consumer.ICaDSRMIConsumer;
@@ -22,6 +16,11 @@ import org.cads.ev3.rmi.generated.cadSRMIInterface.IIDLCaDSEV3RMIUltraSonic;
 
 
 public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMoveHorizontal, IIDLCaDSEV3RMIMoveVertical, IIDLCaDSEV3RMIUltraSonic, ICaDSRMIConsumer  {
+	private static int transactionsID = Integer.MIN_VALUE;
+	
+	public int getTransactionsID(){
+		return transactionsID++;
+	}
 	
 	synchronized public void waithere() {
         try {
@@ -31,30 +30,16 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
         }
     }
 	
-	private class GUI implements Runnable {
-		
-		ClientKontroller c;
-		
-        public GUI(ClientKontroller _c) {
-            c = _c;
-        }
-
-        @Override
-        public void run() {
-            try {
-                CaDSRobotGUISwing gui = new CaDSRobotGUISwing(c, c, c, c, c);
-                lookup(gui);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-	
 	private IVerticalMovements vertical = null;
 	private IHorizontalMovements horizontal = null;
 	private IGripperActions gripper = null;
 	private Sender sender = null;
+	private CaDSRobotGUISwing gui = null;
 	
+	public CaDSRobotGUISwing getGui() {
+		return gui;
+	}
+
 	void lookup(CaDSRobotGUISwing gui){
 		String send = "<?xml version=\"1.0\"?><getService></getService>";
 		byte[] recei = sender.send(send.getBytes());
@@ -70,7 +55,9 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 			}
 		}
 	}
-	public ClientKontroller(String ip, int port) throws UnknownHostException, IOException{
+	
+	public ClientKontroller(String ip, int port) throws Exception{
+		gui = new CaDSRobotGUISwing(this, this, this, this, this);
 		sender = new Sender(ip, port, "all");
 		new Sender(ip, port, "vertical").start();
 		new Sender(ip, port, "horizontal").start();
@@ -78,33 +65,32 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 		vertical = StubFactory.getVerticalMovements();
 		horizontal = StubFactory.getHorizontalMovements();
 		gripper = StubFactory.getGripperActions();
+		new StatusController(ip, port, this).start();
+		lookup(gui);
 	}
-	public int startGUI(){
-		SwingUtilities.invokeLater(new GUI(this));
-        waithere();
-		return 0;
-	}
+	
 	/**
 	 * Main
 	 * @param args
-	 * @throws IOException 
-	 * @throws UnknownHostException 
-	 * @throws InterruptedException 
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
+	public static void main(String[] args) throws Exception {
+		
 		System.out.println("Client gestartet");
-		String defaultIp = "localhost";
-		int defaultPort = 8888;
-		ClientKontroller kontroller = null;
+		String address = "localhost";
+		int port = 8888;
+		ClientKontroller c = null;
 		if(args.length == 2){
-			kontroller = new ClientKontroller(args[0],Integer.parseInt(args[1]));
-			kontroller.startGUI();
+			address = args[0];
+			port = Integer.parseInt(args[1]);
 		} else if(args.length == 0){
-			kontroller = new ClientKontroller(defaultIp,defaultPort);
-			kontroller.startGUI();
+			
 		}else{
 			System.out.println("Falsche Parameter Anzahl");
+			return;
 		}
+		c = new ClientKontroller(address,port);
+        c.waithere();
 	}
 
 	@Override
@@ -126,7 +112,7 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 
 	@Override
 	public int moveVerticalToPercent(int transactionID, int percent) throws Exception {
-		vertical.moveVerticalToPercent(transactionID, percent);
+		vertical.moveVerticalToPercent(getTransactionsID(), percent);
 		return 0;
 	}
 	
@@ -138,7 +124,7 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 
 	@Override
 	public int moveHorizontalToPercent(int transactionID, int percent) throws Exception {
-		horizontal.moveHorizontalToPercent(transactionID, percent);
+		horizontal.moveHorizontalToPercent(getTransactionsID(), percent);
 		return 0;
 	}
 	
@@ -150,19 +136,19 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 
 	@Override
 	public int stop(int transactionID) throws Exception {
-		System.out.println("Stop movement.... TID: " + transactionID);
+		System.out.println("Stop movement.... TID: " + getTransactionsID());
 		return 0;
 	}
 
 	@Override
 	public int openGripper(int transactionID) throws Exception {
-        gripper.openGripper(transactionID);
+        gripper.openGripper(getTransactionsID());
 		return 0;
 	}
 
 	@Override
 	public int closeGripper(int transactionID) throws Exception {
-		gripper.closeGripper(transactionID);
+		gripper.closeGripper(getTransactionsID());
 		return 0;
 	}
 	

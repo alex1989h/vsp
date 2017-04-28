@@ -81,4 +81,98 @@
 			</method>
 		</methods>
 	</stub>
+	<stub>
+		<stubPackage>impl.stubs</stubPackage>
+		<skeletonPackage>impl.skeletons</skeletonPackage>
+		<interfacePackage>impl.interfaces</interfacePackage>
+		<interfaceName>IStatusRequests</interfaceName>
+		<stubName>StubStatusRequests</stubName>
+		<skeletonName>SkeletonStatusRequests</skeletonName>
+		<fifo>statusRequest</fifo>
+		<methods>
+			<method>
+				<methodName>getHorizontalInPercent</methodName>
+				<params>
+					<param>
+						<type>int</type>
+						<paramName>transactionID</paramName>
+					</param>
+				</params>
+				<plain>"Ask for Horizontal Position.. ID:%s",</plain>
+			</method>
+			<method>
+				<methodName>getVerticalInPercent</methodName>
+				<params>
+					<param>
+						<type>int</type>
+						<paramName>transactionID</paramName>
+					</param>
+				</params>
+				<plain>"Ask for Vertical Position.. ID:%s",</plain>
+			</method>
+			<method>
+				<methodName>getGripperStatus</methodName>
+				<params>
+					<param>
+						<type>int</type>
+						<paramName>transactionID</paramName>
+					</param>
+				</params>
+				<plain>"Ask for Gripper Status.. ID:%s",</plain>
+			</method>
+		</methods>
+	</stub>
+	<stub>
+		<stubPackage>impl.stubs</stubPackage>
+		<skeletonPackage>impl.skeletons</skeletonPackage>
+		<interfacePackage>impl.interfaces</interfacePackage>
+		<interfaceName>IStatusResponses</interfaceName>
+		<stubName>StubStatusResponses</stubName>
+		<skeletonName>SkeletonStatusResponses</skeletonName>
+		<fifo>statusResponse</fifo>
+		<methods>
+			<method>
+				<methodName>getHorizontalInPercent</methodName>
+				<params>
+					<param>
+						<type>int</type>
+						<paramName>transactionID</paramName>
+					</param>
+					<param>
+						<type>long</type>
+						<paramName>percent</paramName>
+					</param>
+				</params>
+				<plain>"Response for Horizontal Position.. ID:%s",</plain>
+			</method>
+			<method>
+				<methodName>getVerticalInPercent</methodName>
+				<params>
+					<param>
+						<type>int</type>
+						<paramName>transactionID</paramName>
+					</param>
+					<param>
+						<type>long</type>
+						<paramName>percent</paramName>
+					</param>
+				</params>
+				<plain>"Response for Vertical Position.. ID:%s",</plain>
+			</method>
+			<method>
+				<methodName>getGripperStatus</methodName>
+				<params>
+					<param>
+						<type>int</type>
+						<paramName>transactionID</paramName>
+					</param>
+					<param>
+						<type>String</type>
+						<paramName>gripperStatus</paramName>
+					</param>
+				</params>
+				<plain>"Response for Gripper Status.. ID:%s",</plain>
+			</method>
+		</methods>
+	</stub>
 </stubs>
