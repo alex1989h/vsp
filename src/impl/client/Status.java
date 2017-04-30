@@ -3,11 +3,11 @@ package impl.client;
 import org.cads.ev3.gui.swing.CaDSRobotGUISwing;
 import impl.stubs.StubStatusRequests;
 
-public class StatusController extends Thread {
+public class Status extends Thread {
 	private StubStatusRequests status = null;
 	private CaDSRobotGUISwing gui = null;
 	
-	public StatusController(CaDSRobotGUISwing gui) throws Exception {
+	public Status(CaDSRobotGUISwing gui) throws Exception {
 		this.status = new StubStatusRequests();
 		this.gui = gui;
 	}
@@ -26,7 +26,7 @@ public class StatusController extends Thread {
 		}
 	}
 	private void getGripperStatus() {
-		String gripperStatus = status.getGripperStatus(ClientKontroller.getTransactionsID());
+		String gripperStatus = status.getGripperStatus(Controller.getTransactionsID());
 		switch (gripperStatus) {
 		case "closed":
 			gui.setGripperClosed();
@@ -39,11 +39,11 @@ public class StatusController extends Thread {
 		}
 	}
 	private void getVerticalStatus() {
-		int percent = status.getVerticalInPercent(ClientKontroller.getTransactionsID());
+		int percent = status.getVerticalInPercent(Controller.getTransactionsID());
 		gui.setVerticalProgressbar(percent);
 	}
 	private void getHorizontalStatus() {
-		int percent = status.getHorizontalInPercent(ClientKontroller.getTransactionsID());
+		int percent = status.getHorizontalInPercent(Controller.getTransactionsID());
 		gui.setHorizontalProgressbar(percent);
 	}
 }

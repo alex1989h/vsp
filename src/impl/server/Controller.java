@@ -13,7 +13,7 @@ import impl.lego.LegoVerticalMovements;
 import impl.models.*;
 import impl.skeletons.*;
 
-public class ServerKontroller {
+public class Controller {
 
 	public static void main(String[] args) throws Exception {
 		System.out.println("Server gestartet");

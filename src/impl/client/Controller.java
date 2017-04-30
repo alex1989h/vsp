@@ -18,7 +18,7 @@ import org.cads.ev3.rmi.generated.cadSRMIInterface.IIDLCaDSEV3RMIMoveVertical;
 import org.cads.ev3.rmi.generated.cadSRMIInterface.IIDLCaDSEV3RMIUltraSonic;
 
 
-public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMoveHorizontal, IIDLCaDSEV3RMIMoveVertical, IIDLCaDSEV3RMIUltraSonic, ICaDSRMIConsumer  {
+public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMoveHorizontal, IIDLCaDSEV3RMIMoveVertical, IIDLCaDSEV3RMIUltraSonic, ICaDSRMIConsumer  {
 	private static int transactionsID = Integer.MIN_VALUE;
 	
 	public synchronized static int getTransactionsID(){
@@ -59,7 +59,7 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 		}
 	}
 	
-	public ClientKontroller(String address, int port) throws Exception{
+	public Controller(String address, int port) throws Exception{
 		Broker.setAddress(InetAddress.getByName(address));
 		Broker.setPort(port);
 		
@@ -68,7 +68,7 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 		vertical = StubFactory.getVerticalMovements();
 		horizontal = StubFactory.getHorizontalMovements();
 		gripper = StubFactory.getGripperActions();
-		new StatusController(gui).start();
+		new Status(gui).start();
 		lookup(gui);
 	}
 	
@@ -82,7 +82,7 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 		System.out.println("Client gestartet");
 		String address = "localhost";
 		int port = 8888;
-		ClientKontroller c = null;
+		Controller c = null;
 		if(args.length == 2){
 			address = args[0];
 			port = Integer.parseInt(args[1]);
@@ -92,7 +92,7 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 			System.out.println("Falsche Parameter Anzahl");
 			return;
 		}
-		c = new ClientKontroller(address,port);
+		c = new Controller(address,port);
         c.waithere();
 	}
 
