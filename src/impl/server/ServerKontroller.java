@@ -1,14 +1,17 @@
 package impl.server;
-import org.cads.ev3.gui.swing.CaDSRobotGUISwing;
+import java.net.InetAddress;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.cads.ev3.middleware.CaDSEV3RobotStudentImplementation;
 import org.cads.ev3.middleware.CaDSEV3RobotType;
 
-import impl.client.Sender;
+import impl.client.Broker;
+import impl.lego.LegoGripperActions;
+import impl.lego.LegoHorizontalMovements;
+import impl.lego.LegoVerticalMovements;
 import impl.models.*;
-import impl.robot.Robot;
 import impl.skeletons.*;
-import impl.xml.MyXML;
-import impl.xml.MyXMLObject;
 
 public class ServerKontroller {
 
@@ -19,11 +22,7 @@ public class ServerKontroller {
 		String address = "localhost";
 		int port = 9012;
 		
-		String[] queue = {"vertical","horizontal","gripper","statusRequest"};
-		
-		Receiver[] receiver = new Receiver[4];
-		
-		Thread thread[] = new Thread[4];
+		List<Thread> threads = new LinkedList<Thread>();
 		
 		if(args.length == 3){
 			namespace = args[0];
@@ -35,45 +34,48 @@ public class ServerKontroller {
 			System.out.println("Falsche Parameter Anzahl");
 			return;
 		}
+		Broker.setAddress(InetAddress.getByName(address));
+		Broker.setPort(port);
+		
 		StatusMessage status = new StatusMessage();
 		CaDSEV3RobotStudentImplementation.createInstance(CaDSEV3RobotType.SIMULATION, status, status);
 		
-		receiver[0] = new Receiver(address, port, queue[0], namespace);
+		LegoVerticalMovements legoVertical = new LegoVerticalMovements();
 		ModelVerticalMovements vertical = new ModelVerticalMovements();
-		thread[0] = new SkeletonVerticalMovements(vertical, namespace, receiver[0]);
+		SkeletonVerticalMovements skeletonVertical = new SkeletonVerticalMovements(vertical, namespace);
 		
-		receiver[1] = new Receiver(address, port, queue[1], namespace);
+		LegoHorizontalMovements legoHorizontal = new LegoHorizontalMovements();
 		ModelHorizontalMovements horizontal = new ModelHorizontalMovements();
-		thread[1] = new SkeletonHorizontalMovements(horizontal, namespace, receiver[1]);
+		SkeletonHorizontalMovements skeletonHorizontal = new SkeletonHorizontalMovements(horizontal, namespace);
 		
-		receiver[2] = new Receiver(address, port, queue[2], namespace);
+		LegoGripperActions legoGripper = new LegoGripperActions();
 		ModelGripperActions gripper = new ModelGripperActions();
-		thread[2] = new SkeletonGripperActions(gripper, namespace, receiver[2]);
+		SkeletonGripperActions skeletonGripper = new SkeletonGripperActions(gripper, namespace);
 		
-		receiver[3] = new Receiver(address, port, queue[3], namespace);
+		
 		ModelStatusRequests statusRequest = new ModelStatusRequests();
-		thread[3] = new SkeletonStatusRequests(statusRequest, namespace, receiver[3]);
+		SkeletonStatusRequests skeletonStatus = new SkeletonStatusRequests(statusRequest, namespace);
 		
-		status.addObserver(vertical);
-		status.addObserver(horizontal);
-		status.addObserver(gripper);
+		status.addObserver(legoVertical);
+		status.addObserver(legoHorizontal);
+		status.addObserver(legoGripper);
 		status.addObserver(statusRequest);
 		
-		Sender sender = new Sender(address, port, "statusResponse");
-		Robot.setName("Client");
-		sender.start();
+		threads.add(legoGripper);
+		threads.add(legoHorizontal);
+		threads.add(legoVertical);
 		
+		threads.add(skeletonGripper);
+		threads.add(skeletonHorizontal);
+		threads.add(skeletonVertical);
+		threads.add(skeletonStatus);
 		
-		
-		for (int i = 0; i < thread.length; i++) {
-			receiver[i].start();
-			thread[i].start();
+		for (int i = 0; i < threads.size(); i++) {
+			threads.get(i).start();
 		}
 		
-		for (int i = 0; i < thread.length; i++) {
-			receiver[i].join();
-			thread[i].join();
+		for (int i = 0; i < threads.size(); i++) {
+			threads.get(i).join();
 		}
-		sender.join();
 	}
 }

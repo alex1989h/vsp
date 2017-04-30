@@ -1,6 +1,6 @@
-package impl.robot;
+package impl.namespace;
 
-public class Robot {
+public class Namespace {
 	static String name = "";
 	
 	public static String getName() {
@@ -8,6 +8,6 @@ public class Robot {
 	}
 
 	public static void setName(String name) {
-		Robot.name = name;
+		Namespace.name = name;
 	}
 }

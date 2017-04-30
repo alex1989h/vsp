@@ -1,29 +1,15 @@
 package impl.client;
 
-import java.io.IOException;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-
 import org.cads.ev3.gui.swing.CaDSRobotGUISwing;
-
-import impl.models.ModelStatusResponses;
-import impl.server.Receiver;
-import impl.skeletons.SkeletonStatusResponses;
 import impl.stubs.StubStatusRequests;
 
 public class StatusController extends Thread {
-	StubStatusRequests status = null;
-	ClientKontroller controller = null;
+	private StubStatusRequests status = null;
+	private CaDSRobotGUISwing gui = null;
 	
-	public StatusController(String ip, int port, ClientKontroller controller) throws Exception {
-		this.controller = controller;
-		new Sender(ip, port, "statusRequest").start();
-		status = new StubStatusRequests();
-		Receiver receiver = new Receiver(ip, port, "statusResponse", "Client");
-		ModelStatusResponses statusResponses = new ModelStatusResponses(controller.getGui());
-		SkeletonStatusResponses thread = new SkeletonStatusResponses(statusResponses, "Client", receiver);
-		receiver.start();
-		thread.start();
+	public StatusController(CaDSRobotGUISwing gui) throws Exception {
+		this.status = new StubStatusRequests();
+		this.gui = gui;
 	}
 	
 	@Override
@@ -31,12 +17,33 @@ public class StatusController extends Thread {
 		while (!isInterrupted()) {
 			try {
 				sleep(500);
-				status.getGripperStatus(controller.getTransactionsID());
-				status.getVerticalInPercent(controller.getTransactionsID());
-				status.getHorizontalInPercent(controller.getTransactionsID());
+				getGripperStatus();
+				getHorizontalStatus();
+				getVerticalStatus();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+	private void getGripperStatus() {
+		String gripperStatus = status.getGripperStatus(ClientKontroller.getTransactionsID());
+		switch (gripperStatus) {
+		case "closed":
+			gui.setGripperClosed();
+			break;
+		case "open":
+			gui.setGripperOpen();
+			break;
+		default:
+			break;
+		}
+	}
+	private void getVerticalStatus() {
+		int percent = status.getVerticalInPercent(ClientKontroller.getTransactionsID());
+		gui.setVerticalProgressbar(percent);
+	}
+	private void getHorizontalStatus() {
+		int percent = status.getHorizontalInPercent(ClientKontroller.getTransactionsID());
+		gui.setHorizontalProgressbar(percent);
 	}
 }

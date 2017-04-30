@@ -1,6 +1,4 @@
 package junit.mytests;
-import java.lang.reflect.Method;
-
 import org.junit.Test;
 
 import impl.xml.MyXML;
@@ -14,8 +12,7 @@ public class MyXMLTest {
 	}
 	
 	private void method(String str2, int zahl){
-		Method method = new Object(){}.getClass().getEnclosingMethod();
-		String str = MyXML.createXMLString(method, str2, zahl);
+		String str = MyXML.createMethodCall("Name", str2, zahl);
 		MyXMLObject xml = MyXML.createXML(str.getBytes());
 		System.out.println(str);
 		System.out.println(xml.getXMLTyp());

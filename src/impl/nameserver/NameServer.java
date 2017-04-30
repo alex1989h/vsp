@@ -66,7 +66,7 @@ public class NameServer extends Thread{
 				reply.put((Integer)xml.getParamValues()[0], new AddressAndPort(message.getAddress(), message.getPort()));
 			}
 			break;
-		case "ACK":
+		case "methodResponse":
 			aAP = reply.get((Integer)xml.getParamValues()[0]);
 			if(aAP != null){
 				server.send(new DatagramPacket(message.getData(),message.getLength(),aAP.getAddress(),aAP.getPort()));

@@ -16,6 +16,10 @@ public class MyXMLObject {
 		return document.getElementsByTagName("methodName").item(0).getTextContent();
 	}
 	
+	public String getReturnType(){
+		return document.getElementsByTagName("returnType").item(0).getTextContent();
+	}
+	
 	public String[] getParamTypes(){
 		String[] cl;
 		NodeList nL = document.getElementsByTagName("param");

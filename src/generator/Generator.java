@@ -30,13 +30,14 @@ public class Generator {
 		NodeList stubList = document.getElementsByTagName("stub");
 		for (int i = 0; i < stubList.getLength(); i++) {
 			Element stubElement = (Element)stubList.item(i);
-			String interfaceName = stubElement.getElementsByTagName("interfaceName").item(0).getTextContent();
-			String stubPackage = stubElement.getElementsByTagName("stubPackage").item(0).getTextContent();
-			String interfacePackage = stubElement.getElementsByTagName("interfacePackage").item(0).getTextContent();
-			String skeletonPackage = stubElement.getElementsByTagName("skeletonPackage").item(0).getTextContent();
-			String fifo = stubElement.getElementsByTagName("fifo").item(0).getTextContent();
-			String stubName = stubElement.getElementsByTagName("stubName").item(0).getTextContent();
-			String skeletonName = stubElement.getElementsByTagName("skeletonName").item(0).getTextContent();
+			String name = stubElement.getElementsByTagName("name").item(0).getTextContent();
+			String interfaceName = "I"+name;
+			String stubName = "Stub"+name;
+			String skeletonName = "Skeleton"+name;
+			
+			String stubPackage = "impl.stubs";
+			String interfacePackage = "impl.interfaces";
+			String skeletonPackage = "impl.skeletons";
 			
 			String methodString = "";
 			String methodStringInterface = "";
@@ -47,6 +48,7 @@ public class Generator {
 			for (int j = 0; j < methodList.getLength(); j++) {
 				Element methodElement = (Element)methodList.item(j);
 				String methodName = methodElement.getElementsByTagName("methodName").item(0).getTextContent();
+				String returnType = methodElement.getElementsByTagName("returnType").item(0).getTextContent();
 				String plain = methodElement.getElementsByTagName("plain").item(0).getTextContent();
 				
 				String parameterliste = ""; 
@@ -70,23 +72,23 @@ public class Generator {
 					xmlParam+="("+type+")"+"xml.getParamValues()["+k+"]";
 				}
 				String plainText = readPlainText("gen/plain/PublicMethod.txt");
-				methodString += String.format(plainText,methodName,parameterliste,plain+parameterlisteOneTyp,methodName,parameterlisteOneTyp);
+				methodString += String.format(plainText,returnType,methodName,parameterliste,plain+parameterlisteOneTyp,"\""+returnType+"\"",methodName,parameterlisteOneTyp,returnType);
 				plainText = readPlainText("gen/plain/InterfaceMethod.txt");
-				methodStringInterface+= String.format(plainText,methodName,parameterliste);
+				methodStringInterface+= String.format(plainText,returnType,methodName,parameterliste);
 				plainText = readPlainText("gen/plain/ifcompare.txt");
-				ifComarators+= String.format(plainText,methodName,ifParam,methodName,xmlParam);
+				ifComarators+= String.format(plainText,"\""+returnType+"\"",methodName,ifParam,returnType,methodName,xmlParam);
 				plainText = readPlainText("gen/plain/sendService.txt");
 				sendService+= String.format(plainText,methodName);
 			}
 			
 			String plainText = readPlainText("gen/plain/Stub.txt");
-			String classString = String.format(plainText,stubPackage,interfaceName,stubName,interfaceName,stubName,fifo,methodString);
+			String classString = String.format(plainText,stubPackage,interfaceName,stubName,interfaceName,stubName,methodString);
 			
 			plainText = readPlainText("gen/plain/Interface.txt");
 			String interfaceString = String.format(plainText,interfacePackage,interfaceName,methodStringInterface);
 			
 			plainText = readPlainText("gen/plain/Skeleton.txt");
-			String skeletonString = String.format(plainText,skeletonPackage,interfaceName,skeletonName,interfaceName,skeletonName,interfaceName,sendService,fifo,ifComarators);
+			String skeletonString = String.format(plainText,skeletonPackage,interfaceName,skeletonName,interfaceName,skeletonName,interfaceName,sendService,ifComarators);
 			
 			System.out.println(classString);
 			System.out.println(interfaceString);

@@ -1,16 +1,17 @@
 package %s;
 
-import impl.client.FiFo;
-import impl.factories.FiFoFactory;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import impl.client.Sender;
 import impl.interfaces.%s;
-import impl.robot.Robot;
+import impl.namespace.Namespace;
 import impl.xml.MyXML;
 
 public class %s implements %s {
-	private FiFo fifo = null;
+	private Sender sender = null;
 	
-	public %s() {
-		fifo = FiFoFactory.getFiFo("%s");
+	public %s()  throws UnknownHostException, SocketException {
+		sender = new Sender();
 	}
 		
 %s

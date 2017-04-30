@@ -1,8 +1,8 @@
 	@Override
-	public int %s(%s) {
+	public %s %s(%s) {
 		System.out.format(%s);
-		String str = MyXML.createXMLString(Robot.getName()+".%s", %s);
-		fifo.enqueue(str.getBytes());
-		return 0;
+		String str = MyXML.createMethodCall(%s,Namespace.getName()+".%s", %s);
+		byte[] reply = sender.send(str.getBytes());
+		return (%s)MyXML.createXML(reply).getParamValues()[1];
 	}
 	

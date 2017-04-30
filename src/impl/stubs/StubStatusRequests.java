@@ -1,40 +1,41 @@
 package impl.stubs;
 
-import impl.client.FiFo;
-import impl.factories.FiFoFactory;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import impl.client.Sender;
 import impl.interfaces.IStatusRequests;
-import impl.robot.Robot;
+import impl.namespace.Namespace;
 import impl.xml.MyXML;
 
 public class StubStatusRequests implements IStatusRequests {
-	private FiFo fifo = null;
+	private Sender sender = null;
 	
-	public StubStatusRequests() {
-		fifo = FiFoFactory.getFiFo("statusRequest");
+	public StubStatusRequests()  throws UnknownHostException, SocketException {
+		sender = new Sender();
 	}
 		
 	@Override
 	public int getHorizontalInPercent(int transactionID) {
-		System.out.format("Ask for Horizontal Position.. ID:%s",transactionID);
-		String str = MyXML.createXMLString(Robot.getName()+".getHorizontalInPercent", transactionID);
-		fifo.enqueue(str.getBytes());
-		return 0;
+		System.out.format("Ask for Horizontal Position.. ID:%s\n",transactionID);
+		String str = MyXML.createMethodCall("int",Namespace.getName()+".getHorizontalInPercent", transactionID);
+		byte[] reply = sender.send(str.getBytes());
+		return (int)MyXML.createXML(reply).getParamValues()[1];
 	}
 	
 	@Override
 	public int getVerticalInPercent(int transactionID) {
-		System.out.format("Ask for Vertical Position.. ID:%s",transactionID);
-		String str = MyXML.createXMLString(Robot.getName()+".getVerticalInPercent", transactionID);
-		fifo.enqueue(str.getBytes());
-		return 0;
+		System.out.format("Ask for Vertical Position.. ID:%s\n",transactionID);
+		String str = MyXML.createMethodCall("int",Namespace.getName()+".getVerticalInPercent", transactionID);
+		byte[] reply = sender.send(str.getBytes());
+		return (int)MyXML.createXML(reply).getParamValues()[1];
 	}
 	
 	@Override
-	public int getGripperStatus(int transactionID) {
-		System.out.format("Ask for Gripper Status.. ID:%s",transactionID);
-		String str = MyXML.createXMLString(Robot.getName()+".getGripperStatus", transactionID);
-		fifo.enqueue(str.getBytes());
-		return 0;
+	public String getGripperStatus(int transactionID) {
+		System.out.format("Ask for Gripper Status.. ID:%s\n",transactionID);
+		String str = MyXML.createMethodCall("String",Namespace.getName()+".getGripperStatus", transactionID);
+		byte[] reply = sender.send(str.getBytes());
+		return (String)MyXML.createXML(reply).getParamValues()[1];
 	}
 	
 

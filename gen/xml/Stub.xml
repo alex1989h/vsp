@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <stubs>
 	<stub>
-		<stubPackage>impl.stubs</stubPackage>
-		<skeletonPackage>impl.skeletons</skeletonPackage>
-		<interfacePackage>impl.interfaces</interfacePackage>
-		<interfaceName>IVerticalMovements</interfaceName>
-		<stubName>StubVerticalMovements</stubName>
-		<skeletonName>SkeletonVerticalMovements</skeletonName>
+		<name>VerticalMovements</name>
 		<fifo>vertical</fifo>
 		<methods>
 			<method>
 				<methodName>moveVerticalToPercent</methodName>
+				<returnType>int</returnType>
 				<params>
 					<param>
 						<type>int</type>
@@ -21,21 +17,17 @@
 						<paramName>percent</paramName>
 					</param>
 				</params>
-				<plain>"Move vertical.. ID:%s percent:%s",</plain>
+				<plain>"Move vertical.. ID:%s percent:%s\n",</plain>
 			</method>
 		</methods>
 	</stub>
 	<stub>
-		<stubPackage>impl.stubs</stubPackage>
-		<skeletonPackage>impl.skeletons</skeletonPackage>
-		<interfacePackage>impl.interfaces</interfacePackage>
-		<interfaceName>IHorizontalMovements</interfaceName>
-		<stubName>StubHorizontalMovements</stubName>
-		<skeletonName>SkeletonHorizontalMovements</skeletonName>
+		<name>HorizontalMovements</name>
 		<fifo>horizontal</fifo>
 		<methods>
 			<method>
 				<methodName>moveHorizontalToPercent</methodName>
+				<returnType>int</returnType>
 				<params>
 					<param>
 						<type>int</type>
@@ -46,132 +38,74 @@
 						<paramName>percent</paramName>
 					</param>
 				</params>
-				<plain>"Move horizontal.. ID:%s percent:%s",</plain>
+				<plain>"Move horizontal.. ID:%s percent:%s\n",</plain>
 			</method>
 		</methods>
 	</stub>
 	<stub>
-		<stubPackage>impl.stubs</stubPackage>
-		<skeletonPackage>impl.skeletons</skeletonPackage>
-		<interfacePackage>impl.interfaces</interfacePackage>
-		<interfaceName>IGripperActions</interfaceName>
-		<stubName>StubGripperActions</stubName>
-		<skeletonName>SkeletonGripperActions</skeletonName>
+		<name>GripperActions</name>
 		<fifo>gripper</fifo>
 		<methods>
 			<method>
 				<methodName>openGripper</methodName>
+				<returnType>int</returnType>
 				<params>
 					<param>
 						<type>int</type>
 						<paramName>transactionID</paramName>
 					</param>
 				</params>
-				<plain>"Open.. ID:%s",</plain>
+				<plain>"Open.. ID:%s\n",</plain>
 			</method>
 			<method>
 				<methodName>closeGripper</methodName>
+				<returnType>int</returnType>
 				<params>
 					<param>
 						<type>int</type>
 						<paramName>transactionID</paramName>
 					</param>
 				</params>
-				<plain>"Close.. ID:%s",</plain>
+				<plain>"Close.. ID:%s\n",</plain>
 			</method>
 		</methods>
 	</stub>
 	<stub>
-		<stubPackage>impl.stubs</stubPackage>
-		<skeletonPackage>impl.skeletons</skeletonPackage>
-		<interfacePackage>impl.interfaces</interfacePackage>
-		<interfaceName>IStatusRequests</interfaceName>
-		<stubName>StubStatusRequests</stubName>
-		<skeletonName>SkeletonStatusRequests</skeletonName>
+		<name>StatusRequests</name>
 		<fifo>statusRequest</fifo>
 		<methods>
 			<method>
 				<methodName>getHorizontalInPercent</methodName>
+				<returnType>int</returnType>
 				<params>
 					<param>
 						<type>int</type>
 						<paramName>transactionID</paramName>
 					</param>
 				</params>
-				<plain>"Ask for Horizontal Position.. ID:%s",</plain>
+				<plain>"Ask for Horizontal Position.. ID:%s\n",</plain>
 			</method>
 			<method>
 				<methodName>getVerticalInPercent</methodName>
+				<returnType>int</returnType>
 				<params>
 					<param>
 						<type>int</type>
 						<paramName>transactionID</paramName>
 					</param>
 				</params>
-				<plain>"Ask for Vertical Position.. ID:%s",</plain>
+				<plain>"Ask for Vertical Position.. ID:%s\n",</plain>
 			</method>
 			<method>
 				<methodName>getGripperStatus</methodName>
+				<returnType>String</returnType>
 				<params>
 					<param>
 						<type>int</type>
 						<paramName>transactionID</paramName>
 					</param>
 				</params>
-				<plain>"Ask for Gripper Status.. ID:%s",</plain>
-			</method>
-		</methods>
-	</stub>
-	<stub>
-		<stubPackage>impl.stubs</stubPackage>
-		<skeletonPackage>impl.skeletons</skeletonPackage>
-		<interfacePackage>impl.interfaces</interfacePackage>
-		<interfaceName>IStatusResponses</interfaceName>
-		<stubName>StubStatusResponses</stubName>
-		<skeletonName>SkeletonStatusResponses</skeletonName>
-		<fifo>statusResponse</fifo>
-		<methods>
-			<method>
-				<methodName>getHorizontalInPercent</methodName>
-				<params>
-					<param>
-						<type>int</type>
-						<paramName>transactionID</paramName>
-					</param>
-					<param>
-						<type>long</type>
-						<paramName>percent</paramName>
-					</param>
-				</params>
-				<plain>"Response for Horizontal Position.. ID:%s",</plain>
-			</method>
-			<method>
-				<methodName>getVerticalInPercent</methodName>
-				<params>
-					<param>
-						<type>int</type>
-						<paramName>transactionID</paramName>
-					</param>
-					<param>
-						<type>long</type>
-						<paramName>percent</paramName>
-					</param>
-				</params>
-				<plain>"Response for Vertical Position.. ID:%s",</plain>
-			</method>
-			<method>
-				<methodName>getGripperStatus</methodName>
-				<params>
-					<param>
-						<type>int</type>
-						<paramName>transactionID</paramName>
-					</param>
-					<param>
-						<type>String</type>
-						<paramName>gripperStatus</paramName>
-					</param>
-				</params>
-				<plain>"Response for Gripper Status.. ID:%s",</plain>
+				<plain>"Ask for Gripper Status.. ID:%s\n",</plain>
 			</method>
 		</methods>
 	</stub>

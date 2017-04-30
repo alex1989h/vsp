@@ -1,11 +1,14 @@
 package impl.client;
 import impl.interfaces.IVerticalMovements;
-import impl.robot.Robot;
+import impl.namespace.Namespace;
 import impl.xml.MyXML;
 import impl.xml.MyXMLObject;
 import impl.interfaces.IHorizontalMovements;
 import impl.factories.StubFactory;
 import impl.interfaces.IGripperActions;
+
+import java.net.InetAddress;
+
 import org.cads.ev3.gui.ICaDSRobotGUIUpdater;
 import org.cads.ev3.gui.swing.CaDSRobotGUISwing;
 import org.cads.ev3.rmi.consumer.ICaDSRMIConsumer;
@@ -18,7 +21,7 @@ import org.cads.ev3.rmi.generated.cadSRMIInterface.IIDLCaDSEV3RMIUltraSonic;
 public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMoveHorizontal, IIDLCaDSEV3RMIMoveVertical, IIDLCaDSEV3RMIUltraSonic, ICaDSRMIConsumer  {
 	private static int transactionsID = Integer.MIN_VALUE;
 	
-	public int getTransactionsID(){
+	public synchronized static int getTransactionsID(){
 		return transactionsID++;
 	}
 	
@@ -49,23 +52,23 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 				gui.addService((String) xml.getParamValues()[i]);
 				if (i == 0) {
 					gui.setChoosenService((String) xml.getParamValues()[i]);
-					Robot.setName((String) xml.getParamValues()[i]);
+					Namespace.setName((String) xml.getParamValues()[i]);
 				}
 
 			}
 		}
 	}
 	
-	public ClientKontroller(String ip, int port) throws Exception{
+	public ClientKontroller(String address, int port) throws Exception{
+		Broker.setAddress(InetAddress.getByName(address));
+		Broker.setPort(port);
+		
 		gui = new CaDSRobotGUISwing(this, this, this, this, this);
-		sender = new Sender(ip, port, "all");
-		new Sender(ip, port, "vertical").start();
-		new Sender(ip, port, "horizontal").start();
-		new Sender(ip, port, "gripper").start();
+		sender = new Sender();
 		vertical = StubFactory.getVerticalMovements();
 		horizontal = StubFactory.getHorizontalMovements();
 		gripper = StubFactory.getGripperActions();
-		new StatusController(ip, port, this).start();
+		new StatusController(gui).start();
 		lookup(gui);
 	}
 	
@@ -101,7 +104,7 @@ public class ClientKontroller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3R
 	@Override
 	public void update(String comboBoxText) {
 		System.out.println("Combo Box updated " + comboBoxText);
-		Robot.setName(comboBoxText);
+		Namespace.setName(comboBoxText);
 	}
 
 	@Override

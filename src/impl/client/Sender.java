@@ -8,43 +8,15 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
-import impl.factories.FiFoFactory;
-import impl.xml.MyXML;
-
-public class Sender extends Thread{
-	private FiFo fifo;
+public class Sender{
 	private DatagramSocket socket = null;
 	private int port;
 	private InetAddress ia;
 	
-	public Sender(String ip, int port, String fifoName) throws UnknownHostException, SocketException{
-		this.fifo = FiFoFactory.getFiFo(fifoName);
+	public Sender() throws UnknownHostException, SocketException{
 		this.socket = new DatagramSocket();
-		this.ia = InetAddress.getByName(ip);
-		this.port = port;
-	}
-	
-	private void send(DatagramPacket sendPacket){
-		byte[] buffer = new byte[1000];
-		DatagramPacket p = new DatagramPacket(buffer,buffer.length);
-		boolean received = false;
-		int counter = 1;
-		while (!received &&  counter <= 5) {
-			try {
-				socket.send(sendPacket);
-				socket.setSoTimeout(100);
-				Arrays.fill(buffer, (byte)0);
-				socket.receive(p);
-				System.out.println(MyXML.createXML(new String(p.getData()).trim()).getXMLTyp());
-				received = true;
-			} catch (IOException e) {
-				//e.printStackTrace();
-				System.out.println(counter++);
-			}
-		}
-		if(!received){
-			System.out.println("Service antwortet nicht");
-		}
+		this.ia = Broker.getAddress();
+		this.port = Broker.getPort();
 	}
 	
 	public byte[] send(byte[] send){
@@ -61,7 +33,6 @@ public class Sender extends Thread{
 				received = true;
 				return new String(p.getData()).trim().getBytes();
 			} catch (IOException e) {
-				//e.printStackTrace();
 				System.out.println(counter++);
 			}
 		}
@@ -70,25 +41,4 @@ public class Sender extends Thread{
 		}
 		return null;
 	}
-	
-	@Override
-	public void run() {
-		byte[] send = null;
-        try {
-            while(!isInterrupted()){
-            	send = fifo.dequeue();
-            	if(send != null){
-            		System.out.println(new String(send));
-            		send(new DatagramPacket(send,send.length,ia,port));
-            		send = null;
-            	}
-            }
-        } finally {
-            if (socket != null) {
-            socket.close();
-            System.out.println("Socket geschlossen...");
-			}
-            
-        }
-    }
 }
