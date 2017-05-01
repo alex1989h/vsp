@@ -51,7 +51,7 @@ public class Sender{
 		if(!received){
 			System.out.println("Service antwortet nicht");
 		}
-		return null;
+		return MyXML.getConnectError(MyXML.createXML(method));
 		
 	}
 }

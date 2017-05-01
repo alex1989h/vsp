@@ -82,4 +82,17 @@ public class MyXML {
 		}
 		return true;
 	}
+
+	public static byte[] getConnectError(MyXMLObject xml) {
+		switch (xml.getReturnType()) {
+		case "String":
+			return MyXML.createMethodResponse("ERROR").getBytes();
+		case "int":
+			return MyXML.createMethodResponse(-1).getBytes();
+		case "long":
+			return MyXML.createMethodResponse(-1L).getBytes();
+		default:
+			return null;
+		}
+	}
 }

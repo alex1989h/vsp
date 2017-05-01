@@ -30,6 +30,7 @@ public class %s extends Thread {
 			System.out.println(new String(b));
 			MyXMLObject xml = MyXML.createXML(b);
 %s
+			receiver.send((int)xml.getTransactionsID(),MyXML.getConnectError(xml));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

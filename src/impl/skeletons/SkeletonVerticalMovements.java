@@ -40,6 +40,7 @@ public class SkeletonVerticalMovements extends Thread {
 				}
 			}
 
+			receiver.send((int)xml.getTransactionsID(),MyXML.getConnectError(xml));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -6,6 +6,20 @@ import impl.stubs.StubStatusRequests;
 public class Status extends Thread {
 	private StubStatusRequests status = null;
 	private CaDSRobotGUISwing gui = null;
+	private static int errorCounter = 0;
+	
+	private synchronized void errorIncrease(){
+		errorCounter++;
+	}
+	
+	private static void resetErroCounter(){
+		errorCounter = 0;
+	}
+	
+	private boolean checkErrorCounter(){
+		if(errorCounter > 5)return true;
+		return false;
+	}
 	
 	public Status(CaDSRobotGUISwing gui) throws Exception {
 		this.status = new StubStatusRequests();
@@ -20,6 +34,10 @@ public class Status extends Thread {
 				getGripperStatus();
 				getHorizontalStatus();
 				getVerticalStatus();
+				if(checkErrorCounter()){
+					System.out.println("Shutdown Status Thread");
+					interrupt();
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -29,21 +47,35 @@ public class Status extends Thread {
 		String gripperStatus = status.getGripperStatus();
 		switch (gripperStatus) {
 		case "closed":
+			resetErroCounter();
 			gui.setGripperClosed();
 			break;
 		case "open":
+			resetErroCounter();
 			gui.setGripperOpen();
 			break;
 		default:
+			errorIncrease();
 			break;
 		}
 	}
 	private void getVerticalStatus() {
 		int percent = status.getVerticalInPercent();
-		gui.setVerticalProgressbar(percent);
+		if (percent < 0) {
+			errorIncrease();
+		}else{
+			resetErroCounter();
+			gui.setVerticalProgressbar(percent);
+		}
 	}
 	private void getHorizontalStatus() {
 		int percent = status.getHorizontalInPercent();
-		gui.setHorizontalProgressbar(percent);
+		if (percent < 0) {
+			errorIncrease();
+		}else{
+			resetErroCounter();
+			gui.setHorizontalProgressbar(percent);
+		}
+		
 	}
 }
