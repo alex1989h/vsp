@@ -2,7 +2,7 @@ package impl.models;
 
 import impl.client.FiFo;
 import impl.factories.FiFoFactory;
-import impl.interfaces.IHorizontalMovements;
+import rpc.interfaces.IHorizontalMovements;
 
 public class ModelHorizontalMovements implements IHorizontalMovements{
 	private FiFo fifo = null;

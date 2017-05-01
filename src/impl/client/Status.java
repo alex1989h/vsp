@@ -1,7 +1,7 @@
 package impl.client;
 
 import org.cads.ev3.gui.swing.CaDSRobotGUISwing;
-import impl.stubs.StubStatusRequests;
+import rpc.stubs.StubStatusRequests;
 
 public class Status extends Thread {
 	private StubStatusRequests status = null;

@@ -1,13 +1,15 @@
 package impl.client;
-import impl.interfaces.IVerticalMovements;
-import impl.namespace.Namespace;
-import impl.xml.MyXML;
-import impl.xml.MyXMLObject;
-import impl.interfaces.IHorizontalMovements;
-import impl.factories.StubFactory;
-import impl.interfaces.IGripperActions;
 
+import impl.factories.StubFactory;
 import java.net.InetAddress;
+
+import rpc.namespace.Namespace;
+import rpc.interfaces.IVerticalMovements;
+import rpc.xml.MyXML;
+import rpc.xml.MyXMLObject;
+import rpc.interfaces.IHorizontalMovements;
+import rpc.interfaces.IGripperActions;
+import rpc.communication.Sender;
 
 import org.cads.ev3.gui.ICaDSRobotGUIUpdater;
 import org.cads.ev3.gui.swing.CaDSRobotGUISwing;
@@ -60,8 +62,8 @@ public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMove
 	}
 	
 	public Controller(String address, int port) throws Exception{
-		Broker.setAddress(InetAddress.getByName(address));
-		Broker.setPort(port);
+		Sender.setAddress(InetAddress.getByName(address));
+		Sender.setPort(port);
 		
 		gui = new CaDSRobotGUISwing(this, this, this, this, this);
 		sender = new Sender();

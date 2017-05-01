@@ -6,12 +6,12 @@ import java.util.List;
 import org.cads.ev3.middleware.CaDSEV3RobotStudentImplementation;
 import org.cads.ev3.middleware.CaDSEV3RobotType;
 
-import impl.client.Broker;
 import impl.lego.LegoGripperActions;
 import impl.lego.LegoHorizontalMovements;
 import impl.lego.LegoVerticalMovements;
 import impl.models.*;
-import impl.skeletons.*;
+import rpc.skeletons.*;
+import rpc.communication.Receiver;
 
 public class Controller {
 
@@ -34,8 +34,8 @@ public class Controller {
 			System.out.println("Falsche Parameter Anzahl");
 			return;
 		}
-		Broker.setAddress(InetAddress.getByName(address));
-		Broker.setPort(port);
+		Receiver.setAddress(InetAddress.getByName(address));
+		Receiver.setPort(port);
 		
 		StatusMessage status = new StatusMessage();
 		CaDSEV3RobotStudentImplementation.createInstance(CaDSEV3RobotType.SIMULATION, status, status);

@@ -1,8 +1,0 @@
-			if(MyXML.testSignatur(xml, %s, namespace+".%s"%s)){
-				if (this.oldId < (int)xml.getTransactionsID()) {
-					this.oldId = (int)xml.getTransactionsID();
-					%s r = model.%s(%s);
-					receiver.send((int)xml.getTransactionsID(),MyXML.createMethodResponse(r).getBytes());
-					continue;
-				}
-			}

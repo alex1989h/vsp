@@ -1,0 +1,13 @@
+package %s;
+
+public class %s {
+	private static String name = "";
+
+	public static String getName() {
+		return name;
+	}
+
+	public static void setName(String name) {
+		%s.name = name;
+	}
+}

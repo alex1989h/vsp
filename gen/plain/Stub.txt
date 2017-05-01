@@ -2,16 +2,16 @@ package %s;
 
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import impl.client.Sender;
-import impl.interfaces.%s;
-import impl.namespace.Namespace;
-import impl.xml.MyXML;
+import %s.%s;
+import %s.%s;
+import %s.%s;
+import %s.%s;
 
 public class %s implements %s {
-	private Sender sender = null;
+	private %s sender = null;
 	
 	public %s()  throws UnknownHostException, SocketException {
-		sender = new Sender();
+		sender = new %s();
 	}
 		
 %s

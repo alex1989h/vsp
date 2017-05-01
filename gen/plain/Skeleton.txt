@@ -1,20 +1,20 @@
 package %s;
 
-import impl.interfaces.%s;
-import impl.xml.MyXML;
-import impl.xml.MyXMLObject;
-import impl.server.Receiver;
+import %s.%s;
+import %s.%s;
+import %s.%s;
+import %s.%s;
 
 public class %s extends Thread {
 	private %s model;
 	private String namespace;
 	private long oldId = Long.MIN_VALUE;
-	private Receiver receiver = null;
+	private %s receiver = null;
 	
 	public %s(%s model,String namespace) throws Exception {
 		this.model = model;
 		this.namespace = namespace;
-		this.receiver = new Receiver();
+		this.receiver = new %s();
 		String str;
 %s
 	}
@@ -28,9 +28,9 @@ public class %s extends Thread {
 			b = receiver.receive();
 			System.out.println("Message received");
 			System.out.println(new String(b));
-			MyXMLObject xml = MyXML.createXML(b);
+			%s xml = %s.createXML(b);
 %s
-			receiver.send((int)xml.getTransactionsID(),MyXML.getConnectError(xml));
+			receiver.send((int)xml.getTransactionsID(),%s.getConnectError(xml));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
