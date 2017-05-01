@@ -15,27 +15,27 @@ public class StubStatusRequests implements IStatusRequests {
 	}
 		
 	@Override
-	public int getHorizontalInPercent(int transactionID) {
-		System.out.format("Ask for Horizontal Position.. ID:%s\n",transactionID);
-		String str = MyXML.createMethodCall("int",Namespace.getName()+".getHorizontalInPercent", transactionID);
+	public int getHorizontalInPercent() {
+		System.out.format("Ask for Horizontal Position.. \n");
+		String str = MyXML.createMethodCall("int",Namespace.getName()+".getHorizontalInPercent");
 		byte[] reply = sender.send(str.getBytes());
-		return (int)MyXML.createXML(reply).getParamValues()[1];
+		return (int)MyXML.createXML(reply).getParamValues()[0];
 	}
 	
 	@Override
-	public int getVerticalInPercent(int transactionID) {
-		System.out.format("Ask for Vertical Position.. ID:%s\n",transactionID);
-		String str = MyXML.createMethodCall("int",Namespace.getName()+".getVerticalInPercent", transactionID);
+	public int getVerticalInPercent() {
+		System.out.format("Ask for Vertical Position.. \n");
+		String str = MyXML.createMethodCall("int",Namespace.getName()+".getVerticalInPercent");
 		byte[] reply = sender.send(str.getBytes());
-		return (int)MyXML.createXML(reply).getParamValues()[1];
+		return (int)MyXML.createXML(reply).getParamValues()[0];
 	}
 	
 	@Override
-	public String getGripperStatus(int transactionID) {
-		System.out.format("Ask for Gripper Status.. ID:%s\n",transactionID);
-		String str = MyXML.createMethodCall("String",Namespace.getName()+".getGripperStatus", transactionID);
+	public String getGripperStatus() {
+		System.out.format("Ask for Gripper Status.. \n");
+		String str = MyXML.createMethodCall("String",Namespace.getName()+".getGripperStatus");
 		byte[] reply = sender.send(str.getBytes());
-		return (String)MyXML.createXML(reply).getParamValues()[1];
+		return (String)MyXML.createXML(reply).getParamValues()[0];
 	}
 	
 

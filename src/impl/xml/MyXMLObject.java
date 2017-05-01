@@ -1,16 +1,17 @@
 package impl.xml;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 
 public class MyXMLObject {
-	Document document = null;
-	public MyXMLObject(Document document) {
+	Element document = null;
+	public MyXMLObject(Element document) {
 		this.document = document;
 	}
 	public String getXMLTyp(){
-		return document.getDocumentElement().getNodeName();
+		return document.getLastChild().getNodeName();
 	}
 	public String getMethodName(){
 		return document.getElementsByTagName("methodName").item(0).getTextContent();
@@ -28,6 +29,10 @@ public class MyXMLObject {
 			cl[i] = getParamType(nL.item(i));
 		}
 		return cl;
+	}
+	
+	public int getTransactionsID(){
+		return Integer.parseInt(document.getElementsByTagName("transactionsID").item(0).getTextContent());
 	}
 	
 	private String getParamType(Node node){

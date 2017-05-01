@@ -14,13 +14,13 @@ public class ModelGripperActions implements IGripperActions{
 	}
 
 	@Override
-	public int openGripper(int transactionID) {
+	public int openGripper() {
 		fifo.enqueue(open.getBytes());
 		return 0;
 	}
 
 	@Override
-	public int closeGripper(int transactionID) {
+	public int closeGripper() {
 		fifo.enqueue(close.getBytes());
 		return 0;
 	}

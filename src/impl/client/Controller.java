@@ -44,7 +44,7 @@ public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMove
 	}
 
 	void lookup(CaDSRobotGUISwing gui){
-		String send = "<?xml version=\"1.0\"?><getService></getService>";
+		String send = "<getService></getService>";
 		byte[] recei = sender.send(send.getBytes());
 		if (recei != null) {
 			MyXMLObject xml = MyXML.createXML(recei);
@@ -115,7 +115,7 @@ public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMove
 
 	@Override
 	public int moveVerticalToPercent(int transactionID, int percent) throws Exception {
-		vertical.moveVerticalToPercent(getTransactionsID(), percent);
+		vertical.moveVerticalToPercent(percent);
 		return 0;
 	}
 	
@@ -127,7 +127,7 @@ public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMove
 
 	@Override
 	public int moveHorizontalToPercent(int transactionID, int percent) throws Exception {
-		horizontal.moveHorizontalToPercent(getTransactionsID(), percent);
+		horizontal.moveHorizontalToPercent(percent);
 		return 0;
 	}
 	
@@ -145,13 +145,13 @@ public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMove
 
 	@Override
 	public int openGripper(int transactionID) throws Exception {
-        gripper.openGripper(getTransactionsID());
+        gripper.openGripper();
 		return 0;
 	}
 
 	@Override
 	public int closeGripper(int transactionID) throws Exception {
-		gripper.closeGripper(getTransactionsID());
+		gripper.closeGripper();
 		return 0;
 	}
 	

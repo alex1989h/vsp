@@ -26,7 +26,7 @@ public class Status extends Thread {
 		}
 	}
 	private void getGripperStatus() {
-		String gripperStatus = status.getGripperStatus(Controller.getTransactionsID());
+		String gripperStatus = status.getGripperStatus();
 		switch (gripperStatus) {
 		case "closed":
 			gui.setGripperClosed();
@@ -39,11 +39,11 @@ public class Status extends Thread {
 		}
 	}
 	private void getVerticalStatus() {
-		int percent = status.getVerticalInPercent(Controller.getTransactionsID());
+		int percent = status.getVerticalInPercent();
 		gui.setVerticalProgressbar(percent);
 	}
 	private void getHorizontalStatus() {
-		int percent = status.getHorizontalInPercent(Controller.getTransactionsID());
+		int percent = status.getHorizontalInPercent();
 		gui.setHorizontalProgressbar(percent);
 	}
 }

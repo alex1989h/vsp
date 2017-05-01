@@ -17,7 +17,6 @@ public class MyXML {
 		xml = "<returnType>"+returnType+"</returnType>"+xml;
 		xml = "<methodName>"+methodName+"</methodName>"+xml;
 		xml = "<methodCall>"+xml+"</methodCall>";
-		xml = "<?xml version=\"1.0\"?>"+xml;
 		return xml;
 	}
 	
@@ -28,8 +27,17 @@ public class MyXML {
 		}
 		xml = "<params>"+xml+"</params>";
 		xml = "<methodResponse>"+xml+"</methodResponse>";
-		xml = "<?xml version=\"1.0\"?>"+xml;
 		return xml;
+	}
+	
+	public static byte[] createPacket(int transactionsID, String input){
+		String sendTransactionsID = "<transactionsID>"+transactionsID+"</transactionsID>";
+		String packet ="<?xml version=\"1.0\"?><packet>"+sendTransactionsID+input+"</packet>";
+		return packet.getBytes();
+	}
+	
+	public static byte[] createPacket(int transactionsID, byte[] input){
+		return createPacket(transactionsID, new String(input));
 	}
 	
 	public static MyXMLObject createXML(byte[] input) {
@@ -40,7 +48,7 @@ public class MyXML {
 			try {
 				builder = factory.newDocumentBuilder();
 				document = (Document) builder.parse(new ByteArrayInputStream(input));
-				return new MyXMLObject(document);
+				return new MyXMLObject(document.getDocumentElement());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -6,12 +6,17 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Arrays;
 import impl.client.Broker;
+import impl.xml.MyXML;
 
 public class Receiver{
     private final DatagramSocket server;
     private InetAddress address;
     private int port;
-    
+    private static int transactionsID = Integer.MIN_VALUE;
+	public synchronized static int getTransactionsID(){
+		return transactionsID++;
+	}
+	
     public Receiver() throws IOException {
     	this.address = Broker.getAddress();
     	this.port = Broker.getPort();
@@ -26,13 +31,14 @@ public class Receiver{
 		System.out.println("Message received");
 		String send = new String(p.getData()).trim();
 		return send.getBytes();
-		// send = "<?xml
-		// version=\"1.0\"?><ACK><params><param><value><int>"+MyXML.createXML(send).getParamValues()[0]+"</int></value></param></params></ACK>";
-		// server.send(new
-		// DatagramPacket(send.getBytes(),send.length(),p.getAddress(),p.getPort()));
 	}
     
+    public void send(int transactionsID,byte[] message) throws Exception {
+    	byte[] send = MyXML.createPacket(transactionsID, message);
+    	server.send(new DatagramPacket(send, send.length,address,port));
+    }
+    
     public void send(byte[] message) throws Exception {
-    	server.send(new DatagramPacket(message, message.length,address,port));
+    	send(getTransactionsID(),message);
     }
 } 

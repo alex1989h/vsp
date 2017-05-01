@@ -10,7 +10,7 @@ public class ModelVerticalMovements implements IVerticalMovements {
 		fifo = FiFoFactory.getFiFo("vertical");
 	}
 	@Override
-	public int moveVerticalToPercent(int transactionID, int percent) {
+	public int moveVerticalToPercent(int percent) {
 		fifo.enqueue((""+percent).getBytes());
 		return 0;
 	}

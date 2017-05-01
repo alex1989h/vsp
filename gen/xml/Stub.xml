@@ -10,14 +10,10 @@
 				<params>
 					<param>
 						<type>int</type>
-						<paramName>transactionID</paramName>
-					</param>
-					<param>
-						<type>int</type>
 						<paramName>percent</paramName>
 					</param>
 				</params>
-				<plain>"Move vertical.. ID:%s percent:%s\n",</plain>
+				<plain>"Move vertical.. Percent:%s\n"</plain>
 			</method>
 		</methods>
 	</stub>
@@ -31,14 +27,10 @@
 				<params>
 					<param>
 						<type>int</type>
-						<paramName>transactionID</paramName>
-					</param>
-					<param>
-						<type>int</type>
 						<paramName>percent</paramName>
 					</param>
 				</params>
-				<plain>"Move horizontal.. ID:%s percent:%s\n",</plain>
+				<plain>"Move horizontal.. Percent:%s\n"</plain>
 			</method>
 		</methods>
 	</stub>
@@ -50,23 +42,15 @@
 				<methodName>openGripper</methodName>
 				<returnType>int</returnType>
 				<params>
-					<param>
-						<type>int</type>
-						<paramName>transactionID</paramName>
-					</param>
 				</params>
-				<plain>"Open.. ID:%s\n",</plain>
+				<plain>"Open.. \n"</plain>
 			</method>
 			<method>
 				<methodName>closeGripper</methodName>
 				<returnType>int</returnType>
 				<params>
-					<param>
-						<type>int</type>
-						<paramName>transactionID</paramName>
-					</param>
 				</params>
-				<plain>"Close.. ID:%s\n",</plain>
+				<plain>"Close.. \n"</plain>
 			</method>
 		</methods>
 	</stub>
@@ -78,34 +62,22 @@
 				<methodName>getHorizontalInPercent</methodName>
 				<returnType>int</returnType>
 				<params>
-					<param>
-						<type>int</type>
-						<paramName>transactionID</paramName>
-					</param>
 				</params>
-				<plain>"Ask for Horizontal Position.. ID:%s\n",</plain>
+				<plain>"Ask for Horizontal Position.. \n"</plain>
 			</method>
 			<method>
 				<methodName>getVerticalInPercent</methodName>
 				<returnType>int</returnType>
 				<params>
-					<param>
-						<type>int</type>
-						<paramName>transactionID</paramName>
-					</param>
 				</params>
-				<plain>"Ask for Vertical Position.. ID:%s\n",</plain>
+				<plain>"Ask for Vertical Position.. \n"</plain>
 			</method>
 			<method>
 				<methodName>getGripperStatus</methodName>
 				<returnType>String</returnType>
 				<params>
-					<param>
-						<type>int</type>
-						<paramName>transactionID</paramName>
-					</param>
 				</params>
-				<plain>"Ask for Gripper Status.. ID:%s\n",</plain>
+				<plain>"Ask for Gripper Status.. \n"</plain>
 			</method>
 		</methods>
 	</stub>

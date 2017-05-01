@@ -15,11 +15,11 @@ public class StubVerticalMovements implements IVerticalMovements {
 	}
 		
 	@Override
-	public int moveVerticalToPercent(int transactionID, int percent) {
-		System.out.format("Move vertical.. ID:%s percent:%s\n",transactionID, percent);
-		String str = MyXML.createMethodCall("int",Namespace.getName()+".moveVerticalToPercent", transactionID, percent);
+	public int moveVerticalToPercent(int percent) {
+		System.out.format("Move vertical.. Percent:%s\n", percent);
+		String str = MyXML.createMethodCall("int",Namespace.getName()+".moveVerticalToPercent", percent);
 		byte[] reply = sender.send(str.getBytes());
-		return (int)MyXML.createXML(reply).getParamValues()[1];
+		return (int)MyXML.createXML(reply).getParamValues()[0];
 	}
 	
 

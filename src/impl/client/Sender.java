@@ -8,10 +8,17 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
+import impl.xml.MyXML;
+
 public class Sender{
 	private DatagramSocket socket = null;
 	private int port;
 	private InetAddress ia;
+	private static int transactionsID = Integer.MIN_VALUE;
+	
+	public synchronized static int getTransactionsID(){
+		return transactionsID++;
+	}
 	
 	public Sender() throws UnknownHostException, SocketException{
 		this.socket = new DatagramSocket();
@@ -19,11 +26,16 @@ public class Sender{
 		this.port = Broker.getPort();
 	}
 	
-	public byte[] send(byte[] send){
+	public byte[] send(byte[] method){
+		return send(getTransactionsID(), method);
+	}
+	
+	public byte[] send(int transactionsID, byte[] method){
 		byte[] buffer = new byte[1000];
 		DatagramPacket p = new DatagramPacket(buffer,buffer.length);
 		boolean received = false;
 		int counter = 1;
+		byte[] send = MyXML.createPacket(transactionsID, method);
 		while (!received &&  counter <= 5) {
 			try {
 				socket.send(new DatagramPacket(send, send.length,ia,port));
@@ -40,5 +52,6 @@ public class Sender{
 			System.out.println("Service antwortet nicht");
 		}
 		return null;
+		
 	}
 }

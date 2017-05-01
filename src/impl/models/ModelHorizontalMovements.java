@@ -10,7 +10,7 @@ public class ModelHorizontalMovements implements IHorizontalMovements{
 		fifo = FiFoFactory.getFiFo("horizontal");
 	}
 	@Override
-	public int moveHorizontalToPercent(int transactionID, int percent) {
+	public int moveHorizontalToPercent(int percent) {
 		fifo.enqueue((""+percent).getBytes());
 		return 0;
 	}

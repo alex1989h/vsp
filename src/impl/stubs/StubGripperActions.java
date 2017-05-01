@@ -15,19 +15,19 @@ public class StubGripperActions implements IGripperActions {
 	}
 		
 	@Override
-	public int openGripper(int transactionID) {
-		System.out.format("Open.. ID:%s\n",transactionID);
-		String str = MyXML.createMethodCall("int",Namespace.getName()+".openGripper", transactionID);
+	public int openGripper() {
+		System.out.format("Open.. \n");
+		String str = MyXML.createMethodCall("int",Namespace.getName()+".openGripper");
 		byte[] reply = sender.send(str.getBytes());
-		return (int)MyXML.createXML(reply).getParamValues()[1];
+		return (int)MyXML.createXML(reply).getParamValues()[0];
 	}
 	
 	@Override
-	public int closeGripper(int transactionID) {
-		System.out.format("Close.. ID:%s\n",transactionID);
-		String str = MyXML.createMethodCall("int",Namespace.getName()+".closeGripper", transactionID);
+	public int closeGripper() {
+		System.out.format("Close.. \n");
+		String str = MyXML.createMethodCall("int",Namespace.getName()+".closeGripper");
 		byte[] reply = sender.send(str.getBytes());
-		return (int)MyXML.createXML(reply).getParamValues()[1];
+		return (int)MyXML.createXML(reply).getParamValues()[0];
 	}
 	
 

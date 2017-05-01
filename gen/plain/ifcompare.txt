@@ -1,8 +1,8 @@
-			if(MyXML.testSignatur(xml, %s, namespace+".%s", %s)){
-				if (this.oldId < (int)xml.getParamValues()[0]) {
-					this.oldId = (int)xml.getParamValues()[0];
+			if(MyXML.testSignatur(xml, %s, namespace+".%s"%s)){
+				if (this.oldId < (int)xml.getTransactionsID()) {
+					this.oldId = (int)xml.getTransactionsID();
 					%s r = model.%s(%s);
-					receiver.send(MyXML.createMethodResponse((int)this.oldId,r).getBytes());
+					receiver.send((int)xml.getTransactionsID(),MyXML.createMethodResponse(r).getBytes());
 					continue;
 				}
 			}

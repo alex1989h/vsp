@@ -28,17 +28,17 @@ public class ModelStatusRequests implements IStatusRequests, IStatusMessage {
 	}
 
 	@Override
-	public int getHorizontalInPercent(int transactionID) {
+	public int getHorizontalInPercent() {
 		return (int)horizontal;
 	}
 
 	@Override
-	public int getVerticalInPercent(int transactionID) {
+	public int getVerticalInPercent() {
 		return (int)vertical;
 	}
 
 	@Override
-	public String getGripperStatus(int transactionID) {
+	public String getGripperStatus() {
 		return gripper;
 	}
 

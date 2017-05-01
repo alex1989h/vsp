@@ -63,14 +63,14 @@ public class NameServer extends Thread{
 			aAP = hashMap.get(xml.getMethodName());
 			if(aAP!= null){
 				server.send(new DatagramPacket(message.getData(),message.getLength(),aAP.getAddress(),aAP.getPort()));
-				reply.put((Integer)xml.getParamValues()[0], new AddressAndPort(message.getAddress(), message.getPort()));
+				reply.put((Integer)xml.getTransactionsID(), new AddressAndPort(message.getAddress(), message.getPort()));
 			}
 			break;
 		case "methodResponse":
-			aAP = reply.get((Integer)xml.getParamValues()[0]);
+			aAP = reply.get((Integer)xml.getTransactionsID());
 			if(aAP != null){
 				server.send(new DatagramPacket(message.getData(),message.getLength(),aAP.getAddress(),aAP.getPort()));
-				reply.remove((Integer)xml.getParamValues()[0]);
+				reply.remove((Integer)xml.getTransactionsID());
 			}
 			break;
 		default:

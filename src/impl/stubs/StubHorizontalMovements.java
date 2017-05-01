@@ -15,11 +15,11 @@ public class StubHorizontalMovements implements IHorizontalMovements {
 	}
 		
 	@Override
-	public int moveHorizontalToPercent(int transactionID, int percent) {
-		System.out.format("Move horizontal.. ID:%s percent:%s\n",transactionID, percent);
-		String str = MyXML.createMethodCall("int",Namespace.getName()+".moveHorizontalToPercent", transactionID, percent);
+	public int moveHorizontalToPercent(int percent) {
+		System.out.format("Move horizontal.. Percent:%s\n", percent);
+		String str = MyXML.createMethodCall("int",Namespace.getName()+".moveHorizontalToPercent", percent);
 		byte[] reply = sender.send(str.getBytes());
-		return (int)MyXML.createXML(reply).getParamValues()[1];
+		return (int)MyXML.createXML(reply).getParamValues()[0];
 	}
 	
 

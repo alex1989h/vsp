@@ -62,13 +62,11 @@ public class Generator {
 					String paramName = paramElement.getElementsByTagName("paramName").item(0).getTextContent();
 					if(k > 0){
 						parameterliste+=", ";
-						parameterlisteOneTyp+=", ";
-						ifParam+=", ";
 						xmlParam+=", ";
 					}
 					parameterliste+=type+" "+paramName;
-					parameterlisteOneTyp+=paramName;
-					ifParam+="\""+type+"\"";
+					parameterlisteOneTyp+=", "+paramName;
+					ifParam+=", \""+type+"\"";
 					xmlParam+="("+type+")"+"xml.getParamValues()["+k+"]";
 				}
 				String plainText = readPlainText("gen/plain/PublicMethod.txt");
