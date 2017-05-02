@@ -122,7 +122,7 @@ public class Generator {
 		String nameServerString = String.format(plainText,nameServePackage,xmlPackage,myXMLName,xmlPackage,myXMLObjectName,nameServerName,nameServerName,myXMLObjectName,myXMLName,nameServerName,nameServerName);
 		
 		plainText = readPlainText("gen/plain/Namespace.txt");
-		String namespaceString = String.format(plainText,namespacePackage,namespaceName,namespaceName);
+		String namespaceString = String.format(plainText,namespacePackage,communicationPackage,senderName,xmlPackage,myXMLName,xmlPackage,myXMLObjectName,namespaceName,namespaceName,senderName,senderName,myXMLObjectName,myXMLName);
 		
 		createFile("src/"+communicationPackage.replaceAll("\\.", "/"),senderName,senderString);
 		createFile("src/"+communicationPackage.replaceAll("\\.", "/"),receiverName,receiverString);

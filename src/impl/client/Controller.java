@@ -5,8 +5,6 @@ import java.net.InetAddress;
 
 import rpc.namespace.Namespace;
 import rpc.interfaces.IVerticalMovements;
-import rpc.xml.MyXML;
-import rpc.xml.MyXMLObject;
 import rpc.interfaces.IHorizontalMovements;
 import rpc.interfaces.IGripperActions;
 import rpc.communication.Sender;
@@ -38,7 +36,6 @@ public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMove
 	private IVerticalMovements vertical = null;
 	private IHorizontalMovements horizontal = null;
 	private IGripperActions gripper = null;
-	private Sender sender = null;
 	private CaDSRobotGUISwing gui = null;
 	
 	public CaDSRobotGUISwing getGui() {
@@ -46,18 +43,13 @@ public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMove
 	}
 
 	void lookup(CaDSRobotGUISwing gui){
-		String send = "<getService></getService>";
-		byte[] recei = sender.send(send.getBytes());
-		if (recei != null) {
-			MyXMLObject xml = MyXML.createXML(recei);
-			for (int i = 0; i < xml.getParamValues().length; i++) {
-				gui.addService((String) xml.getParamValues()[i]);
-				if (i == 0) {
-					gui.setChoosenService((String) xml.getParamValues()[i]);
-					Namespace.setName((String) xml.getParamValues()[i]);
-				}
-
+		String[] namespaces = Namespace.lookup();
+		if (namespaces != null) {
+			for (int i = 0; i < namespaces.length; i++) {
+				gui.addService(namespaces[i]);
 			}
+			gui.setChoosenService(namespaces[0]);
+			Namespace.setName(namespaces[0]);
 		}
 	}
 	
@@ -66,7 +58,6 @@ public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMove
 		Sender.setPort(port);
 		
 		gui = new CaDSRobotGUISwing(this, this, this, this, this);
-		sender = new Sender();
 		vertical = StubFactory.getVerticalMovements();
 		horizontal = StubFactory.getHorizontalMovements();
 		gripper = StubFactory.getGripperActions();
