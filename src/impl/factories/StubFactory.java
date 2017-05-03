@@ -12,6 +12,7 @@ public class StubFactory {
 	static IVerticalMovements vertical;
 	static IHorizontalMovements horizontal;
 	static IGripperActions gripper;
+	static IStatusRequests status;
 	
 	public static IVerticalMovements getVerticalMovements() throws UnknownHostException, SocketException{
 		vertical = new StubVerticalMovements();
@@ -26,5 +27,10 @@ public class StubFactory {
 	public static IGripperActions getGripperActions() throws UnknownHostException, SocketException{
 		gripper = new StubGripperActions();
 		return gripper;
+	}
+	
+	public static IStatusRequests getStatusRequests() throws UnknownHostException, SocketException{
+		status = new StubStatusRequests();
+		return status;
 	}
 }

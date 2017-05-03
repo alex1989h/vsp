@@ -1,10 +1,12 @@
 package impl.client;
 
 import org.cads.ev3.gui.swing.CaDSRobotGUISwing;
-import rpc.stubs.StubStatusRequests;
+
+import impl.factories.StubFactory;
+import rpc.interfaces.IStatusRequests;
 
 public class Status extends Thread {
-	private StubStatusRequests status = null;
+	private IStatusRequests status = null;
 	private CaDSRobotGUISwing gui = null;
 	private static int errorCounter = 0;
 	
@@ -22,7 +24,7 @@ public class Status extends Thread {
 	}
 	
 	public Status(CaDSRobotGUISwing gui) throws Exception {
-		this.status = new StubStatusRequests();
+		this.status = StubFactory.getStatusRequests();
 		this.gui = gui;
 	}
 	
