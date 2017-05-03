@@ -2,7 +2,7 @@ package impl.models;
 
 import impl.client.FiFo;
 import impl.factories.FiFoFactory;
-import rpc.interfaces.IGripperActions;
+import rmi.interfaces.IGripperActions;
 
 public class ModelGripperActions implements IGripperActions{
 	private FiFo fifo = null;

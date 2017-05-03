@@ -2,7 +2,7 @@ package impl.models;
 
 import org.json.simple.JSONObject;
 
-import rpc.interfaces.IStatusRequests;
+import rmi.interfaces.IStatusRequests;
 
 public class ModelStatusRequests implements IStatusRequests, IStatusMessage {
 	

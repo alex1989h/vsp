@@ -1,9 +1,9 @@
-package rpc.skeletons;
+package rmi.skeletons;
 
-import rpc.interfaces.IGripperActions;
-import rpc.xml.MyXML;
-import rpc.xml.MyXMLObject;
-import rpc.communication.Receiver;
+import rmi.interfaces.IGripperActions;
+import rmi.xml.MyXML;
+import rmi.xml.MyXMLObject;
+import rmi.communication.Receiver;
 
 public class SkeletonGripperActions extends Thread {
 	private IGripperActions model;

@@ -3,7 +3,7 @@ package impl.client;
 import org.cads.ev3.gui.swing.CaDSRobotGUISwing;
 
 import impl.factories.StubFactory;
-import rpc.interfaces.IStatusRequests;
+import rmi.interfaces.IStatusRequests;
 
 public class Status extends Thread {
 	private IStatusRequests status = null;

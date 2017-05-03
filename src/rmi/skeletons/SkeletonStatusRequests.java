@@ -1,9 +1,9 @@
-package rpc.skeletons;
+package rmi.skeletons;
 
-import rpc.interfaces.IStatusRequests;
-import rpc.xml.MyXML;
-import rpc.xml.MyXMLObject;
-import rpc.communication.Receiver;
+import rmi.interfaces.IStatusRequests;
+import rmi.xml.MyXML;
+import rmi.xml.MyXMLObject;
+import rmi.communication.Receiver;
 
 public class SkeletonStatusRequests extends Thread {
 	private IStatusRequests model;

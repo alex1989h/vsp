@@ -1,4 +1,4 @@
-package rpc.communication;
+package rmi.communication;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -8,7 +8,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
-import rpc.xml.MyXML;
+import rmi.xml.MyXML;
 
 public class Sender{
 	private DatagramSocket socket = null;

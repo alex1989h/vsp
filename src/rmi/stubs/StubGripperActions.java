@@ -1,11 +1,11 @@
-package rpc.stubs;
+package rmi.stubs;
 
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import rpc.communication.Sender;
-import rpc.interfaces.IGripperActions;
-import rpc.namespace.Namespace;
-import rpc.xml.MyXML;
+import rmi.communication.Sender;
+import rmi.interfaces.IGripperActions;
+import rmi.namespace.Namespace;
+import rmi.xml.MyXML;
 
 public class StubGripperActions implements IGripperActions {
 	private Sender sender = null;

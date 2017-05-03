@@ -1,4 +1,4 @@
-package rpc.xml;
+package rmi.xml;
 
 import java.io.ByteArrayInputStream;
 import javax.xml.parsers.DocumentBuilder;

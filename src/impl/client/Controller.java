@@ -3,11 +3,11 @@ package impl.client;
 import impl.factories.StubFactory;
 import java.net.InetAddress;
 
-import rpc.namespace.Namespace;
-import rpc.interfaces.IVerticalMovements;
-import rpc.interfaces.IHorizontalMovements;
-import rpc.interfaces.IGripperActions;
-import rpc.communication.Sender;
+import rmi.namespace.Namespace;
+import rmi.interfaces.IVerticalMovements;
+import rmi.interfaces.IHorizontalMovements;
+import rmi.interfaces.IGripperActions;
+import rmi.communication.Sender;
 
 import org.cads.ev3.gui.ICaDSRobotGUIUpdater;
 import org.cads.ev3.gui.swing.CaDSRobotGUISwing;

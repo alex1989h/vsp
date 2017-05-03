@@ -2,7 +2,7 @@ package impl.models;
 
 import impl.client.FiFo;
 import impl.factories.FiFoFactory;
-import rpc.interfaces.IVerticalMovements;
+import rmi.interfaces.IVerticalMovements;
 
 public class ModelVerticalMovements implements IVerticalMovements {
 	private FiFo fifo = null;

@@ -10,8 +10,8 @@ import impl.lego.LegoGripperActions;
 import impl.lego.LegoHorizontalMovements;
 import impl.lego.LegoVerticalMovements;
 import impl.models.*;
-import rpc.skeletons.*;
-import rpc.communication.Receiver;
+import rmi.skeletons.*;
+import rmi.communication.Receiver;
 
 public class Controller {
 

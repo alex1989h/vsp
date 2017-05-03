@@ -1,4 +1,4 @@
-package rpc.generator;
+package rmi.generator;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -34,13 +34,13 @@ public class Generator {
 		String nameServerName = "NameServer";
 		String namespaceName = "Namespace";
 		
-		String communicationPackage = "rpc.communication";
-		String stubPackage = "rpc.stubs";
-		String interfacePackage = "rpc.interfaces";
-		String skeletonPackage = "rpc.skeletons";
-		String xmlPackage = "rpc.xml";
-		String nameServePackage = "rpc.nameserver";
-		String namespacePackage = "rpc.namespace";
+		String communicationPackage = "rmi.communication";
+		String stubPackage = "rmi.stubs";
+		String interfacePackage = "rmi.interfaces";
+		String skeletonPackage = "rmi.skeletons";
+		String xmlPackage = "rmi.xml";
+		String nameServePackage = "rmi.nameserver";
+		String namespacePackage = "rmi.namespace";
 		
 		NodeList stubList = document.getElementsByTagName("stub");
 		for (int i = 0; i < stubList.getLength(); i++) {

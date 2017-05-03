@@ -1,11 +1,11 @@
-package rpc.communication;
+package rmi.communication;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Arrays;
-import rpc.xml.MyXML;
+import rmi.xml.MyXML;
 
 public class Receiver {
 	private final DatagramSocket server;

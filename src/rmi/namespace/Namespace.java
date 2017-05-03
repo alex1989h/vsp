@@ -1,11 +1,11 @@
-package rpc.namespace;
+package rmi.namespace;
 
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import rpc.communication.Sender;
-import rpc.xml.MyXML;
-import rpc.xml.MyXMLObject;
+import rmi.communication.Sender;
+import rmi.xml.MyXML;
+import rmi.xml.MyXMLObject;
 
 public class Namespace {
 	private static String name = "";

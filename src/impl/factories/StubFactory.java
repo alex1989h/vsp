@@ -3,8 +3,8 @@ package impl.factories;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import rpc.interfaces.*;
-import rpc.stubs.*;
+import rmi.interfaces.*;
+import rmi.stubs.*;
 
 public class StubFactory {
 	private StubFactory() {

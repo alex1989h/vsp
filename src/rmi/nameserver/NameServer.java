@@ -1,4 +1,4 @@
-package rpc.nameserver;
+package rmi.nameserver;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import rpc.xml.MyXML;
-import rpc.xml.MyXMLObject;
+import rmi.xml.MyXML;
+import rmi.xml.MyXMLObject;
 
 public class NameServer extends Thread{
 	private HashMap<String,AddressAndPort> hashMap = null;

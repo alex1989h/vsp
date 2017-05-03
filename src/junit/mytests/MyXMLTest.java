@@ -1,8 +1,8 @@
 package junit.mytests;
 import org.junit.Test;
 
-import rpc.xml.MyXML;
-import rpc.xml.MyXMLObject;
+import rmi.xml.MyXML;
+import rmi.xml.MyXMLObject;
 
 public class MyXMLTest {
 

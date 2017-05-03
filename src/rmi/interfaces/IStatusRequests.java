@@ -1,4 +1,4 @@
-package rpc.interfaces;
+package rmi.interfaces;
 
 public interface IStatusRequests{
 	public int getHorizontalInPercent();
