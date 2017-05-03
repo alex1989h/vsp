@@ -16,7 +16,7 @@ public class StubGripperActions implements IGripperActions {
 		
 	@Override
 	public int openGripper() {
-		System.out.format("Open.. \n");
+		System.out.println("Open.. ");
 		String str = MyXML.createMethodCall("int",Namespace.getName()+".openGripper");
 		byte[] reply = sender.send(str.getBytes());
 		return (int)MyXML.createXML(reply).getParamValues()[0];
@@ -24,7 +24,7 @@ public class StubGripperActions implements IGripperActions {
 	
 	@Override
 	public int closeGripper() {
-		System.out.format("Close.. \n");
+		System.out.println("Close.. ");
 		String str = MyXML.createMethodCall("int",Namespace.getName()+".closeGripper");
 		byte[] reply = sender.send(str.getBytes());
 		return (int)MyXML.createXML(reply).getParamValues()[0];

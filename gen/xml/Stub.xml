@@ -13,7 +13,7 @@
 						<paramName>percent</paramName>
 					</param>
 				</params>
-				<plain>"Move vertical.. Percent:%s\n"</plain>
+				<plain>"Move vertical.. "</plain>
 			</method>
 		</methods>
 	</stub>
@@ -30,7 +30,7 @@
 						<paramName>percent</paramName>
 					</param>
 				</params>
-				<plain>"Move horizontal.. Percent:%s\n"</plain>
+				<plain>"Move horizontal.. "</plain>
 			</method>
 		</methods>
 	</stub>
@@ -43,14 +43,14 @@
 				<returnType>int</returnType>
 				<params>
 				</params>
-				<plain>"Open.. \n"</plain>
+				<plain>"Open.. "</plain>
 			</method>
 			<method>
 				<methodName>closeGripper</methodName>
 				<returnType>int</returnType>
 				<params>
 				</params>
-				<plain>"Close.. \n"</plain>
+				<plain>"Close.. "</plain>
 			</method>
 		</methods>
 	</stub>
@@ -63,21 +63,21 @@
 				<returnType>int</returnType>
 				<params>
 				</params>
-				<plain>"Ask for Horizontal Position.. \n"</plain>
+				<plain>"Ask for Horizontal Position.. "</plain>
 			</method>
 			<method>
 				<methodName>getVerticalInPercent</methodName>
 				<returnType>int</returnType>
 				<params>
 				</params>
-				<plain>"Ask for Vertical Position.. \n"</plain>
+				<plain>"Ask for Vertical Position.. "</plain>
 			</method>
 			<method>
 				<methodName>getGripperStatus</methodName>
 				<returnType>String</returnType>
 				<params>
 				</params>
-				<plain>"Ask for Gripper Status.. \n"</plain>
+				<plain>"Ask for Gripper Status.. "</plain>
 			</method>
 		</methods>
 	</stub>

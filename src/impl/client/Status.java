@@ -1,13 +1,13 @@
 package impl.client;
 
-import org.cads.ev3.gui.swing.CaDSRobotGUISwing;
+import org.cads.ev3.gui.ICaDSRobotGUIUpdater;
 
 import impl.factories.StubFactory;
 import rmi.interfaces.IStatusRequests;
 
 public class Status extends Thread {
 	private IStatusRequests status = null;
-	private CaDSRobotGUISwing gui = null;
+	private ICaDSRobotGUIUpdater gui = null;
 	private static int errorCounter = 0;
 	
 	private synchronized void errorIncrease(){
@@ -23,28 +23,36 @@ public class Status extends Thread {
 		return false;
 	}
 	
-	public Status(CaDSRobotGUISwing gui) throws Exception {
+	public Status() throws Exception {
 		this.status = StubFactory.getStatusRequests();
-		this.gui = gui;
+	}
+	
+	public void register(ICaDSRobotGUIUpdater observer) {
+		gui = observer;
 	}
 	
 	@Override
 	public void run() {
-		while (!isInterrupted()) {
-			try {
-				sleep(500);
-				getGripperStatus();
-				getHorizontalStatus();
-				getVerticalStatus();
-				if(checkErrorCounter()){
-					System.out.println("Shutdown Status Thread");
-					interrupt();
+		if (gui != null) {
+			while (!isInterrupted()) {
+				try {
+					sleep(500);
+					getGripperStatus();
+					getHorizontalStatus();
+					getVerticalStatus();
+					if (checkErrorCounter()) {
+						System.out.println("Shutdown Status Thread");
+						interrupt();
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
 			}
+		} else {
+			System.out.println("GUI not found");
 		}
 	}
+
 	private void getGripperStatus() {
 		String gripperStatus = status.getGripperStatus();
 		switch (gripperStatus) {

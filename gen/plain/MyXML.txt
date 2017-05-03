@@ -32,7 +32,7 @@ public class %s {
 	
 	public static byte[] createPacket(int transactionsID, String input){
 		String sendTransactionsID = "<transactionsID>"+transactionsID+"</transactionsID>";
-		String packet ="<?xml version=\"1.0\"?><packet>"+sendTransactionsID+input+"</packet>";
+		String packet ="<?xml version=\"1.0\" encoding=\"UTF-8\"?><packet>"+sendTransactionsID+input+"</packet>";
 		return packet.getBytes();
 	}
 	

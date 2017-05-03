@@ -16,7 +16,7 @@ public class StubHorizontalMovements implements IHorizontalMovements {
 		
 	@Override
 	public int moveHorizontalToPercent(int percent) {
-		System.out.format("Move horizontal.. Percent:%s\n", percent);
+		System.out.println("Move horizontal.. ");
 		String str = MyXML.createMethodCall("int",Namespace.getName()+".moveHorizontalToPercent", percent);
 		byte[] reply = sender.send(str.getBytes());
 		return (int)MyXML.createXML(reply).getParamValues()[0];

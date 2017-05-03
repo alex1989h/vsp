@@ -33,8 +33,8 @@ public class SkeletonStatusRequests extends Thread {
 			System.out.println("Wait for Message");
 			b = receiver.receive();
 			System.out.println("Message received");
-			System.out.println(new String(b));
 			MyXMLObject xml = MyXML.createXML(b);
+			xml.print();
 			if(MyXML.testSignatur(xml, "int", namespace+".getHorizontalInPercent")){
 				if (this.oldId < (int)xml.getTransactionsID()) {
 					this.oldId = (int)xml.getTransactionsID();

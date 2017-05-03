@@ -16,7 +16,7 @@ public class StubStatusRequests implements IStatusRequests {
 		
 	@Override
 	public int getHorizontalInPercent() {
-		System.out.format("Ask for Horizontal Position.. \n");
+		System.out.println("Ask for Horizontal Position.. ");
 		String str = MyXML.createMethodCall("int",Namespace.getName()+".getHorizontalInPercent");
 		byte[] reply = sender.send(str.getBytes());
 		return (int)MyXML.createXML(reply).getParamValues()[0];
@@ -24,7 +24,7 @@ public class StubStatusRequests implements IStatusRequests {
 	
 	@Override
 	public int getVerticalInPercent() {
-		System.out.format("Ask for Vertical Position.. \n");
+		System.out.println("Ask for Vertical Position.. ");
 		String str = MyXML.createMethodCall("int",Namespace.getName()+".getVerticalInPercent");
 		byte[] reply = sender.send(str.getBytes());
 		return (int)MyXML.createXML(reply).getParamValues()[0];
@@ -32,7 +32,7 @@ public class StubStatusRequests implements IStatusRequests {
 	
 	@Override
 	public String getGripperStatus() {
-		System.out.format("Ask for Gripper Status.. \n");
+		System.out.println("Ask for Gripper Status.. ");
 		String str = MyXML.createMethodCall("String",Namespace.getName()+".getGripperStatus");
 		byte[] reply = sender.send(str.getBytes());
 		return (String)MyXML.createXML(reply).getParamValues()[0];

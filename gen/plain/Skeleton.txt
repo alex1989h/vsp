@@ -27,8 +27,8 @@ public class %s extends Thread {
 			System.out.println("Wait for Message");
 			b = receiver.receive();
 			System.out.println("Message received");
-			System.out.println(new String(b));
 			%s xml = %s.createXML(b);
+			xml.print();
 %s
 			receiver.send((int)xml.getTransactionsID(),%s.getConnectError(xml));
 			} catch (Exception e) {

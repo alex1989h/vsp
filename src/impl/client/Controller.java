@@ -1,8 +1,6 @@
 package impl.client;
 
 import impl.factories.StubFactory;
-import java.net.InetAddress;
-
 import rmi.namespace.Namespace;
 import rmi.interfaces.IVerticalMovements;
 import rmi.interfaces.IHorizontalMovements;
@@ -36,62 +34,27 @@ public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMove
 	private IVerticalMovements vertical = null;
 	private IHorizontalMovements horizontal = null;
 	private IGripperActions gripper = null;
-	private CaDSRobotGUISwing gui = null;
+	private ICaDSRobotGUIUpdater gui = null;
 	
-	public CaDSRobotGUISwing getGui() {
-		return gui;
-	}
-
-	void lookup(CaDSRobotGUISwing gui){
+	void lookup(){
 		String[] namespaces = Namespace.lookup();
 		if (namespaces != null) {
 			for (int i = 0; i < namespaces.length; i++) {
 				gui.addService(namespaces[i]);
 			}
-			gui.setChoosenService(namespaces[0]);
-			Namespace.setName(namespaces[0]);
 		}
 	}
 	
-	public Controller(String address, int port) throws Exception{
-		Sender.setAddress(InetAddress.getByName(address));
-		Sender.setPort(port);
-		
-		gui = new CaDSRobotGUISwing(this, this, this, this, this);
+	public Controller() throws Exception{
 		vertical = StubFactory.getVerticalMovements();
 		horizontal = StubFactory.getHorizontalMovements();
 		gripper = StubFactory.getGripperActions();
-		new Status(gui).start();
-		lookup(gui);
 	}
 	
-	/**
-	 * Main
-	 * @param args
-	 * @throws Exception 
-	 */
-	public static void main(String[] args) throws Exception {
-		
-		System.out.println("Client gestartet");
-		String address = "localhost";
-		int port = 8888;
-		Controller c = null;
-		if(args.length == 2){
-			address = args[0];
-			port = Integer.parseInt(args[1]);
-		} else if(args.length == 0){
-			
-		}else{
-			System.out.println("Falsche Parameter Anzahl");
-			return;
-		}
-		c = new Controller(address,port);
-        c.waithere();
-	}
 
 	@Override
 	public void register(ICaDSRobotGUIUpdater observer) {
-		//TODO: Neue Roboter dazuaddieren
+		gui = observer;
 	}
 
 	@Override
@@ -152,5 +115,61 @@ public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMove
 	public int isGripperClosed() throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	/**
+	 * Main
+	 * @param args
+	 * @throws Exception 
+	 */
+	public static void main(String[] args) throws Exception {
+		String error = "Wrong parameters\n";
+		String output = "usage: java -cp CaDSBase.jar:. Lego.jar impl.client.Controller [-h <hostname>] [-p <port>]\n"
+				+ "Paramete:\n" + "-h <hostname> default:255.255.255.255\n"
+				+ "-p <port> default:8888";
+		System.out.println("Client gestartet");
+		String address = "255.255.255.255";
+		int port = 8888;
+		Controller controller = null;
+		Status status = new Status();
+		CaDSRobotGUISwing gui = null;
+		if(args.length%2==0){
+			for (int i = 0; i < args.length; i+=2) {
+				switch (args[i]) {
+				case "-h":
+					address = args[i + 1];
+					break;
+				case "-p":
+					port = Integer.parseInt(args[i + 1]);
+					break;
+				case "-help":
+					System.out.println(output);
+					return;
+				default:
+					System.out.println(error+output);
+					return;
+				}
+			}
+		}else {
+			System.out.println(error+output);
+			return;
+		}
+		
+		boolean ret = Sender.checkNameServer(address,port);
+		if (ret) {
+			controller = new Controller();
+			status = new Status();
+			gui = new CaDSRobotGUISwing(controller, controller, controller, controller, controller);
+			
+			controller.register(gui);
+			controller.lookup();
+			
+			status.register(gui);
+			status.start();
+			
+			controller.waithere();
+		}else {
+			System.out.println("NameServer not found");
+		}
 	}
 }

@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import rmi.xml.MyXML;
+import rmi.xml.MyXMLObject;
 
 public class Receiver {
 	private final DatagramSocket server;
@@ -36,8 +38,30 @@ public class Receiver {
 		send(getTransactionsID(), message);
 	}
 
-	public static void setAddress(InetAddress address) {
-		Receiver.address = address;
+	public static boolean checkNameServer(String address, int port) throws UnknownHostException, IOException {
+		DatagramSocket socket = new DatagramSocket();
+		byte[] recei = new byte[1000];
+		DatagramPacket packet = new DatagramPacket(recei, recei.length);
+		byte[] send = MyXML.createPacket(getTransactionsID(),"<SYN><returnType>String</returnType></SYN>");
+		socket.send(new DatagramPacket(send, send.length, InetAddress.getByName(address), port));
+		socket.setSoTimeout(3000);
+		try{
+		socket.receive(packet);
+		MyXMLObject xml = MyXML.createXML(new String(packet.getData()).trim());
+		if (xml.getXMLTyp().equals("ACK")) {
+			Receiver.address = packet.getAddress();
+			Receiver.port = packet.getPort();
+			socket.close();
+			return true;
+		}
+		}catch (Exception e) {
+		}
+		socket.close();
+		return false;
+	}
+	
+	public static void setAddress(String address) throws UnknownHostException {
+		Receiver.address = InetAddress.getByName(address);
 	}
 
 	public static void setPort(int port) {

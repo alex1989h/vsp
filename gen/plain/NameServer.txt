@@ -89,6 +89,10 @@ public class %s extends Thread{
 				reply.remove((Integer)xml.getTransactionsID());
 			}
 			break;
+		case "SYN":
+			String ack = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><packet><ACK><params><param><value><string></string></value></param></params></ACK></packet>";
+			server.send(new DatagramPacket(ack.getBytes(),ack.length(),message.getAddress(),message.getPort()));
+			break;
 		default:
 			break;
 		}
@@ -105,15 +109,28 @@ public class %s extends Thread{
 	}
 	
 	public static void main(String[] args) {
+		String error = "Wrong parameters\n";
+		String output = "usage: java -cp Lego.jar %s.%s [-p <port>]\n"
+				+ "-p <port> default:8888";
 		System.out.println("Name Server started");
 		int port = 8888;
 		try {
-			if(args.length == 0){
-			
-			} else if(args.length == 1){
-				port = Integer.parseInt(args[0]);
-			} else {
-				System.out.println("Falsche Parameteranzahl");
+			if(args.length %%2 == 0){
+				for (int i = 0; i < args.length; i+=2) {
+					switch (args[i]) {
+					case "-p":
+						port = Integer.parseInt(args[i + 1]);
+						break;
+					case "-help":
+						System.out.println(output);
+						return;
+					default:
+						System.out.println(error+output);
+						return;
+					}
+				}
+			}else{
+				System.out.println(error+output);
 				return;
 			}
 			%s n = new %s(port);

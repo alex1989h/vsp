@@ -83,7 +83,7 @@ public class Generator {
 					xmlParam+="("+type+")"+"xml.getParamValues()["+k+"]";
 				}
 				plainText = readPlainText("gen/plain/StubMethod.txt");
-				methodString += String.format(plainText,returnType,methodName,parameterliste,plain+parameterlisteOneTyp,myXMLName,"\""+returnType+"\"",namespaceName,methodName,parameterlisteOneTyp,returnType,myXMLName);
+				methodString += String.format(plainText,returnType,methodName,parameterliste,plain,myXMLName,"\""+returnType+"\"",namespaceName,methodName,parameterlisteOneTyp,returnType,myXMLName);
 				plainText = readPlainText("gen/plain/InterfaceMethod.txt");
 				methodStringInterface+= String.format(plainText,returnType,methodName,parameterliste);
 				plainText = readPlainText("gen/plain/SkeletonMethod.txt");
@@ -107,10 +107,10 @@ public class Generator {
 			createFile("src/"+skeletonPackage.replaceAll("\\.", "/"),skeletonName,skeletonString);
 		}
 		plainText = readPlainText("gen/plain/Sender.txt");
-		String senderString = String.format(plainText,communicationPackage,xmlPackage,myXMLName,senderName,senderName,myXMLName,myXMLName,myXMLName,senderName,senderName);
+		String senderString = String.format(plainText,communicationPackage,xmlPackage,myXMLName,xmlPackage,myXMLObjectName,senderName,senderName,myXMLName,myXMLName,myXMLName,myXMLName,myXMLObjectName,myXMLName,senderName,senderName);
 		
 		plainText = readPlainText("gen/plain/Receiver.txt");
-		String receiverString = String.format(plainText,communicationPackage,xmlPackage,myXMLName,receiverName,receiverName,myXMLName,receiverName,receiverName);
+		String receiverString = String.format(plainText,communicationPackage,xmlPackage,myXMLName,xmlPackage,myXMLObjectName,receiverName,receiverName,myXMLName,myXMLName,myXMLObjectName,myXMLName,receiverName,receiverName);
 		
 		plainText = readPlainText("gen/plain/MyXML.txt");
 		String myXMLString = String.format(plainText,xmlPackage,myXMLName,myXMLObjectName,myXMLObjectName,myXMLObjectName,myXMLObjectName,myXMLObjectName);
@@ -119,7 +119,7 @@ public class Generator {
 		String myXMLObjectString = String.format(plainText,xmlPackage,myXMLObjectName,myXMLObjectName);
 		
 		plainText = readPlainText("gen/plain/NameServer.txt");
-		String nameServerString = String.format(plainText,nameServePackage,xmlPackage,myXMLName,xmlPackage,myXMLObjectName,nameServerName,nameServerName,myXMLObjectName,myXMLName,nameServerName,nameServerName);
+		String nameServerString = String.format(plainText,nameServePackage,xmlPackage,myXMLName,xmlPackage,myXMLObjectName,nameServerName,nameServerName,myXMLObjectName,myXMLName,nameServePackage,nameServerName,nameServerName,nameServerName);
 		
 		plainText = readPlainText("gen/plain/Namespace.txt");
 		String namespaceString = String.format(plainText,namespacePackage,communicationPackage,senderName,xmlPackage,myXMLName,xmlPackage,myXMLObjectName,namespaceName,namespaceName,senderName,senderName,myXMLObjectName,myXMLName);

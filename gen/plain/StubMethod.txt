@@ -1,6 +1,6 @@
 	@Override
 	public %s %s(%s) {
-		System.out.format(%s);
+		System.out.println(%s);
 		String str = %s.createMethodCall(%s,%s.getName()+".%s"%s);
 		byte[] reply = sender.send(str.getBytes());
 		return (%s)%s.createXML(reply).getParamValues()[0];
