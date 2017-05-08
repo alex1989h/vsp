@@ -112,18 +112,17 @@ public class NameServer extends Thread{
 		String error = "Wrong parameters\n";
 		String output = "usage: java -cp Lego.jar rmi.nameserver.NameServer [-p <port>]\n"
 				+ "-p <port> default:8888";
-		System.out.println("Name Server started");
 		int port = 8888;
 		try {
-			if(args.length %2 == 0){
+			if(args.length > 0 && args[0].equals("-help")){
+				System.out.println(output);
+				return;
+			}else if(args.length %2 == 0){
 				for (int i = 0; i < args.length; i+=2) {
 					switch (args[i]) {
 					case "-p":
 						port = Integer.parseInt(args[i + 1]);
 						break;
-					case "-help":
-						System.out.println(output);
-						return;
 					default:
 						System.out.println(error+output);
 						return;
@@ -133,6 +132,7 @@ public class NameServer extends Thread{
 				System.out.println(error+output);
 				return;
 			}
+			System.out.println("Name Server started");
 			NameServer n = new NameServer(port);
 			n.start();
 			n.join();

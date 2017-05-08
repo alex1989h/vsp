@@ -71,8 +71,7 @@ public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMove
 
 	@Override
 	public int moveVerticalToPercent(int transactionID, int percent) throws Exception {
-		vertical.moveVerticalToPercent(percent);
-		return 0;
+		return vertical.moveVerticalToPercent(percent);
 	}
 	
 	@Override
@@ -83,8 +82,7 @@ public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMove
 
 	@Override
 	public int moveHorizontalToPercent(int transactionID, int percent) throws Exception {
-		horizontal.moveHorizontalToPercent(percent);
-		return 0;
+		return horizontal.moveHorizontalToPercent(percent);
 	}
 	
 	@Override
@@ -101,14 +99,12 @@ public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMove
 
 	@Override
 	public int openGripper(int transactionID) throws Exception {
-        gripper.openGripper();
-		return 0;
+		return gripper.openGripper();
 	}
 
 	@Override
 	public int closeGripper(int transactionID) throws Exception {
-		gripper.closeGripper();
-		return 0;
+		return gripper.closeGripper();
 	}
 	
 	@Override
@@ -127,13 +123,15 @@ public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMove
 		String output = "usage: java -cp CaDSBase.jar:. Lego.jar impl.client.Controller [-h <hostname>] [-p <port>]\n"
 				+ "Paramete:\n" + "-h <hostname> default:255.255.255.255\n"
 				+ "-p <port> default:8888";
-		System.out.println("Client gestartet");
 		String address = "255.255.255.255";
 		int port = 8888;
 		Controller controller = null;
 		Status status = new Status();
 		CaDSRobotGUISwing gui = null;
-		if(args.length%2==0){
+		if(args.length > 0 && args[0].equals("-help")){
+			System.out.println(output);
+			return;
+		} else if (args.length % 2 == 0) {
 			for (int i = 0; i < args.length; i+=2) {
 				switch (args[i]) {
 				case "-h":
@@ -142,9 +140,6 @@ public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMove
 				case "-p":
 					port = Integer.parseInt(args[i + 1]);
 					break;
-				case "-help":
-					System.out.println(output);
-					return;
 				default:
 					System.out.println(error+output);
 					return;
@@ -154,7 +149,7 @@ public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMove
 			System.out.println(error+output);
 			return;
 		}
-		
+		System.out.println("Client started");
 		boolean ret = Sender.checkNameServer(address,port);
 		if (ret) {
 			controller = new Controller();
