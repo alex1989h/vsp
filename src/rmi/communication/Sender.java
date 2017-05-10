@@ -34,7 +34,7 @@ public class Sender{
 		while (!received &&  counter <= 5) {
 			try {
 				socket.send(new DatagramPacket(send, send.length,address,port));
-				socket.setSoTimeout(100);
+				socket.setSoTimeout(1000);
 				Arrays.fill(buffer, (byte)0);
 				socket.receive(p);
 				if(MyXML.createXML(new String(p.getData()).trim()).getTransactionsID() != transactionsID){
