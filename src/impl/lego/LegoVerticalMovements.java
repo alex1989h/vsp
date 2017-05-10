@@ -10,7 +10,10 @@ import impl.models.IStatusMessage;
 
 public class LegoVerticalMovements extends Thread implements IStatusMessage{
 	private static CaDSEV3RobotStudentImplementation caller = null;
-	private long percent = 0,oldPercent = 0;
+	private long percent = 0,realPercent = 0;
+	private enum MoveStatus {STOP,UP,DOWN}
+	private MoveStatus status = MoveStatus.STOP;
+	
 	public LegoVerticalMovements() {
 		caller  = CaDSEV3RobotStudentImplementation.createInstance(CaDSEV3RobotType.SIMULATION, null, null);
 		
@@ -27,25 +30,26 @@ public class LegoVerticalMovements extends Thread implements IStatusMessage{
 	
 	public void moveVerticalToPercent(int percent) {
 		this.percent = percent;
-		if (this.percent < this.oldPercent) {
+		if (this.percent < this.realPercent) {
 			caller.stop_v();
+			status = MoveStatus.DOWN;
 			caller.moveDown();
-		} else if (this.percent > this.oldPercent) {
+		} else if (this.percent > this.realPercent) {
 			caller.stop_v();
+			status = MoveStatus.UP;
 			caller.moveUp();
 		}
+		status = MoveStatus.STOP;
 	}
+	
 	@Override
 	public void onStatusMessage(JSONObject arg0) {
-		Long l = null;
 		if(((String)arg0.get("state")).equals("vertical")){
-			l = (Long)arg0.get("percent");
-			if(percent > oldPercent && l >= percent){
+			realPercent = (Long)arg0.get("percent");
+			if(status == MoveStatus.UP && realPercent >= percent){
 				caller.stop_v();
-				oldPercent = percent;
-			}else if(percent < oldPercent && l <= percent){
+			}else if(status == MoveStatus.DOWN && realPercent <= percent){
 				caller.stop_v();
-				oldPercent = percent;
 			}
 		}
 	}

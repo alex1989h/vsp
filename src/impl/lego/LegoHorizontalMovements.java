@@ -10,8 +10,10 @@ import impl.models.IStatusMessage;
 
 public class LegoHorizontalMovements extends Thread implements IStatusMessage{
 	private static CaDSEV3RobotStudentImplementation caller = null;
-	private long percent = 0, oldPercent = 0;
-
+	private long percent = 0, realPercent = 0;
+	private enum MoveStatus {STOP,RIGHT,LEFT}
+	private MoveStatus status = MoveStatus.STOP;
+	
 	public LegoHorizontalMovements() {
 		caller = CaDSEV3RobotStudentImplementation.createInstance(CaDSEV3RobotType.SIMULATION, null, null);
 
@@ -29,26 +31,26 @@ public class LegoHorizontalMovements extends Thread implements IStatusMessage{
 	
 	private void moveHorizontalToPercent(int percent) {
 		this.percent = percent;
-		if (this.percent < this.oldPercent) {
+		if (this.percent < this.realPercent) {
 			caller.stop_h();
-			caller.moveRight();;
-		} else if (this.percent > this.oldPercent) {
+			status = MoveStatus.RIGHT;
+			caller.moveRight();
+		} else if (this.percent > this.realPercent) {
 			caller.stop_h();
+			status = MoveStatus.LEFT;
 			caller.moveLeft();
 		}
+		status = MoveStatus.STOP;
 	}
 
 	@Override
 	public void onStatusMessage(JSONObject arg0) {
-		Long l = null;
 		if(((String)arg0.get("state")).equals("horizontal")){
-			l = (Long)arg0.get("percent");
-			if(percent > oldPercent && l >= percent){
+			realPercent = (Long)arg0.get("percent");
+			if(status == MoveStatus.LEFT && realPercent >= percent){
 				caller.stop_h();
-				oldPercent = percent;
-			}else if(percent < oldPercent && l <= percent){
+			}else if(status == MoveStatus.RIGHT && realPercent <= percent){
 				caller.stop_h();
-				oldPercent = percent;
 			}
 		}
 	}
