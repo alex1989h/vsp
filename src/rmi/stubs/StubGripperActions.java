@@ -6,6 +6,7 @@ import rmi.communication.Sender;
 import rmi.interfaces.IGripperActions;
 import rmi.namespace.Namespace;
 import rmi.xml.MyXML;
+import rmi.xml.MyXMLObject;
 
 public class StubGripperActions implements IGripperActions {
 	private Sender sender = null;
@@ -19,7 +20,9 @@ public class StubGripperActions implements IGripperActions {
 		System.out.println("Open.. ");
 		String str = MyXML.createMethodCall("int",Namespace.getName()+".openGripper");
 		byte[] reply = sender.send(str.getBytes());
-		return (int)MyXML.createXML(reply).getParamValues()[0];
+		MyXMLObject xml = MyXML.createXML(reply);
+		xml.print();
+		return (int)xml.getParamValues()[0];
 	}
 	
 	@Override
@@ -27,7 +30,9 @@ public class StubGripperActions implements IGripperActions {
 		System.out.println("Close.. ");
 		String str = MyXML.createMethodCall("int",Namespace.getName()+".closeGripper");
 		byte[] reply = sender.send(str.getBytes());
-		return (int)MyXML.createXML(reply).getParamValues()[0];
+		MyXMLObject xml = MyXML.createXML(reply);
+		xml.print();
+		return (int)xml.getParamValues()[0];
 	}
 	
 

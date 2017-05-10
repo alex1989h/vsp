@@ -6,6 +6,7 @@ import rmi.communication.Sender;
 import rmi.interfaces.IVerticalMovements;
 import rmi.namespace.Namespace;
 import rmi.xml.MyXML;
+import rmi.xml.MyXMLObject;
 
 public class StubVerticalMovements implements IVerticalMovements {
 	private Sender sender = null;
@@ -19,7 +20,9 @@ public class StubVerticalMovements implements IVerticalMovements {
 		System.out.println("Move vertical.. ");
 		String str = MyXML.createMethodCall("int",Namespace.getName()+".moveVerticalToPercent", percent);
 		byte[] reply = sender.send(str.getBytes());
-		return (int)MyXML.createXML(reply).getParamValues()[0];
+		MyXMLObject xml = MyXML.createXML(reply);
+		xml.print();
+		return (int)xml.getParamValues()[0];
 	}
 	
 

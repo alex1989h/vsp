@@ -6,6 +6,7 @@ import %s.%s;
 import %s.%s;
 import %s.%s;
 import %s.%s;
+import %s.%s;
 
 public class %s implements %s {
 	private %s sender = null;

@@ -3,6 +3,8 @@
 		System.out.println(%s);
 		String str = %s.createMethodCall(%s,%s.getName()+".%s"%s);
 		byte[] reply = sender.send(str.getBytes());
-		return (%s)%s.createXML(reply).getParamValues()[0];
+		%s xml = %s.createXML(reply);
+		xml.print();
+		return (%s)xml.getParamValues()[0];
 	}
 	

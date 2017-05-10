@@ -65,7 +65,7 @@ public class %s extends Thread{
 		System.out.println(xml.getXMLTyp()+" "+message.getAddress().getHostAddress()+" "+message.getPort());
 		switch (xml.getXMLTyp()) {
 		case "getService":
-			byte[] send = getServices();
+			byte[] send = getServices(xml.getTransactionsID());
 			server.send(new DatagramPacket(send,send.length,message.getAddress(),message.getPort()));
 			break;
 		case "addService":
@@ -97,13 +97,14 @@ public class %s extends Thread{
 			break;
 		}
 	}
-	private byte[] getServices(){
+	private byte[] getServices(int transactionsID){
 		String ret = "";
 		for (int i = 0; i < services.size(); i++) {
 			ret = ret+"<param><value><string>"+services.get(i)+"</string></value></param>";
 		}
 		ret = "<params>"+ret+"</params>";
 		ret = "<getService>"+ret+"</getService>";
+		ret = "<packet>"+"<transactionsID>"+transactionsID+"</transactionsID>"+ret+"</packet>";
 		ret = "<?xml version=\"1.0\"?>"+ret;
 		return ret.getBytes();
 	}

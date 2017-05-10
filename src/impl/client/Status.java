@@ -36,7 +36,7 @@ public class Status extends Thread {
 		if (gui != null) {
 			while (!isInterrupted()) {
 				try {
-					sleep(500);
+					sleep(1000);
 					getGripperStatus();
 					getHorizontalStatus();
 					getVerticalStatus();

@@ -83,7 +83,7 @@ public class Generator {
 					xmlParam+="("+type+")"+"xml.getParamValues()["+k+"]";
 				}
 				plainText = readPlainText("gen/plain/StubMethod.txt");
-				methodString += String.format(plainText,returnType,methodName,parameterliste,plain,myXMLName,"\""+returnType+"\"",namespaceName,methodName,parameterlisteOneTyp,returnType,myXMLName);
+				methodString += String.format(plainText,returnType,methodName,parameterliste,plain,myXMLName,"\""+returnType+"\"",namespaceName,methodName,parameterlisteOneTyp,myXMLObjectName,myXMLName,returnType);
 				plainText = readPlainText("gen/plain/InterfaceMethod.txt");
 				methodStringInterface+= String.format(plainText,returnType,methodName,parameterliste);
 				plainText = readPlainText("gen/plain/SkeletonMethod.txt");
@@ -93,7 +93,7 @@ public class Generator {
 			}
 			
 			plainText = readPlainText("gen/plain/Stub.txt");
-			String classString = String.format(plainText,stubPackage,communicationPackage,senderName,interfacePackage,interfaceName,namespacePackage,namespaceName,xmlPackage,myXMLName,stubName,interfaceName,senderName,stubName,senderName,methodString);
+			String classString = String.format(plainText,stubPackage,communicationPackage,senderName,interfacePackage,interfaceName,namespacePackage,namespaceName,xmlPackage,myXMLName,xmlPackage,myXMLObjectName,stubName,interfaceName,senderName,stubName,senderName,methodString);
 			
 			plainText = readPlainText("gen/plain/Interface.txt");
 			String interfaceString = String.format(plainText,interfacePackage,interfaceName,methodStringInterface);
@@ -107,7 +107,7 @@ public class Generator {
 			createFile("src/"+skeletonPackage.replaceAll("\\.", "/"),skeletonName,skeletonString);
 		}
 		plainText = readPlainText("gen/plain/Sender.txt");
-		String senderString = String.format(plainText,communicationPackage,xmlPackage,myXMLName,xmlPackage,myXMLObjectName,senderName,senderName,myXMLName,myXMLName,myXMLName,myXMLName,myXMLObjectName,myXMLName,senderName,senderName);
+		String senderString = String.format(plainText,communicationPackage,xmlPackage,myXMLName,xmlPackage,myXMLObjectName,senderName,senderName,myXMLName,myXMLName,myXMLName,myXMLName,myXMLName,myXMLObjectName,myXMLName,senderName,senderName);
 		
 		plainText = readPlainText("gen/plain/Receiver.txt");
 		String receiverString = String.format(plainText,communicationPackage,xmlPackage,myXMLName,xmlPackage,myXMLObjectName,receiverName,receiverName,myXMLName,myXMLName,myXMLObjectName,myXMLName,receiverName,receiverName);

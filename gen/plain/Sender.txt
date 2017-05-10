@@ -37,6 +37,9 @@ public class %s{
 				socket.setSoTimeout(100);
 				Arrays.fill(buffer, (byte)0);
 				socket.receive(p);
+				if(%s.createXML(new String(p.getData()).trim()).getTransactionsID() != transactionsID){
+					continue;
+				}
 				received = true;
 				return new String(p.getData()).trim().getBytes();
 			} catch (IOException e) {
