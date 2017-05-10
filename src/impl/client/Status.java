@@ -19,7 +19,7 @@ public class Status extends Thread {
 	}
 	
 	private boolean checkErrorCounter(){
-		if(errorCounter > 10)return true;
+		if(errorCounter > 20)return true;
 		return false;
 	}
 	
