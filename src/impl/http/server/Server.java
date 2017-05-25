@@ -1,43 +1,41 @@
 package impl.http.server;
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
 
 public class Server {
 
-	public static void main(String[] args) {
-		ServerSocket server;
-		try {
-			server = new ServerSocket(8000);
-			while (true) {
-				Socket socket = server.accept();
-				System.out.println("Got a client !");
+    public static void main(String[] args) throws Exception {
+        HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
+        server.createContext("/", new MyHandler());
+        server.start();
+    }
 
-				// either open the datainputstream directly
-				DataInputStream dis = new DataInputStream(socket.getInputStream());
-				DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-				
-				// or chain them, but do not open two different streams:
-				// DataInputStream dis = new DataInputStream(new
-				// BufferedInputStream(socket.getInputStream()));
+    static class MyHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange t) throws IOException {
+            String response = "This is the response";
+            InputStream is = t.getRequestBody();
+    
+            int ln = is.available();
+            byte [] bt  = new byte [ln];
+            is.read(bt);
+            String msg = new String(bt);
+         
+            System.out.println("Type: "+t.getRequestMethod());
+            System.out.println("Length: "+ln);
+            System.out.println(msg);
+            
+            t.sendResponseHeaders(200, response.length());
+            OutputStream os = t.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+        }
+    }
 
-				// Your DataStream allows you to read/write objects, use it!
-				byte[] b = new byte[1000];
-				dis.read(b);
-				System.out.println("received: "+new String(b).trim());
-				dos.write("Das ist eine Antwort".getBytes());
-				dos.flush();
-				dis.close();
-				dos.close();
-				// in case you have a bufferedInputStream inside of
-				// Datainputstream:
-				// you do not have to close the bufferedstream
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 }
