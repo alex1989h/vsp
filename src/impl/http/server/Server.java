@@ -26,7 +26,7 @@ public class Server {
             byte [] bt  = new byte [ln];
             is.read(bt);
             String msg = new String(bt);
-         
+            System.out.println("Param: "+t.getRequestURI().getRawQuery());
             System.out.println("Type: "+t.getRequestMethod());
             System.out.println("Length: "+ln);
             System.out.println(msg);

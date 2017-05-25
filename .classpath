@@ -30,5 +30,10 @@
 	<classpathentry kind="lib" path="lib/httpcore-4.4.6.jar"/>
 	<classpathentry kind="lib" path="lib/http-2.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/spring-beans-4.3.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.2.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/vsp/lib/commons-logging-1.2-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
