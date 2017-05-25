@@ -1,5 +1,7 @@
+spring\Config$1.class
 spring\Test.class
-spring\TestController.class
-spring\Greeting.class
 spring\GreetingController.class
 spring\Application.class
+spring\Config.class
+spring\TestController.class
+spring\Greeting.class
