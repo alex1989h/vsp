@@ -18,7 +18,7 @@ public class Controller {
 		CaDSEV3RobotType[] sim = {CaDSEV3RobotType.REAL,CaDSEV3RobotType.SIMULATION};
 		int simIndex = 0;
 		String error = "Wrong parameters\n";
-		String output = "usage: java -cp CaDSBase.jar:. Lego.jar impl.server.Controller [-n <namespace>] [-h <hostname>] [-p <port>] [-sim {0,1}]\n"
+		String output = "usage: java -cp Lego.jar impl.server.Controller [-n <namespace>] [-h <hostname>] [-p <port>] [-sim {0,1}]\n"
 				+ "Paramete:\n-n <namespace> default:Robot[random number]\n" + "-h <hostname> default:255.255.255.255\n"
 				+ "-p <port> default:8888\n"
 				+ "-sim {0,1} 0:simulation off, 1:simulation on, default:0";

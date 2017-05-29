@@ -120,7 +120,7 @@ public class Controller implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMove
 	 */
 	public static void main(String[] args) throws Exception {
 		String error = "Wrong parameters\n";
-		String output = "usage: java -cp CaDSBase.jar:. Lego.jar impl.client.Controller [-h <hostname>] [-p <port>]\n"
+		String output = "usage: java -cp Lego.jar impl.client.Controller [-h <hostname>] [-p <port>]\n"
 				+ "Paramete:\n" + "-h <hostname> default:255.255.255.255\n"
 				+ "-p <port> default:8888";
 		String address = "255.255.255.255";
