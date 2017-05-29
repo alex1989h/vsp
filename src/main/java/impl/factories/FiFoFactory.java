@@ -2,8 +2,6 @@ package impl.factories;
 
 import java.util.HashMap;
 
-import impl.client.FiFo;
-
 public class FiFoFactory {
 	private static HashMap<String, FiFo> hashMap = new HashMap<String, FiFo>();
 

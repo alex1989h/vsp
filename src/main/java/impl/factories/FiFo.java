@@ -1,4 +1,4 @@
-package impl.client;
+package impl.factories;
 
 import java.util.LinkedList;
 import java.util.Queue;

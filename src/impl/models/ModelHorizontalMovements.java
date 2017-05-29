@@ -3,7 +3,7 @@ package impl.models;
 import org.cads.ev3.middleware.CaDSEV3RobotStudentImplementation;
 import org.cads.ev3.middleware.CaDSEV3RobotType;
 
-import impl.client.FiFo;
+import impl.factories.FiFo;
 import impl.factories.FiFoFactory;
 import rmi.interfaces.IHorizontalMovements;
 

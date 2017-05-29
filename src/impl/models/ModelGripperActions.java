@@ -1,6 +1,6 @@
 package impl.models;
 
-import impl.client.FiFo;
+import impl.factories.FiFo;
 import impl.factories.FiFoFactory;
 import rmi.interfaces.IGripperActions;
 
