@@ -5,6 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -20,6 +21,12 @@ public class NameServer extends Thread{
 	
 	private DatagramSocket server = null;
 	
+	private AddressAndPort nextNameServer = null;
+	
+	public void setNextNameServer(AddressAndPort nextNameServer) {
+		this.nextNameServer = nextNameServer;
+	}
+
 	public NameServer(int port) throws SocketException{
 		hashMap = new HashMap<String,AddressAndPort>();
 		reply = new HashMap<Integer,AddressAndPort>();
@@ -74,6 +81,10 @@ public class NameServer extends Thread{
 			if(!services.contains(xml.getMethodName().split("\\.")[0])){
 				services.add(xml.getMethodName().split("\\.")[0]);
 			}
+			if(nextNameServer != null){
+				System.out.println("Send to next NameServer");
+				server.send(new DatagramPacket(message.getData(),message.getLength(),nextNameServer.getAddress(),nextNameServer.getPort()));
+			}
 			break;
 		case "methodCall":
 			aAP = hashMap.get(xml.getMethodName());
@@ -111,9 +122,15 @@ public class NameServer extends Thread{
 	
 	public static void main(String[] args) {
 		String error = "Wrong parameters\n";
-		String output = "usage: java -cp Lego.jar rmi.nameserver.NameServer [-p <port>]\n"
-				+ "-p <port> default:8888";
+		String output = "usage: java -cp Lego.jar rmi.nameserver.NameServer [-p <port>] [-bh <next broker host>] [-bp <next broker port>]\n"
+				+ "-p <port> default:8888\n"
+				+ "-bh <next broker host> default:\n"
+				+ "[-bp <next broker port>] default:-1";
 		int port = 8888;
+		
+		int nextNameServerPort = -1;
+		String nextNameServerAddress = "";
+		
 		try {
 			if(args.length > 0 && args[0].equals("-help")){
 				System.out.println(output);
@@ -123,6 +140,12 @@ public class NameServer extends Thread{
 					switch (args[i]) {
 					case "-p":
 						port = Integer.parseInt(args[i + 1]);
+						break;
+					case "-bp":
+						nextNameServerPort = Integer.parseInt(args[i + 1]);
+						break;
+					case "-bh":
+						nextNameServerAddress = args[i + 1];
 						break;
 					default:
 						System.out.println(error+output);
@@ -135,11 +158,18 @@ public class NameServer extends Thread{
 			}
 			System.out.println("Name Server started");
 			NameServer n = new NameServer(port);
+			if (nextNameServerPort != -1 && !nextNameServerAddress.equals("")) {
+				n.setNextNameServer(n.new AddressAndPort(InetAddress.getByName(nextNameServerAddress), nextNameServerPort));
+				System.out.println("Next NameServer:\n"+"Host: "+ nextNameServerAddress+"Port: "+nextNameServerPort);
+			}
 			n.start();
 			n.join();
 		} catch (SocketException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
