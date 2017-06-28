@@ -102,8 +102,8 @@ public class Generator {
 			String skeletonString = String.format(plainText,skeletonPackage,interfacePackage,interfaceName,xmlPackage,myXMLName,xmlPackage,myXMLObjectName,communicationPackage,receiverName,skeletonName,interfaceName,receiverName,skeletonName,interfaceName,receiverName,sendService,myXMLObjectName,myXMLName,ifComarators,myXMLName);
 			
 			
-			createFile("src/"+stubPackage.replaceAll("\\.", "/"),stubName,classString);
-			createFile("src/"+interfacePackage.replaceAll("\\.", "/"),interfaceName,interfaceString);
+			createFile("src/main/java/"+stubPackage.replaceAll("\\.", "/"),stubName,classString);
+			createFile("src/main/java/"+interfacePackage.replaceAll("\\.", "/"),interfaceName,interfaceString);
 			createFile("src/"+skeletonPackage.replaceAll("\\.", "/"),skeletonName,skeletonString);
 		}
 		plainText = readPlainText("gen/plain/Sender.txt");
@@ -124,12 +124,12 @@ public class Generator {
 		plainText = readPlainText("gen/plain/Namespace.txt");
 		String namespaceString = String.format(plainText,namespacePackage,communicationPackage,senderName,xmlPackage,myXMLName,xmlPackage,myXMLObjectName,namespaceName,namespaceName,senderName,senderName,myXMLObjectName,myXMLName);
 		
-		createFile("src/"+communicationPackage.replaceAll("\\.", "/"),senderName,senderString);
-		createFile("src/"+communicationPackage.replaceAll("\\.", "/"),receiverName,receiverString);
-		createFile("src/"+xmlPackage.replaceAll("\\.", "/"),myXMLName,myXMLString);
-		createFile("src/"+xmlPackage.replaceAll("\\.", "/"),myXMLObjectName,myXMLObjectString);
+		createFile("src/main/java/"+communicationPackage.replaceAll("\\.", "/"),senderName,senderString);
+		createFile("src/main/java/"+communicationPackage.replaceAll("\\.", "/"),receiverName,receiverString);
+		createFile("src/main/java/"+xmlPackage.replaceAll("\\.", "/"),myXMLName,myXMLString);
+		createFile("src/main/java/"+xmlPackage.replaceAll("\\.", "/"),myXMLObjectName,myXMLObjectString);
 		createFile("src/"+nameServePackage.replaceAll("\\.", "/"),nameServerName,nameServerString);
-		createFile("src/"+namespacePackage.replaceAll("\\.", "/"),namespaceName,namespaceString);
+		createFile("src/main/java/"+namespacePackage.replaceAll("\\.", "/"),namespaceName,namespaceString);
 	}
 	
 	

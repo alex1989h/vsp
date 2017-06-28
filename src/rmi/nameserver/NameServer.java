@@ -26,7 +26,7 @@ public class NameServer extends Thread{
 	public void setNextNameServer(AddressAndPort nextNameServer) {
 		this.nextNameServer = nextNameServer;
 	}
-
+	
 	public NameServer(int port) throws SocketException{
 		hashMap = new HashMap<String,AddressAndPort>();
 		reply = new HashMap<Integer,AddressAndPort>();
