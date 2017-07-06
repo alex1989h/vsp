@@ -3,9 +3,9 @@ package %s;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -15,38 +15,23 @@ import %s.%s;
 import %s.%s;
 
 public class %s extends Thread{
-	private HashMap<String,AddressAndPort> hashMap = null;
-	private HashMap<Integer,AddressAndPort> reply = null;
+	private HashMap<String,SocketAddress> hashMap = null;
+	private HashMap<Integer,SocketAddress> reply = null;
 	private List<String> services = null;
 	
 	private DatagramSocket server = null;
 	
-	private AddressAndPort nextNameServer = null;
+	private SocketAddress nextNameServer = null;
 	
-	public void setNextNameServer(AddressAndPort nextNameServer) {
+	public void setNextNameServer(SocketAddress nextNameServer) {
 		this.nextNameServer = nextNameServer;
 	}
 	
 	public %s(int port) throws SocketException{
-		hashMap = new HashMap<String,AddressAndPort>();
-		reply = new HashMap<Integer,AddressAndPort>();
+		hashMap = new HashMap<String,SocketAddress>();
+		reply = new HashMap<Integer,SocketAddress>();
 		services = new LinkedList<String>();
 		server = new DatagramSocket(port);
-	}
-	
-	private class AddressAndPort {
-		private final InetAddress address;
-		private final int port;
-		public AddressAndPort(InetAddress address, int port){
-			this.address = address;
-			this.port = port;
-		}
-		public int getPort() {
-			return port;
-		}
-		public InetAddress getAddress() {
-			return address;
-		}
 	}
 	
 	@Override
@@ -67,42 +52,42 @@ public class %s extends Thread{
 	}
 	
 	private void process(DatagramPacket message) throws IOException{
-    	AddressAndPort aAP = null;
+    	SocketAddress aAP = null;
 		%s xml = %s.createXML(new String(message.getData()).trim().getBytes());
 		System.out.println(xml.getXMLTyp()+" "+message.getAddress().getHostAddress()+" "+message.getPort());
 		switch (xml.getXMLTyp()) {
 		case "getService":
 			byte[] send = getServices(xml.getTransactionsID());
-			server.send(new DatagramPacket(send,send.length,message.getAddress(),message.getPort()));
+			server.send(new DatagramPacket(send,send.length,message.getSocketAddress()));
 			break;
 		case "addService":
 			System.out.println("New method: "+ xml.getMethodName());
-			hashMap.put(xml.getMethodName(),new AddressAndPort(message.getAddress(),message.getPort()));
+			hashMap.put(xml.getMethodName(),message.getSocketAddress());
 			if(!services.contains(xml.getMethodName().split("\\.")[0])){
 				services.add(xml.getMethodName().split("\\.")[0]);
 			}
 			if(nextNameServer != null){
 				System.out.println("Send to next NameServer");
-				server.send(new DatagramPacket(message.getData(),message.getLength(),nextNameServer.getAddress(),nextNameServer.getPort()));
+				server.send(new DatagramPacket(message.getData(),message.getLength(),nextNameServer));
 			}
 			break;
 		case "methodCall":
 			aAP = hashMap.get(xml.getMethodName());
 			if(aAP!= null){
-				server.send(new DatagramPacket(message.getData(),message.getLength(),aAP.getAddress(),aAP.getPort()));
-				reply.put((Integer)xml.getTransactionsID(), new AddressAndPort(message.getAddress(), message.getPort()));
+				server.send(new DatagramPacket(message.getData(),message.getLength(),aAP));
+				reply.put((Integer)xml.getTransactionsID(), message.getSocketAddress());
 			}
 			break;
 		case "methodResponse":
 			aAP = reply.get((Integer)xml.getTransactionsID());
 			if(aAP != null){
-				server.send(new DatagramPacket(message.getData(),message.getLength(),aAP.getAddress(),aAP.getPort()));
+				server.send(new DatagramPacket(message.getData(),message.getLength(),aAP));
 				reply.remove((Integer)xml.getTransactionsID());
 			}
 			break;
 		case "SYN":
 			String ack = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><packet><ACK><params><param><value><string></string></value></param></params></ACK></packet>";
-			server.send(new DatagramPacket(ack.getBytes(),ack.length(),message.getAddress(),message.getPort()));
+			server.send(new DatagramPacket(ack.getBytes(),ack.length(),message.getSocketAddress()));
 			break;
 		default:
 			break;
@@ -159,17 +144,14 @@ public class %s extends Thread{
 			System.out.println("Name Server started");
 			%s n = new %s(port);
 			if (nextNameServerPort != -1 && !nextNameServerAddress.equals("")) {
-				n.setNextNameServer(n.new AddressAndPort(InetAddress.getByName(nextNameServerAddress), nextNameServerPort));
-				System.out.println("Next NameServer:\n"+"Host: "+ nextNameServerAddress+"Port: "+nextNameServerPort);
+				n.setNextNameServer(new InetSocketAddress(nextNameServerAddress, nextNameServerPort));
+				System.out.println("Next NameServer:\n"+"Host: "+ nextNameServerAddress+" Port: "+nextNameServerPort);
 			}
 			n.start();
 			n.join();
 		} catch (SocketException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
