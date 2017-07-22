@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import impl.client.Controller;
+import impl.server.ControllerThread;
 import rmi.communication.Receiver;
 import rmi.communication.Sender;
 import rmi.interfaces.IStatusRequests;
@@ -27,10 +28,10 @@ public class ControllerTest {
 		Namespace.setName(namespace);
 		TestModel model = new TestModel();
 		
-		SkeletonGripperActions gripper = new SkeletonGripperActions(model, namespace);
-		SkeletonHorizontalMovements horizont = new SkeletonHorizontalMovements(model, namespace);
-		SkeletonVerticalMovements vertical = new SkeletonVerticalMovements(model, namespace);
-		SkeletonStatusRequests status = new SkeletonStatusRequests(model, namespace);
+		ControllerThread gripper = new ControllerThread(new SkeletonGripperActions(model, namespace));
+		ControllerThread horizont = new ControllerThread(new SkeletonHorizontalMovements(model, namespace));
+		ControllerThread vertical = new ControllerThread(new SkeletonVerticalMovements(model, namespace));
+		ControllerThread status = new ControllerThread(new SkeletonStatusRequests(model, namespace));
 		
 		gripper.start();
 		horizont.start();

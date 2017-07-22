@@ -4,8 +4,9 @@ import %s.%s;
 import %s.%s;
 import %s.%s;
 import %s.%s;
+import %s.%s;
 
-public class %s extends Thread {
+public class %s implements %s {
 	private %s model;
 	private String namespace;
 	private long oldId = Long.MIN_VALUE;
@@ -20,20 +21,18 @@ public class %s extends Thread {
 	}
 	
 	@Override
-	public void run() {
+	public void method() {
 		byte[] b;
-		while (!isInterrupted()) {
-			try {
-			System.out.println("Wait for Message");
-			b = receiver.receive();
-			System.out.println("Message received");
-			%s xml = %s.createXML(b);
-			xml.print();
+		try {
+		System.out.println("Wait for Message");
+		b = receiver.receive();
+		System.out.println("Message received");
+		%s xml = %s.createXML(b);
+		xml.print();
 %s
-			receiver.send((int)xml.getTransactionsID(),%s.getConnectError(xml));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		receiver.send((int)xml.getTransactionsID(),%s.getConnectError(xml));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

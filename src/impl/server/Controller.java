@@ -68,18 +68,21 @@ public class Controller {
 			LegoVerticalMovements legoVertical = new LegoVerticalMovements();
 			ModelVerticalMovements vertical = new ModelVerticalMovements();
 			SkeletonVerticalMovements skeletonVertical = new SkeletonVerticalMovements(vertical, namespace);
+			ControllerThread verticalController = new ControllerThread(skeletonVertical);
 			
 			LegoHorizontalMovements legoHorizontal = new LegoHorizontalMovements();
 			ModelHorizontalMovements horizontal = new ModelHorizontalMovements();
 			SkeletonHorizontalMovements skeletonHorizontal = new SkeletonHorizontalMovements(horizontal, namespace);
+			ControllerThread horizontalController = new ControllerThread(skeletonHorizontal);
 			
 			LegoGripperActions legoGripper = new LegoGripperActions();
 			ModelGripperActions gripper = new ModelGripperActions();
 			SkeletonGripperActions skeletonGripper = new SkeletonGripperActions(gripper, namespace);
-			
+			ControllerThread gripperController = new ControllerThread(skeletonGripper);
 			
 			ModelStatusRequests statusRequest = new ModelStatusRequests();
 			SkeletonStatusRequests skeletonStatus = new SkeletonStatusRequests(statusRequest, namespace);
+			ControllerThread statusController = new ControllerThread(skeletonStatus);
 			
 			status.addObserver(legoVertical);
 			status.addObserver(legoHorizontal);
@@ -90,10 +93,10 @@ public class Controller {
 			threads.add(legoHorizontal);
 			threads.add(legoVertical);
 			
-			threads.add(skeletonGripper);
-			threads.add(skeletonHorizontal);
-			threads.add(skeletonVertical);
-			threads.add(skeletonStatus);
+			threads.add(verticalController);
+			threads.add(horizontalController);
+			threads.add(gripperController);
+			threads.add(statusController);
 			
 			for (int i = 0; i < threads.size(); i++) {
 				threads.get(i).start();
