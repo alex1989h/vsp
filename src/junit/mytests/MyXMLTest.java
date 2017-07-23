@@ -8,13 +8,6 @@ public class MyXMLTest {
 
 	@Test
 	public void test() {
-		String first = MyXML.createMethodCallNew("String", "hallo.method", (int)23,"Hallo");
-		String second;
-				
-		System.out.println(new String(MyXML.createPacket(22222, first)));
-		System.out.println(new String(MyXML.createPacketNew(22222, first)));
-		
-		
 		method("hallo",34);
 	}
 	
