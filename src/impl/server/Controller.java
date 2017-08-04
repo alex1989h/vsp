@@ -2,7 +2,7 @@ package impl.server;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.cads.ev3.middleware.CaDSEV3RobotStudentImplementation;
+import org.cads.ev3.middleware.CaDSEV3RobotHAL;
 import org.cads.ev3.middleware.CaDSEV3RobotType;
 
 import impl.lego.LegoGripperActions;
@@ -63,7 +63,7 @@ public class Controller {
 		boolean ret = Receiver.checkNameServer(address,port);
 		if (ret) {
 			StatusMessage status = new StatusMessage();
-			CaDSEV3RobotStudentImplementation.createInstance(sim[simIndex], status, status);
+			CaDSEV3RobotHAL.createInstance(sim[simIndex], status, status);
 			
 			LegoVerticalMovements legoVertical = new LegoVerticalMovements();
 			ModelVerticalMovements vertical = new ModelVerticalMovements();

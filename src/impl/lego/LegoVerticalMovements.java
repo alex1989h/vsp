@@ -1,6 +1,6 @@
 package impl.lego;
 
-import org.cads.ev3.middleware.CaDSEV3RobotStudentImplementation;
+import org.cads.ev3.middleware.CaDSEV3RobotHAL;
 import org.cads.ev3.middleware.CaDSEV3RobotType;
 import org.json.simple.JSONObject;
 
@@ -9,13 +9,13 @@ import impl.factories.FiFoFactory;
 import impl.models.IStatusMessage;
 
 public class LegoVerticalMovements extends Thread implements IStatusMessage{
-	private static CaDSEV3RobotStudentImplementation caller = null;
+	private static CaDSEV3RobotHAL caller = null;
 	private long percent = 0,realPercent = 0;
 	private enum MoveStatus {STOP,UP,DOWN}
 	private MoveStatus status = MoveStatus.STOP;
 	
 	public LegoVerticalMovements() {
-		caller  = CaDSEV3RobotStudentImplementation.createInstance(CaDSEV3RobotType.SIMULATION, null, null);
+		caller  = CaDSEV3RobotHAL.createInstance(CaDSEV3RobotType.SIMULATION, null, null);
 		
 	}
 	@Override
