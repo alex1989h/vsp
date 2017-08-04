@@ -1,7 +1,7 @@
 package rmi.xml;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 
@@ -25,7 +25,7 @@ public class MyXML {
 	
 	
 	public static String createMethodCall(String returnType, String methodName, Object... obj) {
-		Document document = createDocumentFromFile("MethodCall.xml");
+		Document document = createDocumentFromFile("/xml/MethodCall.xml");
 		
 		Node root = document.getFirstChild();
 		NodeList rootChildren = root.getChildNodes();
@@ -46,7 +46,7 @@ public class MyXML {
 	}
 	
 	public static String createMethodResponse(Object... obj) {
-		Document document = createDocumentFromFile("MethodResponse.xml");
+		Document document = createDocumentFromFile("/xml/MethodResponse.xml");
 		Node root = document.getFirstChild();
 
 		Node params = root.getFirstChild();
@@ -64,12 +64,13 @@ public class MyXML {
 	}
 	
 	private static Document createDocumentFromFile(String pathname){
+		InputStream is = MyXML.class.getResourceAsStream(pathname);
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = null;
 		Document document = null;
 		try {
 			builder = factory.newDocumentBuilder();
-			document = (Document) builder.parse(new File(pathname));
+			document = (Document) builder.parse(is);
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
@@ -77,7 +78,7 @@ public class MyXML {
 	}
 	
 	public static byte[] createPacket(int transactionsID, String input) {
-		Document document = createDocumentFromFile("Packet.xml");
+		Document document = createDocumentFromFile("/xml/Packet.xml");
 		document.setXmlStandalone(true);
 		
 		Node root = document.getFirstChild();
